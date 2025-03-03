@@ -1,0 +1,35 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT PSSR for subprocedures exceptions                       *
+      //%EMETADATA                                                     *
+//------------------------------------------------------------------------------------
+//Copybook IAPRCERLOG: PSSR for subprocedures exceptions C spec
+//------------------------------------------------------------------------------------
+//02/07/24  |  Vamsi  |  Task#251   | Rename AIDUMPDTLP to IADUMPDTLP [Tag#0001]    //
+//03/07/24  |  Vamsi  |  Task#260   | Rename AIERRLOGSV to IAERRLOGSV [Tag#0002]    //
+//------------------------------------------------------------------------------------
+begsr *PSSR;
+
+   monitor;
+      Eval-corr w_uDpsds = wkuDpsds;
+      iAPssrErrorLog(w_uDpsds);                                                          //0002
+      dump(a);
+
+      w_uwCommand = 'CPYSPLF FILE(QPPGMDMP) TOFILE(*LIBL/IADUMPDTLP) JOB(' +             //0001
+                    %editc(w_uDpsds.JobNmbr:'X') + '/' + %trim(w_uDpsds.JobUser) +
+                    '/' + %trim(w_uDpsds.JobNme) + ') SPLNBR(*LAST) MBROPT(*ADD)';
+
+      iAExcCommand(w_uwCommand:%len(w_uwCommand));                                       //0002
+
+      clear w_uwCommand;
+      w_uwCommand = 'DLTSPLF FILE(QPPGMDMP) JOB(' + %editc(w_uDpsds.JobNmbr:'X') +
+                  '/' + %trim(w_uDpsds.JobUser) + '/' + %trim(w_uDpsds.JobNme) +
+                  ') SPLNBR(*LAST)';
+
+
+      iAExcCommand(w_uwCommand:%len(w_uwCommand));                                       //0002
+   on-error;
+   endmon;
+
+
+endsr;

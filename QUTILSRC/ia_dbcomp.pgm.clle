@@ -1,0 +1,195 @@
+      /*%METADATA                                                     */
+      /* %TEXT iA Tool Compilation Utility for Files                  */
+      /*%EMETADATA                                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Copyright © Programmers.Io, 2021 All rights reserved.                     */
+ /*--------------------------------------------------------------------------*/
+ /*Program: iA Tool Compilation Utility for Files (database and device)      */
+ /*--------------------------------------------------------------------------*/
+ /*Description:                                                              */
+ /*iA Tool requires compiling of all sources of #IASRC library.              */
+ /*- 1. It deletes the OLD backup library, if exist. Then, lists out all     */
+ /*     members of source file into QTEMP library.                           */
+ /*- 2. It renames DATA and OBJECT libraries as OLD library. So, that we can */
+ /*     have backup, if anything goes wrong during running utility.          */
+ /*- 3. It overrides PFSQL source type members and compile all members.      */
+ /*- 4. It override DSPF & PRTF source type members and compile all members. */
+ /*- 5. Copy data back from OLD library for important files nerated in DATA  */
+ /*     library for PFSQL, DSPF and PRTF source types.                       */
+ /*Notes:                                                                    */
+ /*- 1. All objects created for after compilation will be generated in DATA  */
+ /*     library for PFSQL, DSPF and PRTF source types.                       */
+ /*- 2. All objects created for after compilation will be generated in OBJECT*/
+ /*     library for RPGLE, SQLRPGLE, CLP, CLLE source types.                 */
+ /*- 3. Utility has been designed in IBMi V7R2M0, so many CL built-in funct- */
+ /*     ion cannot be used like %LEN.                                        */
+ /*--------------------------------------------------------------------------*/
+ /*Modification Log:                                                         */
+ /*-----------------                                                         */
+ /*AK 11th Oct 21 - Copy data back from #IADTAOLD for following files        */
+ /*               IAEMAILPF, IADUPOBJ                                        */
+ /*               - Create duplicate object from #IADTAOLD for *MSGF file    */
+ /*               IAMSGF. Grant object authority and change object owner.    */
+ /*--------------------------------------------------------------------------*/
+
+             PGM
+             COPYRIGHT  TEXT('Copyright © Programmers.Io, 2021 All rights +
+                        reserved.')
+
+             /*Declaration Section */
+             DCL        VAR(&SRCLIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DTALIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DTALIB_OLD) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OWNER)      TYPE(*CHAR) LEN(10)
+             DCL        VAR(&ERROR)      TYPE(*CHAR) LEN(01)
+
+             /*Declaration of File */
+             DCLF       FILE(QSYS/QAFDMBRL) OPNID(F1)
+             DCLF       FILE(QSYS/QAFDMBRL) OPNID(F2)
+
+             /*Retrieving SOURCE, DATA and OBJECT library name */
+             RTVDTAARA  DTAARA(AICTLDTA (1 10))  RTNVAR(&SRCLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (11 10)) RTNVAR(&DTALIB)
+             RTVDTAARA  DTAARA(AICTLDTA (71 10)) RTNVAR(&OWNER)
+
+             /*Adding SOURCE library at last */
+             ADDLIBLE   LIB(&SRCLIB) POSITION(*LAST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Removing OLD DATA library, if exists  */
+             CHGVAR     VAR(&DTALIB_OLD) VALUE(&DTALIB *TCAT 'OLD')
+             CLRLIB     LIB(&DTALIB_OLD)
+             MONMSG     MSGID(CPF2113) EXEC(DO)
+             SNDPGMMSG  MSG('Old data Library is in use, unable to +
+                        clear')
+             GOTO       CMDLBL(END)
+             ENDDO
+             MONMSG     MSGID(CPF2110)
+             DLTLIB     LIB(&DTALIB_OLD)
+             MONMSG     MSGID(CPF2110)
+
+             /*List out all members of SOURCE library */
+             DSPFD      FILE(&SRCLIB/*ALL) TYPE(*MBRLIST) +
+                        OUTPUT(*OUTFILE) OUTFILE(QTEMP/MBRLIST)
+
+             /*Taking backup of DATA library  */
+             CPYLIB     FROMLIB(&DTALIB) TOLIB(&DTALIB_OLD) +
+                        CRTLIB(*YES) DATA(*YES) CST(*YES) TRG(*YES)
+
+             GRTOBJAUT  OBJ(&DTALIB_OLD) OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&DTALIB_OLD) OBJTYPE(*LIB) NEWOWN(&OWNER)
+
+             CLRLIB     LIB(&DTALIB)
+             MONMSG     MSGID(CPF2113) EXEC(DO)
+             SNDPGMMSG  MSG('Data Library is in use, unable to +
+                        clear')
+             GOTO       CMDLBL(END)
+             ENDDO
+
+             /*Main Programming Section */
+             OVRDBF     FILE(QAFDMBRL) TOFILE(QTEMP/MBRLIST) SHARE(*YES)
+             OPNQRYF    FILE((QTEMP/MBRLIST)) QRYSLT('MLSEU2 *EQ +
+                        ''PFSQL''') KEYFLD((MLSEU2 *DESCEND)) OPNID(F1)
+
+ NEXT1:      RCVF       OPNID(F1)
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(EOF1))
+
+             /*For compilation of 'PFSQL'  */
+ R01:        RUNSQLSTM  SRCFILE(&SRCLIB/&F1_MLFILE) +
+                        SRCMBR(&F1_MLNAME) COMMIT(*NONE) +
+                        DFTRDBCOL(&DTALIB)
+             MONMSG     MSGID(SQL9006 SQL9010) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F1_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT1))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R01))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&DTALIB/&F1_MLNAME) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&DTALIB/&F1_MLNAME) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F1_MLNAME) SPLNBR(*LAST)
+             GOTO       CMDLBL(NEXT1)
+
+ EOF1:       DLTOVR     FILE(*ALL)
+             CLOF       OPNID(F1)
+
+             OVRDBF     FILE(QAFDMBRL) TOFILE(QTEMP/MBRLIST) SHARE(*YES)
+
+             OPNQRYF    FILE((QTEMP/MBRLIST)) QRYSLT('MLSEU2 *EQ +
+                        ''DSPF'' *OR MLSEU2 *EQ ''PRTF''') +
+                        KEYFLD((MLSEU2 *DESCEND)) OPNID(F2)
+
+ NEXT2:      RCVF       OPNID(F2)
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(EOF2))
+
+             /*For compilation of 'DSPF' */
+ R02:        IF         COND(&F2_MLSEU2 *EQ 'DSPF') THEN(DO)
+             CRTDSPF    FILE(&DTALIB/&F2_MLNAME) +
+                        SRCFILE(&SRCLIB/&F2_MLFILE) RSTDSP(*YES)
+             MONMSG     MSGID(CPF7302) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT1))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R02))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&DTALIB/&F2_MLNAME) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&DTALIB/&F2_MLNAME) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             GOTO       CMDLBL(NEXT2)
+             ENDDO
+
+             /*For compilation of 'PRTF' */
+             IF         COND(&F2_MLSEU2 *EQ 'PRTF') THEN(DO)
+             CRTPRTF    FILE(&DTALIB/&F2_MLNAME) +
+                        SRCFILE(&SRCLIB/&F2_MLFILE)
+             MONMSG     MSGID(CPF7302 CPF339F) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT1))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R02))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&DTALIB/&F2_MLNAME) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&DTALIB/&F2_MLNAME) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             GOTO       CMDLBL(NEXT2)
+             ENDDO
+
+ EOF2:       DLTOVR     FILE(*ALL)
+             CLOF       OPNID(F2)
+
+             /*Copy data for important files from OLD DATA library to current DATA library */
+             /* ... */
+             CPYF       FROMFILE(&DTALIB_OLD/IAEMAILPF) +
+                        TOFILE(&DTALIB/IAEMAILPF) +
+                        MBROPT(*REPLACE) FMTOPT(*NOCHK)
+
+             CPYF       FROMFILE(&DTALIB_OLD/IADUPOBJ) +
+                        TOFILE(&DTALIB/IADUPOBJ) +
+                        MBROPT(*REPLACE) FMTOPT(*NOCHK)
+
+             /*Copy all MSGF files from OLD DATA library to current DATA library */
+             CRTDUPOBJ  OBJ(IAMSGF) FROMLIB(&DTALIB_OLD) +
+                        OBJTYPE(*MSGF) TOLIB(&DTALIB)
+             GRTOBJAUT  OBJ(&DTALIB/IAMSGF) OBJTYPE(*MSGF) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&DTALIB/IAMSGF) OBJTYPE(*MSGF) NEWOWN(&OWNER)
+
+             /*Main programming Section Ends! */
+ END:        RCLRSC
+             ENDPGM

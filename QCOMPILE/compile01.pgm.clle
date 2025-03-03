@@ -1,0 +1,220 @@
+      /*%METADATA                                                     */
+      /* %TEXT Compile Service programs                               */
+      /*%EMETADATA                                                    */
+PGM
+
+    dcl    ( &DTA_LIB )  ( *char )  (   10 )  ( 'IADTABTAX')
+    dcl    ( &PGM_LIB )  ( *char )  (   10 )  ( 'IAOBJBTAX')
+    dcl    ( &SRC_LIB )  ( *char )  (   10 )  ( 'IASRCV3' )
+    dcl    ( &SRC_FIL )  ( *char )  (   10 )
+    dcl    ( &OBJ_LIB )  ( *char )  (   10 )
+    dcl    ( &DTE_TIM )  ( *char )  (   20 )
+    dcl    ( &COMP_ID )  ( *char )  (   20 )
+    dcl    ( &SQL_STM )  ( *char )  ( 1000 )
+
+    RTVSYSVAL  SYSVAL(QDATETIME) RTNVAR(&DTE_TIM)
+    CHGVAR   ( &COMP_ID )  ('SC' *CAT %SST(&DTE_TIM 3 18))
+
+    CALLSUBR makObjLib
+
+    CALLSUBR resetLibl
+
+    CALLSUBR setLibList
+
+    CALLSUBR setCmpEnv
+
+    CALLSUBR makSqlObj
+
+    CALLSUBR makDdsObj
+
+    CALLSUBR makSrvObj
+
+    CALLSUBR makRpgObj
+
+    CALLSUBR makClpObj
+
+    CALLSUBR resetLibl
+
+    /* CALLSUBR setObjAuth */
+
+    SUBR makObjLib
+
+       CHGVAR  (&OBJ_LIB) (&DTA_LIB)
+       CALLSUBR crtObjLib
+
+       CHGVAR  (&OBJ_LIB) (&PGM_LIB)
+       CALLSUBR crtObjLib
+
+    ENDSUBR
+
+
+    SUBR crtObjLib
+
+       DLTLIB  LIB(&OBJ_LIB)
+       MONMSG  ( CPF0000 )
+
+       CRTLIB  LIB(&OBJ_LIB) +
+               TYPE(*PROD) +
+               TEXT(&OBJ_LIB)
+       MONMSG  ( CPF0000 )
+
+    ENDSUBR
+
+
+    SUBR resetLibl
+
+       CHGLIBL LIBL(QTEMP QGPL)
+
+    ENDSUBR
+
+
+    SUBR setLibList
+
+       CHGVAR  ( &OBJ_LIB )  ( &SRC_LIB )
+       CALLSUBR addLibList
+
+       CHGVAR  ( &OBJ_LIB )  ( &OBJ_LIB )
+       CALLSUBR addLibList
+
+       CHGVAR  ( &OBJ_LIB )  ( &DTA_LIB )
+       CALLSUBR addLibList
+
+    ENDSUBR
+
+
+    SUBR addLibList
+
+       ADDLIBLE LIB(&OBJ_LIB) +
+                POSITION(*AFTER QTEMP)
+       MONMSG  ( CPF0000 )
+
+    ENDSUBR
+
+
+    SUBR setCmpEnv
+
+       DLTF    ( QTEMP/IACOMPSTS )
+       MONMSG  ( CPF0000 )
+
+       CRTDUPOBJ OBJ(IACOMPSTS) +
+                 FROMLIB(IASRCV3) +
+                 OBJTYPE(*FILE) +
+                 TOLIB(QTEMP) +
+                 DATA(*NO) +
+                 CST(*NO) +
+                 TRG(*NO) +
+                 FILEID(*YES)
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR makSqlObj
+
+       CLRPFM  (QTEMP/IACOMPSTS)
+       MONMSG  (CPF0000)
+
+       CHGVAR  ( &OBJ_LIB )  ( &DTA_LIB )
+       CHGVAR  ( &SRC_FIL )  ( 'QDDLSRC' )
+       CHGCURLIB  ( &OBJ_LIB )
+       CALLSUBR getMbrInfo
+       CALL COMPILE02
+
+    ENDSUBR
+
+
+    SUBR makDdsObj
+
+       CLRPFM  (QTEMP/IACOMPSTS)
+       MONMSG  (CPF0000)
+
+       CHGVAR  ( &OBJ_LIB )  ( &PGM_LIB )
+       CHGVAR  ( &SRC_FIL )  ( 'QDDSSRC' )
+       CALLSUBR getMbrInfo
+       CALL COMPILE02
+
+    ENDSUBR
+
+
+    SUBR makSrvObj
+
+       CLRPFM  (QTEMP/IACOMPSTS)
+       MONMSG  (CPF0000)
+
+       CHGVAR  ( &OBJ_LIB )  ( &PGM_LIB )
+       CHGVAR  ( &SRC_FIL )  ( 'QMODSRC' )
+       CALLSUBR getMbrInfo
+       CALL COMPILE02
+
+    ENDSUBR
+
+
+    SUBR makRpgObj
+
+       CLRPFM  (QTEMP/IACOMPSTS)
+       MONMSG  (CPF0000)
+
+       CHGVAR  ( &OBJ_LIB )  ( &PGM_LIB )
+       CHGVAR  ( &SRC_FIL )  ( 'QRPGLESRC' )
+       CALLSUBR getMbrInfo
+       CALL COMPILE02
+
+    ENDSUBR
+
+
+    SUBR makClpObj
+
+       CLRPFM  (QTEMP/IACOMPSTS)
+       MONMSG  (CPF0000)
+
+       CHGVAR  ( &OBJ_LIB )  ( &PGM_LIB )
+       CHGVAR  ( &SRC_FIL )  ( 'QCLPSRC' )
+       CALLSUBR getMbrInfo
+       CALL COMPILE02
+
+    ENDSUBR
+
+
+    subr getMbrInfo
+
+       chgvar  ( &SQL_STM ) +
+               ( 'INSERT INTO QTEMP.IACOMPSTS (+
+                  SELECT ''' *CAT %TRIM(&COMP_ID) *CAT ''', +
+                         SYS_DNAME, +
+                         SYS_TNAME, +
+                         TABPART, +
+                         SRCTYPE, +
+                         ''' *CAT %TRIM(&OBJ_LIB) *CAT ''', +
+                         '' '', +
+                         SYSTEM_USER, +
+                         CURRENT_TIMESTAMP +
+                    FROM QSYS2.SYSPARTITIONSTAT +
+                   WHERE SYS_DNAME = ''' *CAT %TRIM(&SRC_LIB) *CAT ''' +
+                     AND SYS_TNAME = ''' *CAT %TRIM(&SRC_FIL) *CAT ''' +
+                ORDER BY TABPART)' )
+
+       runsql sql( &SQL_STM ) +
+              commit( *NONE )
+
+
+    endsubr
+
+
+    SUBR listMbrDta
+
+       chgvar  ( &SRC_FIL )  ( 'QDDSSRC' )
+       callsubr getMbrInfo
+
+       chgvar  ( &SRC_FIL )  ( 'QMODSRC' )
+       callsubr getMbrInfo
+
+       chgvar  ( &SRC_FIL )  ( 'QRPGLESRC' )
+       callsubr getMbrInfo
+
+       chgvar  ( &SRC_FIL )  ( 'QCLPSRC' )
+       callsubr getMbrInfo
+
+    ENDSUBR
+
+
+ENDPGM

@@ -1,0 +1,154 @@
+     A*----------------------------------------------------------------------*
+     A*   CREATED BY.......: PROGRAMMERS.IO @ 2020                           *
+     A*   CREATE DATE......: 2020/01/01                                      *
+     A*   DEVELOPER........: KAUSHAL KUMAR                                   *
+     A*   DESCRIPTION......: Display file to add Library List                *
+     A*   -------------------------------------------------------------------*
+     A*   MODIFICATION LOG                                                   *
+     A*   -------------------------------------------------------------------*
+     A*   DATE     MOD_ID      DEVELOPER   CASE AND DESCRIPTION              *
+     A*   YY/MM/DD ----------  ----------  ----------------------------------*
+     A*                                                                      *
+     A*   22/08/10 SJ01        SUNNY JHA   ADDED HIDDEN ERR FLAG             *
+     A*   22/10/27 RK01        RISHAB KA   HEADER AND SUBHEADER TEXT CHANGES *
+     A*   22/11/04 AR01        ABHIJITH    FOOTER TEXT CHANGES               *
+     A*   23/10/25 0001        SRIRAM B    RE-ORDERED DATE & TIME POSITIONS  *
+     A*                                    IN EDIT LIB LIST SFL - TASK #323  *
+     A*   23/10/25 0002        SASIKUMAR   ENABLE USER TO ADD IFS LOCATION   *
+     A*----------------------------------------------------------------------*
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CF03(03 'EXIT')
+     A                                      CF05(05 'REFRESH')
+0002 A                                      CF07(07 'IFSDIR')
+     A                                      CF12(12 'CANCEL')
+     A*---------------------------------------------------------------------*
+     A*  MESSAGE SUBFILE                                                    *
+     A*---------------------------------------------------------------------*
+     A          R MSGSFL                    SFL
+     A                                      TEXT('MESSAGE SUBFILE')
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PROGRAMQ                  SFLPGMQ
+     A          R MSGSFLCTL                 SFLCTL(MSGSFL)
+     A                                      TEXT('MESSAGE SUBFCTL')
+     A                                      OVERLAY
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A                                      SFLINZ
+     A N49                                  SFLEND
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A            PROGRAMQ                  SFLPGMQ(10)
+     A*---------------------------------------------------------------------*
+     A*  Subfile                                                            *
+     A*---------------------------------------------------------------------*
+     A*
+     A          R SFL01                     SFL
+     A*
+     A  30                                  SFLNXTCHG
+     A            H_LIBNAME     10A  H
+     A            H_SEQNO        4Y 0H
+SJ01 A            H_ERR          1  0H
+     A            S1SEQNO        4Y 0B  9  4EDTCDE(4)
+     A            S1LIBNAME     10A  B  9 12
+     A  35                                  DSPATR(PC)
+     A  35                                  DSPATR(RI)
+     A          R SFLCTL01                  SFLCTL(SFL01)
+     A*
+     A  *DS3                                SFLLIN(0009)
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0039)
+     A                                      OVERLAY
+     A                                      ERASE(SFL01)
+     A                                      SFLCSRRRN(&CSRRRN)
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  33                                  SFLCLR
+     A  34                                  SFLEND(*MORE)
+     A            CSRRRN         5S 0H
+     A            DSPREC         4S 0H      SFLRCDNBR(CURSOR)
+     A                                  2 30'Edit Library List'
+     A                                      COLOR(WHT)
+     A                                  8  3'Number   Library           Number -
+     A                                        Library           Number   Librar-
+     A                                      y'
+     A                                      COLOR(WHT)
+     A                                  7  2'Sequence                   Sequenc-
+     A                                      e                   Sequence'
+     A                                      COLOR(WHT)
+     A                                  5  2'Type new/changed information, pres-
+     A                                      s Enter.'
+     A                                      COLOR(BLU)
+     A                                  3  2'Repository Name..'
+     A            C1REPONAME    10A  O  3 20COLOR(WHT)
+     A                                  1 30'{P}rogrammers.io'
+     A                                      COLOR(WHT)
+     A*                                 1 72TIME                                         //0001
+     A*                                 2 72DATE                                         //0001
+     A*                                     EDTCDE(Y)                                    //0001
+     A                                  1 72DATE                                         //0001
+     A                                      EDTCDE(Y)                                    //0001
+     A                                  2 72TIME                                         //0001
+     A                                  1  2USER
+     A          R FOOTER
+     A*
+     A                                      OVERLAY
+     A                                 23  2'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 12'F5=Refresh'
+     A                                      COLOR(BLU)
+0002 A                                 23 41'F12=Cancel'
+     A                                      COLOR(BLU)
+0002 A                                 23 24'F7=Add Library'
+0002 A                                      COLOR(BLU)
+0002 A*---------------------------------------------------------------------*
+0002 A*  Subfile                                                            *
+0002 A*---------------------------------------------------------------------*
+0002 A          R SFL02                     SFL
+0002 A  30                                  SFLNXTCHG
+0002 A            H_DIRNAME     78A  H
+0002 A            H_SEQNO        4Y 0H
+0002 A            H_ERR          1S 0H
+0002 A            S1DIRNAME     78A  B  9  2
+0002 A  36                                  DSPATR(PC)
+0002 A  36                                  DSPATR(RI)
+0002 A*
+0002 A* *DS3                                SFLLIN(0009)
+0002 A          R SFLCTL02                  SFLCTL(SFL02)
+0002 A                                      SFLSIZ(9999)
+0002 A                                      SFLPAG(0013)
+0002 A                                      OVERLAY
+0002 A                                      SFLCSRRRN(&CSRRRN)
+0002 A  31                                  SFLDSP
+0002 A  32                                  SFLDSPCTL
+0002 A  33                                  SFLCLR
+0002 A  34                                  SFLEND(*MORE)
+0002 A            CSRRRN         5S 0H
+0002 A            DSPREC         4S 0H      SFLRCDNBR(CURSOR)
+0002 A                                  2 30'Edit IFS Directory List'
+0002 A                                      COLOR(WHT)
+0002 A                                  5  2'Type new/changed information, pres-
+0002 A                                      s Enter.'
+0002 A                                      COLOR(BLU)
+0002 A                                  3  2'Repository Name..'
+0002 A            C1REPONAME    10A  O  3 20COLOR(WHT)
+0002 A                                  1 30'{P}rogrammers.io'
+0002 A                                      COLOR(WHT)
+0002 A                                  1 72DATE
+0002 A                                      EDTCDE(Y)
+0002 A                                  2 72TIME
+0002 A                                  1  2USER
+0002 A                                  7 26'IFS Path for Members'
+0002 A                                      COLOR(WHT)
+0002 A          R FOOTER2
+0002 A*
+0002 A                                      OVERLAY
+0002 A                                 23  2'F3=Exit'
+0002 A                                      COLOR(BLU)
+0002 A                                 23 12'F5=Refresh'
+0002 A                                      COLOR(BLU)
+0002 A                                 23 40'F12=Cancel'
+0002 A                                      COLOR(BLU)
+0002 A                                 23 24'F7=Add Library'
+0002 A                                      COLOR(BLU)

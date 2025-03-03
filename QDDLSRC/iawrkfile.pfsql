@@ -1,0 +1,45 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAWRKFILE) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAWRKFILE(
+
+ WORK_LIB          FOR COLUMN WKLIB       CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ WORK_PNAM         FOR COLUMN WKPNAM      CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ WORK_OTYP         FOR COLUMN WKOTYP      CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ WORK_SNAM         FOR COLUMN WKSNAM      CHAR(11)  NOT NULL WITH DEFAULT ' ',
+ WORK_RFNM         FOR COLUMN WKRFNM      CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ WORK_TEXT         FOR COLUMN WKTEXT      CHAR(50)  NOT NULL WITH DEFAULT ' ')
+
+RCDFMT IAWRKFILER;
+
+LABEL ON TABLE IAWRKFILE IS 'WORK FILE OF DSPPGMREF';
+
+LABEL ON COLUMN IAWRKFILE(
+ WKLIB       IS 'LIBRARY',
+ WKPNAM      IS 'PROGRAM NAME',
+ WKOTYP      IS 'OBJECT TYPE',
+ WKSNAM      IS 'SOURCE FILE NAME',
+ WKRFNM      IS 'RECORD FORMAT NAME',
+ WKTEXT      IS 'TEXT DESCRIPTION');
+
+  LABEL ON COLUMN IAWRKFILE(
+  WKLIB       TEXT IS 'LIBRARY',
+  WKPNAM      TEXT IS 'PROGRAM NAME',
+  WKOTYP      TEXT IS 'OBJECT TYPE',
+  WKSNAM      TEXT IS 'SOURCE FILE NAME',
+  WKRFNM      TEXT IS 'RECORD FORMAT NAME',
+  WKTEXT      TEXT IS 'TEXT DESCRIPTION');

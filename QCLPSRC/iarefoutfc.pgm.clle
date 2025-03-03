@@ -1,0 +1,218 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA Refresh Program to create dspfd/dsppgmref outfi     */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*CREATED BY.......: Programmers.io @ 2023                                              */
+/*CREATE DATE......: 2023/09/29                                                         */
+/*DEVELOPER........: Sonali Sulake                                                      */
+/*DESCRIPTION......: Generate outfiles for DSPFD & DSPPGMREF for iarefobjf.             */
+/*                                                                                      */
+/*MODIFICATION LOG:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date(YMD)| Mod_ID | Developer  | Case and Description                                 */
+/*-------- |--------|------------|----------------------------------------------------- */
+/*06/10/23 |        |  Sonali S  | Initial Creation.                                    */
+/*21/11/23 | 0001   |  Akshay S. | Added conditions for newly added members in IAREFOBJF*/
+/*21/11/23 | 0002   |  Akshay S. | *SLOM & *JOIN should only be created for LF          */
+/*23/11/23 | 0003   |  Akshay S. | IDSPFFD outfile should also be created. task#403     */
+/*29/11/23 | 0004   |  Abhijit C.| Fix the DSPFD and Printer file issues.  task#365     */
+/*04/12/23 | 0005   |  Naresh S  | Fix the DSPDBR incorrect records issue in Refresh.   */
+/*         |        |            | Task#415                                             */
+/*------------------------------------------------------------------------------------- */
+
+             PGM        PARM(&V_XREF)
+
+             DCL        VAR(&V_XREF) TYPE(*CHAR) LEN(10)
+             DCLF       FILE(IAREFOBJF)
+             DCLF       FILE(QTEMP/IDDEPPF) OPNID(F1)                                    /*0005*/
+
+             /*Process For Each Library */
+
+ LOOP:       RCVF
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(END))
+
+
+             IF         COND((&IASTATUS = 'M' *OR &IASTATUS = 'A') +
+                          *AND &IAOBJTYPE = '*FILE' *AND &IAOBJTYPE +
+                          *NE ' ') THEN(DO)                                              /*0001*/
+
+             /*Output file for DSPFFD           */
+             DSPFFD     FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IDSPFFD) +
+                          OUTMBR(*FIRST *ADD)                                            /*0004*/
+             MONMSG     MSGID(CPF0000)                                                   /*0004*/
+
+             /*Output file for DSPFD TYPE(*RCDFMT)*/
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          TYPE(*RCDFMT) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDRFMT) OUTMBR(*FIRST *ADD)                  /*0004*/
+             MONMSG     MSGID(CPF0000)                                                   /*0004*/
+             ENDDO
+
+             /*Condition For *PF & *LF */
+             IF         COND((&IASTATUS = 'M' *OR &IASTATUS = 'A') +
+                          *AND &IAOBJTYPE = '*FILE' *AND +
+                          (&IAOBJATTR *EQ 'PF' *OR &IAOBJATTR *EQ +
+                          'LF')) THEN(DO)
+
+             /*Output file for DSPFD TYPE(*ACCPTH) */
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) TYPE(*ACCPTH) +
+                          OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDKEYS) OUTMBR(*FIRST *ADD)                  /*0004*/
+             MONMSG     MSGID(CPF0000)                                                   /*0004*/
+
+             /*Output file for DSPFD TYPE(*SEQ) */
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) TYPE(*SEQ) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IDSPFDSEQ) +
+                          OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+
+             /*Output file for DSPFD TYPE(*TRG)*/
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) TYPE(*TRG) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IDSPFDTRG) +
+                          OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             IF         COND((&IASTATUS = 'M' *OR &IASTATUS = 'A') +
+                          *AND &IAOBJTYPE = '*FILE' *AND &IAOBJATTR +
+                          *EQ 'PF') THEN(DO)                                             /*0001*/
+
+             /*Output file for DSPFD TYPE(*CST)*/
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) TYPE(*CST) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IDSPFDCST) +
+                          OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          TYPE(*SELECT) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDSLOM) OUTMBR(*FIRST *ADD)                  /*0002*/
+             MONMSG     MSGID(CPF0000)                                                   /*0002*/
+
+             ENDDO
+
+             IF         COND((&IASTATUS = 'M' *OR &IASTATUS = 'A') +
+                          *AND &IAOBJTYPE = '*FILE' *AND &IAOBJATTR +
+                          *EQ 'LF') THEN(DO)                                             /*0002*/
+
+             /*Output file for DSPFD TYPE(*SELECT) */
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          TYPE(*SELECT) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDSLOM) OUTMBR(*FIRST *ADD)                  /*0002*/
+             MONMSG     MSGID(CPF0000)                                                   /*0002*/
+
+             /*Output file for DSPFD TYPE(*JOIN) */
+
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          TYPE(*JOIN) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDJOIN) OUTMBR(*FIRST *ADD)                  /*0002*/
+             MONMSG     MSGID(CPF0000)                                                   /*0002*/
+
+             ENDDO
+
+            /* Output file for DSPDBR dependent files */
+
+             DSPDBR     FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IADSPDBR) +
+                          OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             IF         COND(&IAOBJATTR *EQ 'LF') THEN(DO)                               /*0005*/
+
+             /*Outfile for finding Physical file  info for logical file(s)  */
+             DSPFD      FILE(%TRIM(&IAOBJLIB)/&IAOBJNAME) TYPE(*MBR) +
+                          OUTPUT(*OUTFILE) FILEATR(*LF) +
+                          OUTFILE(QTEMP/IDDEPPF) OUTMBR(*FIRST +
+                          *REPLACE)                                                      /*0005*/
+
+             /*Fetch based on file(Parent file) info for logical file from  */          /*0005*/
+             /*IDSPFDKEYS file                                              */          /*0005*/
+             OPNQRYF    FILE((QTEMP/IDDEPPF)) QRYSLT('(MBLIB = +
+                          ''' || &IAOBJLIB || ''')  *AND (MBFILE = +
+                          ''' || &IAOBJNAME || ''')') OPNID(F1)                          /*0005*/
+
+             /*Loop for all based on files for the logical file             */          /*0005*/
+ READF1:     RCVF       OPNID(F1)                                                        /*0005*/
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(ENDF1))                          /*0005*/
+             IF         COND(&F1_MBBOL *NE ' ' *AND &F1_MBBOF *NE ' +
+                          ') THEN(DO)                                                    /*0005*/
+
+             DSPDBR     FILE(%TRIM(&F1_MBBOL)/&F1_MBBOF) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IADSPDBR) +
+                          OUTMBR(*FIRST *ADD)                                            /*0005*/
+
+             ENDDO                                                                       /*0005*/
+             GOTO       CMDLBL(READF1)                                                   /*0005*/
+
+ ENDF1:      CLOF       OPNID(F1)                                                        /*0005*/
+             ENDDO                                                                       /*0005*/
+             ENDDO
+
+             /*Condtion For PGM, SQLPKG, SRVPGM, MODULE AND QRYDFN */
+
+             IF         COND((&IASTATUS = 'M' *OR &IASTATUS = 'A') +
+                          *AND (&IAOBJTYPE = '*PGM' *OR &IAOBJTYPE +
+                          *EQ '*SQLPKG' *OR &IAOBJTYPE *EQ +
+                          '*SRVPGM' *OR &IAOBJTYPE *EQ '*MODULE' +
+                          *OR &IAOBJTYPE *EQ '*QRYDFN')) THEN(DO) +
+                          /*0001*/
+
+             /*Output file for DSPPGMREF(*ALL) */
+
+             DSPPGMREF  PGM(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OBJTYPE(*PGM *SQLPKG +
+                          *SRVPGM *MODULE *QRYDFN) +
+                          OUTFILE(QTEMP/IAOBJREFPF) OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             /*Output file for DSPPGMREF(*PGM) */
+
+             DSPPGMREF  PGM(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OBJTYPE(*PGM) +
+                          OUTFILE(QTEMP/IDSPPGMREF) OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             /*Output file for DSPPGMREF(*SQLPKG) */
+
+             DSPPGMREF  PGM(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OBJTYPE(*SQLPKG) +
+                          OUTFILE(QTEMP/IDSPSQLREF) OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             /*Output file for DSPPGMREF(*SRVPGM) */
+
+             DSPPGMREF  PGM(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OBJTYPE(*SRVPGM) +
+                          OUTFILE(QTEMP/IDSPSRVREF) OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             /*Output file for DSPPGMREF(*MODULE) */
+
+             DSPPGMREF  PGM(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OBJTYPE(*MODULE) +
+                          OUTFILE(QTEMP/IDSPMODREF) OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             /*Output file for DSPPGMREF(*QRYDFN) */
+
+             DSPPGMREF  PGM(%TRIM(&IAOBJLIB)/&IAOBJNAME) +
+                          OUTPUT(*OUTFILE) OBJTYPE(*QRYDFN) +
+                          OUTFILE(QTEMP/IDSPQRYREF) OUTMBR(*FIRST *ADD)
+             MONMSG     MSGID(CPF0000)
+
+             ENDDO
+
+             GOTO       CMDLBL(LOOP)
+
+
+ END:
+             /*This program refresh the above outfiles based on iarefobjf records  */
+             /*for modified/added/deleted records for source/object          */
+             CALL       PGM(IAREFOUTFR) PARM((&V_XREF) (' ') (' '))
+
+             ENDPGM

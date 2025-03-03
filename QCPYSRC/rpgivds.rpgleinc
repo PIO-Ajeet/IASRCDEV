@@ -1,0 +1,160 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT RPGIV Format specification DS                           *
+      //%EMETADATA                                                     *
+//------------------------------------------------------------------------------------ //
+//Created By    : Programmers.io @ 2023                                                //
+//Creation Date : 2023/01/09                                                           //
+//Developer     :                                                                      //
+//Description   : Data Structures for RPGIV  F,I,D,C,O,P Specifications.               //
+//                                                                                     //
+//PROCEDURE LOG:                                                                       //
+//------------------------------------------------------------------------------------ //
+//Procedure Name           | Procedure Description                                     //
+//-------------------------|---------------------------------------------------------- //
+//No Procedure             |                                                           //
+//------------------------------------------------------------------------------------ //
+//                                                                                     //
+//MODIFICATION LOG:                                                                    //
+//------------------------------------------------------------------------------------ //
+//Date    | Mod_ID | Developer  | Case and Description                                 //
+//--------|--------|------------|----------------------------------------------------- //
+//19/09/24| 0001   | Azhar Uddin| Task-#956 - Modified I spec DS.                      //
+//28/10/24| 0002   | Shefali    | Task-#1051 - Updated DS to handle numeric fields.    //
+//------------------------------------------------------------------------------------ //
+ Dcl-ds FspecDsV4 qualified;
+    specification     char(1)   pos(6);
+    Star              char(1)   pos(7);
+    fileName          char(10)  pos(7);
+    fileType          char(1)   pos(17);
+    fileDesignation   char(1)   pos(18);
+    endOfFile         char(1)   pos(19);
+    fileAddition      char(1)   pos(20);
+    sequence          char(1)   pos(21);
+    fileFormat        char(1)   pos(22);
+    recordlength      zoned(5)  pos(23);
+    recordlengthc     char(5)   pos(23);                                                 //0002
+    limitProcessing   char(1)   pos(28);
+    lengthOfKeyFld    zoned(5)  pos(29);
+    lengthOfKeyFldc   char(5)   pos(29);                                                 //0002
+    recordAddressType char(1)   pos(34);
+    fileOrganization  char(1)   pos(35);
+    device            char(7)   pos(36);
+    keyword           char(37)  pos(44);
+    comment           char(20)  pos(81);
+ End-ds;
+
+ //I specification Data Structure.
+ dcl-ds IspecDsV4 qualified;
+   specification            char(1)   pos(6);
+   Star                     char(1)   pos(7);
+   ChkFor_I_Prompt          char(10)  pos(7);                                            //0001
+   ChkFor_JX_Prompt         char(10)  pos(21);                                           //0001
+   file_RecFmt_Ds_Name      char(10)  pos(7);
+   RelationAndOr            char(3)   pos(16);
+   sequence                 char(2)   pos(17);
+   recTypeCheck             char(1)   pos(19);
+   option                   char(1)   pos(20);
+   recordId                 char(2)   pos(21);
+   external_Field_Name      char(10)  pos(21);
+   Position_1               char(5)   pos(23);
+   recIdCodrequired_1       char(1)   pos(28);
+   codePart_1               char(1)   pos(29);
+   character_1              char(1)   pos(30);
+   Position_2               char(5)   pos(31);
+   date_time_format         char(4)   pos(31);
+   date_time_separator      char(1)   pos(35);
+   recIdCodrequired_2       char(1)   pos(36);
+   data_formate             char(1)   pos(36);
+   codePart_2               char(1)   pos(37);
+   from_length              char(5)   pos(37);
+   From_Pos_Num             zoned(5)  pos(37);                                           //0001
+   character_2              char(1)   pos(38);
+   Position_3               char(5)   pos(39);
+   to_length                char(5)   pos(42);
+   To_Pos_Num               zoned(5)  pos(42);                                           //0001
+   recIdCodrequired_3       char(1)   pos(44);
+   codePart_3               char(1)   pos(45);
+   character_3              char(1)   pos(46);
+   decimal_position         char(2)   pos(47);
+   inputFieldType           char(1)   pos(43);
+   fromPosition_Or_occursDS char(4)   pos(44);
+   toPosition_Or_DsLength   char(4)   pos(48);
+   field_name               char(14)  pos(49);
+   controlLevel             char(2)   pos(63);
+   matchingFields           char(2)   pos(65);
+   fieldRecordRelation      char(2)   pos(67);
+   positiveField            char(2)   pos(69);
+   negativeField            char(2)   pos(71);
+   zeroOrBlank              char(2)   pos(73);
+   comments                 char(20)  pos(81);
+ end-ds;
+
+ //D specification Data Structure.
+ Dcl-ds DspecV4 qualified;
+   specification    char(1)  pos(6);
+   star             char(1)  pos(7);
+   name             char(15) pos(7);
+   longName         char(74) pos(7);
+   external         char(1)  pos(22);
+   dsType           char(1)  pos(23);
+   declarationType  char(2)  pos(24);
+   fromLength       char(7) pos(26);
+   toLength         char(7) pos(33);
+   internalDataType char(1)  pos(40);
+   decimalPosition  char(2) pos(41);
+   keyword          char(37) pos(44);
+   comment          char(20) pos(81);
+ End-ds;
+
+ dcl-Ds CspecDsV4 qualified;
+    specification char(1)  pos(6);
+    Star          char(1)  pos(7);
+    C_Level       Char(2)  pos(7)  ;
+    C_N01         Char(3)  pos(9)  ;
+    C_Factor1     Char(14) pos(12) ;
+    C_Opcode      Char(10) pos(26) ;
+    C_Factor2     Char(14) pos(36) ;
+    C_Result      Char(14) pos(50) ;
+    C_ExtFact2    Char(45) pos(36) ;
+    C_Length      char (5) pos(64) ;
+    C_Decimal     char (2) pos(69) ;
+    C_HiInd       char(2)  pos(71) ;
+    C_LoInd       char(2)  pos(73) ;
+    C_EqInd       char(2)  pos(75) ;
+    C_Comment     char(20) pos(81) ;
+ end-Ds;
+
+ //O specification Data Structure.
+ dcl-Ds OspecDsV4 qualified;
+    specification       char(1)   pos(6);
+    Star                char(1)   pos(7);
+    O_FileName          Char(10)  pos(7)  ;
+    O_Type              Char(1)   pos(17) ;
+    O_Add_Delete_Rec    Char(3)   pos(18);
+    O_Fetch             Char(1)   pos(18) ;
+    O_N01N02N03_Indic   char(9)   pos(21);
+    O_Rcdfmt_or_Fldname Char(14)  pos(30) ;
+    O_edit_code         Char(1)   pos(44) ;
+    O_Blank_after       Char(1)   pos(45) ;
+    O_end_pos           char(5)   pos(47) ;
+    O_Field_Format      Char(1)   pos(52) ;
+    O_Date_time         Char(28)  pos(53) ;
+    O_ExcptNm           Char(10)  pos(30) ;
+    O_SpecB             char(3)   pos(40) ;
+    O_SpecA             char(3)   pos(43) ;
+    O_SkipB             char(3)   pos(46) ;
+    O_SkipA             char(3)   pos(49) ;
+    O_Comment           char(20)  pos(81) ;
+ end-Ds;
+
+ //P specification Data Structure.
+ dcl-Ds PspecDsV4 qualified;
+    specification char(1)   pos(6);
+    Star          char(1)   pos(7);
+    P_Name        Char(15)  pos(7)  ;
+    P_lName       Char(74)  pos(7)  ;
+    P_BegEnd      Char(1)   pos(24) ;
+    P_KeyW        Char(37)  pos(44) ;
+    P_Comment     char(20)  pos(81) ;
+ end-Ds;

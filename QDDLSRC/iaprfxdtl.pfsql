@@ -1,0 +1,75 @@
+----------------------------------------------------------------------------//
+--CREATED BY.......: Programmers.io @ 2020                                  //
+--CREATE DATE......: 2022/02/14                                             //
+--DEVELOPER........: Mahima                                                 //
+--DESCRIPTION......: Information of Prefix at File Level                    //
+----------------------------------------------------------------------------//
+--Modification Log                                                          //
+----------------------------------------------------------------------------//
+--Date     Mod_ID      Developer   Case and Description                     //
+--YY/MM/DD ----------  ----------  -----------------------------------------//
+--22/05/11 SK01        SANTHOSH    ADDED A NEW FIELD SOURCE_PF TO THE FILE  //
+--22/08/23 SG01        SHOBHIT     INCREMENTING NEW_FLD_NAME FILE FIELD SIZE//
+----------------------------------------------------------------------------//
+--Compilation Instruction
+-------------------------------------------------------------------------------
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPRFXDTL) COMMIT(*NONE)
+-------------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAPRFXDTL(
+
+ IACPGMREF_PK      FOR COLUMN CMDID  INTEGER GENERATED ALWAYS AS IDENTITY(
+                   START WITH 1
+                   INCREMENT BY 1
+                   MINVALUE 1
+                   MAXVALUE 2147483647
+                   CYCLE
+                   NO CACHE
+                   ORDER ),
+ LIB_NAME          FOR COLUMN IAPFXLIB    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ FILENAM           FOR COLUMN IAPFXFLNM   CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ MBR_NAME          FOR COLUMN IAPFXMBR    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ SOURCE_PF         FOR COLUMN IAPFXSPF    CHAR(10)  NOT NULL WITH DEFAULT ' ',           --SK01
+ OLD_FLD_NAME      FOR COLUMN IAPFXOLD    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ -- NEW_FLD_NAME      FOR COLUMN IAPFXNEW    CHAR(10)  NOT NULL WITH DEFAULT ' ',        --SG01
+ NEW_FLD_NAME      FOR COLUMN IAPFXNEW    CHAR(30)  NOT NULL WITH DEFAULT ' ',           --SG01
+ CRTD_BY_USR       FOR COLUMN CRTDUSER    CHAR(18)  CCSID 37 DEFAULT USER NOT
+                                          NULL,
+ CHGD_BY_USR       FOR COLUMN CHGDUSER    CHAR(18)  CCSID 37 DEFAULT USER
+                                          NOT NULL,
+ CRT_TIMESTA       FOR COLUMN CRTTMSTMP   TIMESTAMP DEFAULT  CURRENT_TIMESTAMP
+                                          NOT NULL,
+ CHGD_TIMESTA      FOR COLUMN CHGTMSTMP   TIMESTAMP NOT NULL GENERATED ALWAYS
+                                          FOR EACH ROW ON UPDATE
+                                          AS ROW CHANGE TIMESTAMP,
+
+PRIMARY KEY (CMDID))
+RCDFMT IAPRFXDTLR;
+
+LABEL ON TABLE IAPRFXDTL IS 'IA PREFIX FIELDS DETAILS TABLE';
+
+LABEL ON COLUMN IAPRFXDTL(
+ CMDID       IS 'IDENTITY            COLUMN',
+ IAPFXLIB    IS 'LIBRARY             NAME',
+ IAPFXFLNM   IS 'FILE                NAME',
+ IAPFXMBR    IS 'MEMBER              NAME',
+ IAPFXSPF    IS 'SOURCE-PF           NAME',                                              --SK01
+ IAPFXOLD    IS 'FIELD               NAME',
+ IAPFXNEW    IS 'NEW FIELD NAME AFTER PREFIX',
+ CRTDUSER    IS 'CREATED USER',
+ CHGDUSER    IS 'CHANGED USER',
+ CRTTMSTMP   IS 'CREATE  TIMESTAMP',
+ CHGTMSTMP   IS 'CHANGED TIMESTAMP');
+
+ LABEL ON COLUMN IAPRFXDTL(
+  CMDID       TEXT IS 'IDENTITY COLUMN',
+  IAPFXLIB    TEXT IS 'LIBRARY NAME',
+  IAPFXFLNM   TEXT IS 'FILE    NAME',
+  IAPFXMBR    TEXT IS 'SOURCE MEMBER NAME',
+  IAPFXSPF    TEXT IS 'SOURCE-PF NAME',                                                  --SK01
+  IAPFXOLD    TEXT IS 'FIELD NAME',
+  IAPFXNEW    TEXT IS 'NEW FIELD NAME AFTER PREFIX',
+  CRTDUSER    TEXT IS 'CREATED              USER',
+  CHGDUSER    TEXT IS 'CHANGED              USER',
+  CRTTMSTMP   TEXT IS 'CREATE          TIMESTAMP',
+  CHGTMSTMP   TEXT IS 'CHANGED         TIMESTAMP');

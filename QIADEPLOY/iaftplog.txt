@@ -1,0 +1,1553 @@
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 02:55. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+UNIX Type: L8
+Enter an FTP subcommand.
+> m_#bzzUP*1DV
+Subcommand 'm_#bzzUP*1DV' not valid.
+For a list of available FTP subcommands, enter subcommand HELP.
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf iatool_apr.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 03:00. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+UNIX Type: L8
+Enter an FTP subcommand.
+> m_#bzzUP*1DV
+Subcommand 'm_#bzzUP*1DV' not valid.
+For a list of available FTP subcommands, enter subcommand HELP.
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf iatool_apr.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 03:12. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User open OK. Password required
+530 Login authentication failed
+Enter an FTP subcommand.
+> as400@pixere.com
+Subcommand 'as400@pixere' not valid.
+For a list of available FTP subcommands, enter subcommand HELP.
+Enter an FTP subcommand.
+> m_#bzzUP*1DV
+Subcommand 'm_#bzzUP*1DV' not valid.
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf iatool_apr.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 04:13. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2354060 Kbytes used (22%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50275|)
+150 Accepted data connection
+226-3219642 Kbytes used (30%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 676.371 seconds (measured here), 1.25 Mbytes per second
+886355712 bytes transferred in 644.280 seconds. Transfer rate 1375.730 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 865582 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 04:50. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 3219642 Kbytes used (30%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50083|)
+150 Accepted data connection
+226-2766824 Kbytes used (26%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 322.615 seconds (measured here), 1.25 Mbytes per second
+422670336 bytes transferred in 307.044 seconds. Transfer rate 1376.579 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 412764 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 05:01. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2766824 Kbytes used (26%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50933|)
+150 Accepted data connection
+226-2766832 Kbytes used (26%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 322.622 seconds (measured here), 1.25 Mbytes per second
+422678784 bytes transferred in 306.741 seconds. Transfer rate 1377.965 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 412773 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 00:13. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2766832 Kbytes used (26%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50152|)
+150 Accepted data connection
+226-2702095 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 272.038 seconds (measured here), 1.25 Mbytes per second
+356387328 bytes transferred in 258.809 seconds. Transfer rate 1377.031 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 348035 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 02:40. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2702095 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50322|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 02:41. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2416975 Kbytes used (23%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50165|)
+150 Accepted data connection
+226-2704054 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 273.689 seconds (measured here), 1.25 Mbytes per second
+358393728 bytes transferred in 260.238 seconds. Transfer rate 1377.175 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 349994 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 3 of 500 allowed.
+220-Local time is now 02:46. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2704054 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50468|)
+150 Accepted data connection
+226-2704017 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 273.541 seconds (measured here), 1.25 Mbytes per second
+358355712 bytes transferred in 260.034 seconds. Transfer rate 1378.110 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 349957 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 02:51. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2704017 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50358|)
+150 Accepted data connection
+226-2704190 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 273.682 seconds (measured here), 1.25 Mbytes per second
+358533120 bytes transferred in 260.125 seconds. Transfer rate 1378.311 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 350130 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 22:52. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2704190 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50283|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 22:52. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2375401 Kbytes used (22%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50031|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 22:53. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2383075 Kbytes used (22%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50255|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 22:54. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2410672 Kbytes used (22%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50780|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 22:54. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2354762 Kbytes used (22%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50578|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 23:00. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2361142 Kbytes used (22%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50541|)
+150 Accepted data connection
+226-2713344 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 280.828 seconds (measured here), 1.25 Mbytes per second
+367906176 bytes transferred in 266.935 seconds. Transfer rate 1378.264 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 359284 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 23:13. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2713344 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50768|)
+150 Accepted data connection
+226-2713348 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 280.840 seconds (measured here), 1.25 Mbytes per second
+367910400 bytes transferred in 267.152 seconds. Transfer rate 1377.156 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 359288 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2713348 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50714|)
+150 Accepted data connection
+226-2663600 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 241.963 seconds (measured here), 1.25 Mbytes per second
+316968960 bytes transferred in 230.103 seconds. Transfer rate 1377.512 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 309540 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2663600 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50320|)
+150 Accepted data connection
+226-2663621 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 241.979 seconds (measured here), 1.25 Mbytes per second
+316990080 bytes transferred in 230.122 seconds. Transfer rate 1377.487 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 309561 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2663621 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50395|)
+150 Accepted data connection
+226-2665052 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 243.098 seconds (measured here), 1.25 Mbytes per second
+318455808 bytes transferred in 231.211 seconds. Transfer rate 1377.339 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 310992 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2665052 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50443|)
+150 Accepted data connection
+226-2665056 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 243.209 seconds (measured here), 1.25 Mbytes per second
+318460032 bytes transferred in 231.225 seconds. Transfer rate 1377.276 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 310997 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2665056 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50481|)
+150 Accepted data connection
+226-2658576 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 238.050 seconds (measured here), 1.25 Mbytes per second
+311824128 bytes transferred in 226.343 seconds. Transfer rate 1377.663 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 304516 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2658576 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50488|)
+150 Accepted data connection
+226-2658576 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 238.054 seconds (measured here), 1.25 Mbytes per second
+311824128 bytes transferred in 226.091 seconds. Transfer rate 1379.198 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 304516 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2658576 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50259|)
+150 Accepted data connection
+226-2659780 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 238.989 seconds (measured here), 1.25 Mbytes per second
+313057536 bytes transferred in 227.026 seconds. Transfer rate 1378.948 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 305721 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2659780 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50703|)
+150 Accepted data connection
+226-2659785 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 238.992 seconds (measured here), 1.25 Mbytes per second
+313061760 bytes transferred in 227.285 seconds. Transfer rate 1377.396 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 305725 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2659785 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50424|)
+150 Accepted data connection
+226-2659789 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 239.006 seconds (measured here), 1.25 Mbytes per second
+313065984 bytes transferred in 227.252 seconds. Transfer rate 1377.616 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 305729 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2659789 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50527|)
+150 Accepted data connection
+226-2659793 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 238.999 seconds (measured here), 1.25 Mbytes per second
+313070208 bytes transferred in 227.310 seconds. Transfer rate 1377.286 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 305733 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2659793 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50925|)
+150 Accepted data connection
+226-2659793 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 238.999 seconds (measured here), 1.25 Mbytes per second
+313070208 bytes transferred in 227.013 seconds. Transfer rate 1379.087 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 305733 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2659793 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50003|)
+150 Accepted data connection
+226-2659797 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 239.000 seconds (measured here), 1.25 Mbytes per second
+313074432 bytes transferred in 227.268 seconds. Transfer rate 1377.559 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 305737 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2659797 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50959|)
+150 Accepted data connection
+226-2660626 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 239.650 seconds (measured here), 1.25 Mbytes per second
+313923456 bytes transferred in 227.618 seconds. Transfer rate 1379.167 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 306566 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2660626 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50335|)
+150 Accepted data connection
+226-2660630 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 239.653 seconds (measured here), 1.25 Mbytes per second
+313927680 bytes transferred in 227.879 seconds. Transfer rate 1377.607 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 306570 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2660630 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50952|)
+150 Accepted data connection
+226-2657805 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 237.447 seconds (measured here), 1.25 Mbytes per second
+311034240 bytes transferred in 225.785 seconds. Transfer rate 1377.567 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 303745 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2657805 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50941|)
+150 Accepted data connection
+226-2657805 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 237.444 seconds (measured here), 1.25 Mbytes per second
+311034240 bytes transferred in 225.776 seconds. Transfer rate 1377.621 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 303745 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2657805 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50175|)
+150 Accepted data connection
+226-2666401 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 244.165 seconds (measured here), 1.25 Mbytes per second
+319837056 bytes transferred in 232.217 seconds. Transfer rate 1377.321 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 312341 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2666401 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50564|)
+150 Accepted data connection
+226-2666405 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 244.172 seconds (measured here), 1.25 Mbytes per second
+319841280 bytes transferred in 232.154 seconds. Transfer rate 1377.710 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 312345 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2666405 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50715|)
+150 Accepted data connection
+226-2671240 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 247.934 seconds (measured here), 1.25 Mbytes per second
+324791808 bytes transferred in 235.785 seconds. Transfer rate 1377.490 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 317180 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2671240 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50936|)
+150 Accepted data connection
+226-2671244 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 247.939 seconds (measured here), 1.25 Mbytes per second
+324796032 bytes transferred in 235.776 seconds. Transfer rate 1377.560 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 317184 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2671244 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50805|)
+150 Accepted data connection
+226-2672906 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 249.237 seconds (measured here), 1.25 Mbytes per second
+326498304 bytes transferred in 236.997 seconds. Transfer rate 1377.647 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 318846 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2672906 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50917|)
+150 Accepted data connection
+226-2672910 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 249.240 seconds (measured here), 1.25 Mbytes per second
+326502528 bytes transferred in 236.034 seconds. Transfer rate 1383.285 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 318851 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:29. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2672910 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50829|)
+150 Accepted data connection
+226-2672914 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 249.241 seconds (measured here), 1.25 Mbytes per second
+326506752 bytes transferred in 236.972 seconds. Transfer rate 1377.830 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 318855 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2672914 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50270|)
+150 Accepted data connection
+226-2672919 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 249.244 seconds (measured here), 1.25 Mbytes per second
+326510976 bytes transferred in 237.041 seconds. Transfer rate 1377.445 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 318859 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2672919 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50557|)
+150 Accepted data connection
+226-2672923 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 249.248 seconds (measured here), 1.25 Mbytes per second
+326515200 bytes transferred in 237.084 seconds. Transfer rate 1377.213 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 318863 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 20:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2672923 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50485|)
+150 Accepted data connection
+226-2672923 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 249.250 seconds (measured here), 1.25 Mbytes per second
+326515200 bytes transferred in 237.056 seconds. Transfer rate 1377.378 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 318863 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2672923 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50742|)
+150 Accepted data connection
+226-2715109 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 282.208 seconds (measured here), 1.25 Mbytes per second
+369714048 bytes transferred in 268.215 seconds. Transfer rate 1378.425 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 361049 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 3 of 500 allowed.
+220-Local time is now 20:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2715109 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50032|)
+150 Accepted data connection
+226-2715113 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 282.213 seconds (measured here), 1.25 Mbytes per second
+369718272 bytes transferred in 268.114 seconds. Transfer rate 1378.958 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 361053 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 10:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2715113 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50415|)
+150 Accepted data connection
+226-2715876 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 282.809 seconds (measured here), 1.25 Mbytes per second
+370499712 bytes transferred in 269.034 seconds. Transfer rate 1377.147 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 361817 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 20:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230-OK. Current restricted directory is /
+230 2715876 Kbytes used (25%) - authorized: 10485760 Kb
+UNIX Type: L8
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50208|)
+150 Accepted data connection
+226-2715893 Kbytes used (25%) - authorized: 10485760 Kb
+226-File successfully transferred
+226 282.832 seconds (measured here), 1.25 Mbytes per second
+370516608 bytes transferred in 269.078 seconds. Transfer rate 1376.985 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 361833 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 08:46. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+530 Login authentication failed
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 10:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+530 Login authentication failed
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 20:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+530 Login authentication failed
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 23.229.165.7 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 500 allowed.
+220-Local time is now 04:28. Server port: 21.
+220-This is a private system - No anonymous login
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (praveen):
+331 User as400@pixere.com OK. Password required
+530 Login authentication failed
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+You must first issue the USER subcommand.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 148.66.157.230 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 06:30. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User ankush OK. Password required
+UNIX Type: L8
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+> QUIT
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 148.66.157.230 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 06:35. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User ankush OK. Password required
+UNIX Type: L8
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+>
+Enter an FTP subcommand.
+> QUIT
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 148.66.157.230 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 06:38. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230 OK. Current restricted directory is /
+UNIX Type: L8
+Enter an FTP subcommand.
+> cd IATool Saia Installation
+250 OK. Current directory is /IATool Saia Installation
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia052421.savf
+229 Extended Passive mode OK (|||50334|)
+150 Accepted data connection
+226-File successfully transferred
+226 970.650 seconds (measured here), 508.41 Kbytes per second
+505334016 bytes transferred in 925.377 seconds. Transfer rate 546.085 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 493491 and downloaded 0 kbytes.
+221 Logout.
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 148.66.157.230 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 500 allowed.
+220-Local time is now 03:45. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230 OK. Current restricted directory is /
+UNIX Type: L8
+Enter an FTP subcommand.
+> cd IATool Saia Installation
+250 OK. Current directory is /IATool Saia Installation
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia101121.savf
+229 Extended Passive mode OK (|||50940|)
+150 Accepted data connection
+Output redirected to a file.
+Input read from specified override file.
+Connecting to remote host 148.66.157.230 using port 21.
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 3 of 500 allowed.
+220-Local time is now 03:47. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+Enter login ID (ankush):
+331 User as400@pixere.com OK. Password required
+230-Your bandwidth usage is restricted
+230 OK. Current restricted directory is /
+UNIX Type: L8
+Enter an FTP subcommand.
+> cd IATool Saia Installation
+250 OK. Current directory is /IATool Saia Installation
+Enter an FTP subcommand.
+> bin
+200 TYPE is now 8-bit binary
+Enter an FTP subcommand.
+> put backup/iatool.savf ia101121.savf
+229 Extended Passive mode OK (|||50959|)
+150 Accepted data connection
+226-File successfully transferred
+226 270.622 seconds (measured here), 421.14 Kbytes per second
+116704896 bytes transferred in 257.852 seconds. Transfer rate 452.605 KB/sec.
+Enter an FTP subcommand.
+> quit
+221-Goodbye. You uploaded 113970 and downloaded 0 kbytes.
+221 Logout.

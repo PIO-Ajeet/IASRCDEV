@@ -1,0 +1,54 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......: Program to build Meta Data                             //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAEMAILPF) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAEMAILPF(
+ EMPGMNAME       FOR COLUMN   EPGMNAME   CHAR(10)   NOT NULL WITH DEFAULT ' ',
+ EMRECIPINT      FOR COLUMN   ERECIPINT  CHAR(04)   NOT NULL WITH DEFAULT ' ',
+ EMEMAILID       FOR COLUMN   EEMAILID   CHAR(256)  NOT NULL WITH DEFAULT ' ',
+ EMSUBJECT       FOR COLUMN   ESUBJECT   CHAR(256)  NOT NULL WITH DEFAULT ' ',
+ EMCSVFILE       FOR COLUMN   ECSVFILENM CHAR(100)  NOT NULL WITH DEFAULT ' ',
+ EMFILEPATH      FOR COLUMN   EFILEPATH  CHAR(256)  NOT NULL WITH DEFAULT ' ',
+ EMMSGBODY       FOR COLUMN   EMSGBODY   CHAR(1000) NOT NULL WITH DEFAULT ' ',
+ EMSTATUS        FOR COLUMN   ESTATUS    CHAR(1)    NOT NULL WITH DEFAULT ' ',
+ EMUSERNAME      FOR COLUMN   EUSERNAME  CHAR(10)   NOT NULL WITH DEFAULT ' ',
+
+PRIMARY KEY (EMPGMNAME,EMRECIPINT,EMEMAILID))
+RCDFMT IAEMAILPFR;
+
+LABEL ON TABLE IAEMAILPF IS 'IA - SEND EMAIL DETAILS FILE';
+
+LABEL ON COLUMN IAEMAILPF(
+ EMPGMNAME     IS 'MEMBER NAME',
+ EMRECIPINT    IS 'EMAIL RCP',
+ EMEMAILID     IS 'EMAIL ADDRESS',
+ EMSUBJECT     IS 'SUBJECT',
+ EMCSVFILE     IS 'CSV FILE NAME',
+ EMFILEPATH    IS 'FILE PATH',
+ EMMSGBODY     IS 'MSG BODY',
+ EMSTATUS      IS 'STATUS',
+ EMUSERNAME    IS 'USER NAME');
+
+LABEL ON COLUMN IAEMAILPF(
+ EMPGMNAME  TEXT IS 'MEMBER NAME',
+ EMRECIPINT TEXT IS 'EMAIL RCP',
+ EMEMAILID  TEXT IS 'EMAIL ADDRESS',
+ EMSUBJECT  TEXT IS 'SUBJECT',
+ EMCSVFILE  TEXT IS 'CSV FILE NAME',
+ EMFILEPATH TEXT IS 'FILE PATH',
+ EMMSGBODY  TEXT IS 'MSG BODY',
+ ESTATUS    TEXT IS 'STATUS',
+ EMUSERNAME TEXT IS 'USER NAME');

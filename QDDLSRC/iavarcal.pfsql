@@ -1,0 +1,55 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAVARCAL) COMMIT(*NONE) NAMING(*SYS)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAVARCAL(
+ IVCAL_MBR         FOR COLUMN IVCALMBR      CHAR(10),
+ IVCAL_FILE        FOR COLUMN IVCALFILE     CHAR(10),
+ IVCAL_LIB         FOR COLUMN IVCALLIB      CHAR(10),
+ IVCAL_VARM        FOR COLUMN IVCALVAR      CHAR(50),
+ IVCAL_PGM         FOR COLUMN IVCALPGM      CHAR(10),
+ IVCAL_JOB         FOR COLUMN IVCALJOB      CHAR(10),
+ IVCAL_TYP         FOR COLUMN IVCALTYP      CHAR(10),
+ IVCAL_JOBD        FOR COLUMN IVCALJOBD     CHAR(10),
+ IVCAL_JOBQ        FOR COLUMN IVCALJOBQ     CHAR(10),
+ IVCAL_HOLD        FOR COLUMN IVCALHOLD     CHAR(1))
+RCDFMT IAOVRPFR;
+
+LABEL ON TABLE IAVARCAL IS 'IA FILE CALL DETAILS';
+
+LABEL ON COLUMN IAVARCAL(
+ IVCALMBR    IS 'SOURCE MEMBER',
+ IVCALFILE   IS 'SOURCE FILE',
+ IVCALLIB    IS 'SOURCE LIBRARY',
+ IVCALVAR    IS 'CALLED VARIABLE',
+ IVCALPGM    IS 'CALLED VARIABLE PGM',
+ IVCALJOB    IS 'JOB    NAME',
+ IVCALTYP    IS 'CALL   TYPE',
+ IVCALJOBD   IS 'JOB    DESCRIPTION',
+ IVCALJOBQ   IS 'JOB    QUEUE',
+ IVCALHOLD   IS 'JOB    HOLD');
+
+LABEL ON COLUMN IAVARCAL(
+ IVCALMBR      TEXT IS 'SOURCE MEMBER',
+ IVCALFILE     TEXT IS 'SOURCE FILE',
+ IVCALLIB      TEXT IS 'SOURCE LIBRARY',
+ IVCALVAR      TEXT IS 'CALLED VARIABLE',
+ IVCALPGM      TEXT IS 'CALLED VARIABLE PGM',
+ IVCALJOB      TEXT IS 'JOB    NAME',
+ IVCALTYP      TEXT IS 'CALL   TYPE',
+ IVCALJOBD     TEXT IS 'JOB    DESCRIPTION',
+ IVCALJOBQ     TEXT IS 'JOB    QUEUE',
+ IVCALHOLD     TEXT IS 'JOB    HOLD');

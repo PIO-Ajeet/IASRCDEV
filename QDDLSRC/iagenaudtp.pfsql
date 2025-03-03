@@ -1,0 +1,85 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 02/04/2024                                                         //
+--Developer........: Azhar Uddin                                                        //
+--Description......: Object / Source Mapping Audit File                                 //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date     Mod_ID      Developer   Case and Description                                 //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAGENAUDTP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Obj_Src_Mapping_Audit_Table(
+ Unique_Code   For Column UniqueCode  Char(10) Not Null With Default ' ',
+ Des_Text      For Column iADesText   Char(40) Not Null With Default ' ',
+ Mbr_Lib       For Column iAMbrLib    Char(10) Not Null With Default ' ',
+ Mbr_Srcpf     For Column iAMbrSrcPf  Char(10) Not Null With Default ' ',
+ Mbr_Name      For Column iAMbrName   Char(10) Not Null With Default ' ',
+ Mbr_Type      For Column iAMbrType   Char(10) Not Null With Default ' ',
+ Obj_Lib       For Column iAObjLib    Char(10) Not Null With Default ' ',
+ Obj_Name      For Column iAObjName   Char(10) Not Null With Default ' ',
+ Obj_Typ       For Column iAObjTyp    Char(10) Not Null With Default ' ',
+ Obj_Attr      For Column iAObjAttr   Char(10) Not Null With Default ' ',
+ Obj_Mbr_Dsc   For Column iAMbrObjD   Char(50) Not Null With Default ' ',
+ Proc_Name     For Column iAProcNm    Char(80) Not Null With Default ' ',
+ Proc_Type     For Column iAProcTyp   Char(1)  Not Null With Default ' ',
+ Crt_ByUser    For Column CrtUser     Char(10) Not Null With Default ' ',
+ Crt_ByPgm     For Column CrtPgm      Char(10) Not Null With Default ' ',
+ Crt_Timestam  For Column CrtOnTs     Timestamp Not Null with Default
+                                      Current Timestamp,
+ Chg_ByUser    For Column ChgUser     Char(10) Not Null With Default ' ',
+ Chg_ByPgm     For Column ChgPgm      Char(10) Not Null With Default ' ',
+ Chg_Timestam  For Column ChgOnTs     Timestamp Not Null For Each Row
+                                      On Update As Row Change Timestamp)
+Rcdfmt IaGenAudtR;
+
+Rename Table Obj_Src_Mapping_Audit_Table to System Name IAGENAUDTP;
+
+Label On Table Obj_Src_Mapping_Audit_Table
+Is 'Repository Health Report';
+
+Label On Column Obj_Src_Mapping_Audit_Table(
+ UniqueCode  Is 'Unique              Code',
+ iADesText   Is 'Description         Text',
+ iAMbrLib    Is 'Member              Library',
+ iAMbrSrcPf  Is 'Member              File',
+ iAMbrName   Is 'Member              Name',
+ iAMbrType   Is 'Member              Type',
+ iAObjLib    Is 'Object              Library',
+ iAObjName   Is 'Object              Name',
+ iAObjTyp    Is 'Object              Type',
+ iAObjAttr   Is 'Object              Attribute',
+ iAMbrObjD   Is 'Member/Object       Description',
+ iAProcNm    Is 'Procedure           Name',
+ iAProcTyp   Is 'Procedure           Type',
+ CrtUser     Is 'Created By          User',
+ CrtPgm      Is 'Created By          Program',
+ CrtOnTs     Is 'Created On          Timestamp',
+ ChgUser     Is 'Changed By          User',
+ ChgPgm      Is 'Changed By          Program',
+ ChgOnTs     Is 'Changed On          Timestamp');
+
+Label On Column Obj_Src_Mapping_Audit_Table(
+ UniqueCode  Text Is 'Unique Code',
+ iADesText   Text Is 'Description Text',
+ iAMbrLib    Text Is 'Member Library',
+ iAMbrSrcPf  Text Is 'Member File',
+ iAMbrName   Text Is 'Member Name',
+ iAMbrType   Text Is 'Member Type',
+ iAObjLib    Text Is 'Object Library',
+ iAObjName   Text Is 'Object Name',
+ iAObjTyp    Text Is 'Object Type',
+ iAObjAttr   Text Is 'Object Attribute',
+ iAMbrObjD   Text Is 'Member/Object Description',
+ iAProcNm    Text Is 'Procedure Name',
+ iAProcTyp   Text Is 'Procedure Type',
+ CrtUser     Text Is 'Created By User',
+ CrtPgm      Text Is 'Created By Program',
+ CrtOnTs     Text Is 'Created On Timestamp',
+ ChgUser     Text Is 'Changed By User',
+ ChgPgm      Text Is 'Changed By Program',
+ ChgOnTs     Text Is 'Changed On Timestamp');

@@ -1,0 +1,16 @@
+      /*%METADATA                                                     */
+      /* %TEXT RPG3 IA Pseudocode generation service Binder           */
+      /*%EMETADATA                                                    */
+             STRPGMEXP  SIGNATURE('IA_IAPCOD02SV')
+
+                EXPORT     SYMBOL('RPG3HSPECPARSER')
+                EXPORT     SYMBOL('RPG3FSPECPARSER')
+                EXPORT     SYMBOL('RPG3ESPECPARSER')
+                EXPORT     SYMBOL('RPG3ISPECPARSER')
+                EXPORT     SYMBOL('GETRPG3SPECSRCMAPPING')
+                EXPORT     SYMBOL('LOADRPG3DATATYPEMAP')
+                EXPORT     SYMBOL('RPG3CSPECPARSER')
+                EXPORT     SYMBOL('RPG3WRITECOMMENTEDTEXT')
+                EXPORT     SYMBOL('GETRPG3SPECSTOINCLUDE')
+
+             ENDPGMEXP

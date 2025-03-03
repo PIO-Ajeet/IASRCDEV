@@ -1,0 +1,81 @@
+       //* ------------------------------------------------------------------- *//
+       //*                                                                     *//
+       //*   NAME.............:                                                *//
+       //*   CREATED BY.......: Programmers.io                                 *//
+       //*   CREATE DATE......: 2019                                           *//
+       //*   DESCRIPTION......: This program handle Source Scan                *//
+       //*                                                                     *//
+       //*                                                                     *//
+       //*   CALLED FROM......: N/A                                            *//
+       //*     PARMS IN.......: 1                                              *//
+       //*                                                                     *//
+       //*   CALLS............: N/A                                            *//
+       //*     PARMS OUT......: N/A                                            *//
+       //*                                                                    *//
+       //* ------------------------------------------------------------------- *//
+       //*            - -   M O D I F I C A T I O N   L O G  - -               *//
+       //* ------------------------------------------------------------------- *//
+       //*                  (Most Current Project on Top)                      *//
+       //*   PROJECT/TASK.....: 574  (Mod Id : 0001)                           *//
+       //*   DESCRIPTION......: Procedure to retrieve message from IAMSGF      *//
+       //*   REVISED BY.......: Akhil K.                                       *//
+       //*   REVISED DATE.....: 14/02/24                                       *//
+       //*                                                                     *//
+       //* ------------------------------------------------------------------- *//
+       // Send Message message API...
+       Dcl-pr SendMessage ExtPgm('QMHSNDPM');
+         S_MessageID         Like(wkMessageID)   Const ;
+         S_MessageFile       Like(MessageFile) Const ;
+         S_MessageData       Like(MessageData) Const ;
+         S_MessageLen        Like(MessageLen)  Const ;
+         S_MessageType       Like(MessageType) Const ;
+         S_CallStack         Like(CallStack)   Const ;
+         S_CallStackC        Like(CallStackC)  Const ;
+         S_MessageKey        Like(MessageKey);
+         S_MessageErr        Like(MessageErr);
+       End-pr ;
+
+       Dcl-pr RtvMessage ExtPgm('QMHRTVM');                                              //0001
+         S_MsgInfo           Like(messageDesc) Const ;                                   //0001
+         S_MsgInfoLen        Int(10)           Const ;                                   //0001
+         S_ReturnFmt         Char(8)           Const ;                                   //0001
+         S_MsgId             Char(7)           Const ;                                   //0001
+         S_MsgFile           Char(20)          Const ;                                   //0001
+         S_MsgData           Char(180)         Const ;                                   //0001
+         S_MsgDataLen        Int(10)           Const ;                                   //0001
+         S_ReplSubst         Char(10)          Const ;                                   //0001
+         S_RtnCtrl           Char(10)          Const ;                                   //0001
+         S_MessageErr        Like(MessageErr);                                           //0001
+       End-pr ;                                                                          //0001
+
+       // Remove program message API...
+       Dcl-pr RemoveMessage  ExtPgm('QMHRMVPM') ;
+         R_CallStack       Like(CallStack)  Const ;
+         R_CallStackC      Like(CallStackC) Const ;
+         R_MessageKey      Like(MessageKey) Const ;
+         R_RemoveCode      Like(RemoveCode) Const ;
+         R_MessageErr      Like(MessageErr);
+       End-pr;
+
+       Dcl-ds messageData len(80);
+         message1 char(20);
+         message2 char(20);
+       End-ds;
+
+       Dcl-ds messageDesc len(256) qualified;                                                 //0001
+         message1 char(24);                                                                   //0001
+         message2 char(232);                                                                  //0001
+       End-ds;                                                                                //0001
+
+       // Standalone Variable message API...
+       //Dcl-s WkMessageID   char(7)  INZ('       ');
+       Dcl-s WkMessageID   char(7)  INZ('       ');
+       Dcl-s MessageType   char(10) INZ('*INFO');
+       Dcl-s CallStack     char(10) INZ('*');
+       Dcl-s CallStackC    Int(10:0)INZ;
+       Dcl-s MessageKey    char(4)  INZ;
+       Dcl-s RMessageKey   char(4)  INZ;
+       Dcl-s MessageErr    varchar(256) INZ;
+       Dcl-s RemoveCode    char(10) INZ('*ALL');
+       Dcl-s MessageLen    Int(10:0)INZ;
+       Dcl-s MessageFile   char(20) INZ('IAMSGF    #IADTA ');

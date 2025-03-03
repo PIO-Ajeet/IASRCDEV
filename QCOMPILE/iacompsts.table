@@ -1,0 +1,44 @@
+      --%METADATA                                                      *
+      -- %TEXT IATOOL COMPILATION STATUS TABLE                         *
+      --%EMETADATA                                                     *
+-----------------------------------------------------------------
+--                                                             --
+--                                                             --
+-----------------------------------------------------------------
+
+
+CREATE TABLE IACOMPSTS (
+   PFCOMPID CHAR(20) CCSID 37 NOT NULL DEFAULT '',
+   PFSRCLIB CHAR(10) CCSID 37 NOT NULL DEFAULT '',
+   PFSRCFIL CHAR(10) CCSID 37 NOT NULL DEFAULT '',
+   PFSRCMBR CHAR(10) CCSID 37 NOT NULL DEFAULT '',
+   PFSRCTYP CHAR(10) CCSID 37 NOT NULL DEFAULT '',
+   PFOBJLIB CHAR(10) CCSID 37 NOT NULL DEFAULT '',
+   PFCMPSTS CHAR(50) CCSID 37 NOT NULL DEFAULT '',
+   PFUESRID CHAR(10) CCSID 37 NOT NULL DEFAULT '',
+   PFTIMSTM TIMESTAMP NOT NULL default CURRENT_TIMESTAMP )
+RCDFMT IACOMPSTSA;
+
+LABEL ON TABLE IACOMPSTS is 'IATOOL COMPILATION STATUS TABLE';
+
+LABEL ON COLUMN IACOMPSTS(
+   PFCOMPID  IS  'Compilation ID',
+   PFSRCLIB  IS  'Source Library',
+   PFSRCFIL  IS  'Source Physical File ',
+   PFSRCMBR  IS  'Source Member',
+   PFSRCTYP  IS  'Source Member Type',
+   PFOBJLIB  IS  'Object Library',
+   PFCMPSTS  IS  'Compilation Status',
+   PFUESRID  IS  'Compiled By User',
+   PFTIMSTM  IS  'Compilation Timestamp');
+
+LABEL ON COLUMN IACOMPSTS(
+   PFCOMPID  TEXT IS  'Compilation ID',
+   PFSRCLIB  TEXT IS  'Source Library',
+   PFSRCFIL  TEXT IS  'Source Physical File ',
+   PFSRCMBR  TEXT IS  'Source Member',
+   PFSRCTYP  TEXT IS  'Source Member Type',
+   PFOBJLIB  TEXT IS  'Object Library',
+   PFCMPSTS  TEXT IS  'Compilation Status',
+   PFUESRID  TEXT IS  'Compiled By User',
+   PFTIMSTM  TEXT IS  'Compilation Timestamp');

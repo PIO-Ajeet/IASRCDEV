@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                              //
+--Created Date.....: 2023/09/07                                                         //
+--Developer........: Alok Kumar                                                         //
+--Description......: IA KeyWord Control Table                                           //
+--------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                     //
+--------------------------------------------------------------------------------------- //
+--DATE    | MOD_ID | DEVELOPER  | CASE AND DESCRIPTION                                  //
+----------|--------|------------|------------------------------------------------------ //
+--10/10/23| 0001   | Alok Kumar | Added Field iaSplVal  - 1 char field                  //
+--        |        |            | Removed the Primary Key from this table               //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAKEYWORDP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table KeyWord_And_OpCodes_Control_Table(
+
+ Keyword_Member    For Column iAKeyMbrTp  Char(10)  Not Null With Default ' ',
+ Keyword_Type      For Column iAKeyWrdTp  Char(10)  Not Null With Default ' ',
+ Keyword_Name      For Column iAKeyWord   Char(25)  Not Null With Default ' ',
+ Special_Val       For Column iaSplVal    Char(1)   Not Null With Default ' ')           --0001
+
+Rcdfmt iAKeyWordR;
+
+Rename Table KeyWord_And_OpCodes_Control_Table To System Name iAKeyWordP;
+
+Label On Table KeyWord_And_OpCodes_Control_Table Is
+'IA Keyword & Opcode Control Table';
+
+Label On Column KeyWord_And_OpCodes_Control_Table(
+ iAKeyMbrTp  Is 'Member              Type',
+ iAKeyWrdTp  Is 'Keyword             Type',
+ iAKeyWord   Is 'Keyword             Name',
+ iaSplVal    Is 'Special             Value');                                            --0001
+
+Label On Column KeyWord_And_OpCodes_Control_Table(
+ iAKeyMbrTp  Text Is 'Member Type',
+ iAKeyWrdTp  Text Is 'Keyword Type',
+ iAKeyWord   Text Is 'Keyword Name',
+ iaSplVal    Text Is 'Special Value');                                                   --0001

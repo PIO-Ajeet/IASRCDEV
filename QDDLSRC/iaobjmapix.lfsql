@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2023/11/30                                                        //
+--Developer........: Akhil Kallur                                                      //
+--Description......: Index on IAOBJMAP file based on IAOBJNAM, IAOBJLIB & IAOBJTYP     //
+-------------------------------------------------------------------------------------- //
+--Modification Log:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAOBJMAPIX) COMMIT(*NONE) DFTRDBCOL(#IADTA) //
+-------------------------------------------------------------------------------------- //
+Create Index iAObjMapIx on iAObjMap(iAObjNam Asc,
+                                    iAObjLib Asc,
+                                    iAObjTyp Asc)
+
+Rcdfmt iAObjMapIR;
+
+Label on Index iAObjMapIx is 'Index iAObjMap: iAObjNam, iAObjLib, iAObjTyp';

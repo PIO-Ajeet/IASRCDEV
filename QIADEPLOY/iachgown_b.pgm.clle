@@ -1,0 +1,77 @@
+      /*%METADATA                                                     */
+      /* %TEXT Change all object owners to QPGMR                      */
+      /*%EMETADATA                                                    */
+             PGM
+
+             DCL        VAR(&OWNER) TYPE(*CHAR) LEN(10) +
+                          VALUE('QPGMR')
+             DCL        VAR(&ISEOF) TYPE(*CHAR) LEN(1)
+             dcl &outfile *char 10
+
+             DCLF       FILE(#IADTA/IAOUT)
+
+             CLRPFM     FILE(#IADTA/IAOUT)
+             MONMSG     MSGID(CPF0000)
+
+             chgvar &outfile 'IAOUT'
+             CALLSUBR   SUBR(GETOBJETS)
+
+             RCVF       RCDFMT(QLIDOBJD)
+             MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(EXIT))
+             DOWHILE    COND(1 = 1)
+
+                GRTOBJAUT  OBJ(&ODLBNM/&ODOBNM) OBJTYPE(&ODOBTP) +
+                             USER(*PUBLIC) AUT(*ALL)
+
+                CHGOBJOWN  OBJ(&ODLBNM/&ODOBNM) OBJTYPE(&ODOBTP) +
+                             NEWOWN(&OWNER)
+
+                RCVF       RCDFMT(QLIDOBJD)
+                MONMSG     MSGID(CPF0000) EXEC(LEAVE)
+             ENDDO
+             CLRPFM     FILE(#IADTA/IAOUT1)
+             MONMSG     MSGID(CPF0000)
+
+             chgvar &outfile 'IAOUT1'
+             CALLSUBR   SUBR(GETOBJETS)
+
+             SUBR       SUBR(GETOBJETS)
+                DSPOBJD    OBJ(QSYS/#IA*) OBJTYPE(*LIB) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile)
+                DSPOBJD    OBJ(QSYS/IASRCV3) OBJTYPE(*LIB) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+                DSPOBJD    OBJ(QSYS/IAOBJBETA) OBJTYPE(*LIB) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+                DSPOBJD    OBJ(QSYS/IADTABETA) OBJTYPE(*LIB) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+
+                DSPOBJD    OBJ(#IAOBJ/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+                DSPOBJD    OBJ(IAOBJBETA/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+
+                DSPOBJD    OBJ(#IADTA/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+                DSPOBJD    OBJ(IADTABETA/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+
+                DSPOBJD    OBJ(#IASRC/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+                DSPOBJD    OBJ(IASRCV3/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+
+                DSPOBJD    OBJ(#IACOMPILE/*ALL) OBJTYPE(*ALL) +
+                             OUTPUT(*OUTFILE) OUTFILE(#IADTA/&outfile) +
+                             OUTMBR(*FIRST *ADD)
+             ENDSUBR
+
+ EXIT:       ENDPGM

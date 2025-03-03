@@ -1,0 +1,80 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2020                                              //
+--Created Date.....: 2022/08/23                                                         //
+--Developer........: Pranav Joshi                                                       //
+--Description......: Object refrence History table                                      //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date-DMY | Mod_ID | Developer  | Case and Description                                 //
+-----------|--------|------------|----------------------------------------------------- //
+--04/10/23 |  0001  | Vipul P.   | Rename file AIALLREFHF to IAALLREFHF.(Task No.#244)  //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAALLREFHF) COMMIT(*NONE)                    //
+--------------------------------------------------------------------------------------- //
+
+Create or replace table IAALLREFHF(                                                      --0001
+
+ Library_Name      for column IAOOBJLIB   char(10)  not null with default ' ',
+ Object_Name       for column IAOOBJNAM   char(10)  not null with default ' ',
+ Object_Type       for column IAOOBJTYP   char(10)  not null with default ' ',
+ Object_Attr       for column IAOOBJATR   char(10)  not null with default ' ',
+ Object_Text       for column IAOOBJTXT   char(50)  not null with default ' ',
+ Referenced_Obj    for column IAROBJNAM   char(11)  not null with default ' ',
+ Referenced_ObjTyp for column IAROBJTYP   char(11)  not null with default ' ',
+ Referenced_ObjLib for column IAROBJLIB   char(11)  not null with default ' ',
+ Referenced_ObjUsg for column IARUSAGES   char(10)  not null with default ' ',
+ File_Usages       for column IAFILEUSG   char(10)  not null with default ' ',
+ Maped_From        for column IAMAPFRM    char(7)   not null with default ' ',
+ Crt_Pgm_Name      for column IACRTPGMN   char(10)  not null with default ' ',
+ Crt_Usr_Name      for column IACRTUSRN   char(10)  not null with default ' ',
+ Crt_Timestamp     for column IACRTTIMS   timestamp not null default
+                                          current timestamp,
+ Upd_Pgm_Name      for column IAUPDPGMN   CHAR(10)  not null with default ' ',
+ Upd_Usr_Name      for column IAUPDUSRN   CHAR(10)  not null default '',
+
+ Upd_Timestamp     for column IAUPDTIMS   timestamp not null for each row
+                                          on update as row change timestamp)
+rcdfmt AIALLREFHR;
+
+Label on table IAALLREFHF is 'IA Src And Obj Reference History Table';                   --0001
+
+Label on column IAALLREFHF(                                                              --0001
+ IAOOBJLIB   IS 'Library             Name',
+ IAOOBJNAM   IS 'Object              Name',
+ IAOOBJTYP   IS 'Object              Type',
+ IAOOBJATR   IS 'Object              Attribute',
+ IAOOBJTXT   IS 'Object              Text',
+ IAROBJNAM   IS 'Referenced          Object',
+ IAROBJTYP   IS 'Referenced          Object              Type',
+ IAROBJLIB   IS 'Referenced          Object              Library',
+ IARUSAGES   IS 'Referenced          Object              Usages',
+ IAFILEUSG   IS 'File                Usages',
+ IAMAPFRM    IS 'Mapped              Based               On',
+ IACRTPGMN   IS 'Create              Program             Name',
+ IACRTUSRN   IS 'Create              User                Name',
+ IACRTTIMS   IS 'Create              Timestamp',
+ IAUPDPGMN   IS 'Update              Program             Name',
+ IAUPDUSRN   IS 'Update              User                Name',
+ IAUPDTIMS   IS 'Update              Timestamp');
+
+ Label On column IAALLREFHF(                                                             --0001
+  IAOOBJLIB   Text is 'Library Name',
+  IAOOBJNAM   Text is 'Object Name',
+  IAOOBJTYP   Text is 'Object Type',
+  IAOOBJATR   Text is 'Object Attribute',
+  IAOOBJTXT   Text is 'Object Text',
+  IAROBJNAM   Text is 'Referenced Object',
+  IAROBJTYP   Text is 'Referenced Object Type',
+  IAROBJLIB   Text is 'Referenced Object Library',
+  IARUSAGES   Text is 'Referenced Object Usages',
+  IAFILEUSG   Text is 'File Usages',
+  IAMAPFRM    Text is 'Mapped Based On',
+  IACRTPGMN   Text is 'Create Program Name',
+  IACRTUSRN   Text is 'Create User Name',
+  IACRTTIMS   Text is 'Create Timestamp',
+  IAUPDPGMN   Text is 'Update Program Name',
+  IAUPDUSRN   Text is 'Update User Name',
+  IAUPDTIMS   Text is 'Update Timestamp');

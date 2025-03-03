@@ -1,0 +1,34 @@
+      /*%METADATA                                                     */
+      /* %TEXT iA Tool Compilation Utility                            */
+      /*%EMETADATA                                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Copyright © Programmers.Io, 2021 All rights reserved.                     */
+ /*--------------------------------------------------------------------------*/
+ /*Program: iA Tool Compilation Utility                                      */
+ /*--------------------------------------------------------------------------*/
+ /*Description:                                                              */
+ /*iA Tool requires compiling of all sources of SOURCE library. After compil-*/
+ /*ation, it requires to complete packaging activities.                      */
+ /*This program calls 3 programs:                                            */
+ /*- IA_DBCOMP                                                               */
+ /*- IA_SRCCOMP                                                              */
+ /*- IA_CRTSAVF                                                              */
+ /*--------------------------------------------------------------------------*/
+ /*Modification Log:                                                         */
+ /*-----------------                                                         */
+ /*--------------------------------------------------------------------------*/
+
+             PGM
+             COPYRIGHT  TEXT('Copyright © Programmers.Io, 2021 All rights +
+                        reserved.')
+
+             /*First compile all files - database and device files */
+             CALL       PGM(IA_DBCOMP)
+             /*Next compile all programs */
+             CALL       PGM(IA_SRCCOMP)
+             /*Next create SAVF          */
+             CALL       PGM(IA_CRTSAVF)
+             /*Next FTP process          */
+             /*CALL       PGM(IA_FTPCL)  */
+
+             ENDPGM

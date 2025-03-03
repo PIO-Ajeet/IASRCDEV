@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------------------- //
+--Created By........: Programmers.io @ 2022                                             //
+--Created Date......: 2023/01/31                                                        //
+--Developer.........: Sarvesh Barnwal                                                   //
+--Description.......: IA Cross Repository Library List Backup File                      //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date      Mod_ID      Developer   Case and Description                                //
+--YY/MM/DD  ----------  ----------  --------------------------------------------------- //
+--xx/xx/xx  R001        Sarvesh     Base Version.                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAREFLIBP) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Repository_Library_Backup(
+ Xref_Name        For Column MRefNam   Char(10)       Not Null With Default ' ',
+ Library_Name     For Column MLibNam   Char(10)       Not Null With Default ' ',
+ Library_SeqNo    For Column MLibSeq   Decimal(4,0)   Not Null With Default 0,
+ Crt_ByUser       For Column CrtUser   Char(10)       Not Null With Default ' ',
+ Crt_TimeStam     For Column CrtOnTS   TimeStamp      Not Null Default
+                                                      Current  TimeStamp)
+RcdFmt IaRefLibPr;
+
+Rename table Repository_Library_Backup to System Name IaRefLibP;
+
+Label On Table Repository_Library_Backup Is 'IA Cross Repo Library Backup File';
+
+Label On Column Repository_Library_Backup(
+ MRefNam     Is 'Cross Reference     Name',
+ MLibNam     Is 'Library             Name',
+ MLibSeq     Is 'Library             Sequence No',
+ CrtUser     Is 'Created By          User',
+ CrtOnTS     Is 'Created On          TimeStamp');
+
+Label On Column Repository_Library_Backup(
+ MRefNam  Text Is 'Cross Reference Name',
+ MLibNam  Text Is 'Library Name',
+ MLibSeq  Text Is 'Library Sequence No',
+ CrtUser  Text Is 'Created By User',
+ CrtOnTS  Text Is 'Created On TimeStamp');

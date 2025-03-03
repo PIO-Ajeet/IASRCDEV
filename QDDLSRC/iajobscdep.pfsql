@@ -1,0 +1,65 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/02/22                                                         //
+--Developer........: Manasa Shanmugam                                                   //
+--Description......: Save Scheduler Entries Table.                                      //
+--------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAJOBSCDEP) COMMIT(*NONE)                    //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table IA_Scheduled_Job_Detail(
+ Repo_Name          For Column IaRepoNm   Char(10) Not Null With Default ' ',
+ Process_Type       For Column IaProcTyp  Char(10) Not Null With Default ' ',
+ Sch_Job_Name       For Column IaSchJobNm Char(10) Not Null With Default ' ',
+ Job_Queue          For Column IaJobQNm   Char(10) Not Null With Default ' ',
+ Process_date       For Column IaPrDate   Char(10) Not Null With Default ' ',
+ Process_Time       For Column IaPrTime   Char(8)  Not Null With Default ' ',
+ Frequency          For Column IaFreq     Char(8)  Not Null With Default ' ',
+ Schedule_Day       For Column IaSchDay   Char(35) Not Null With Default ' ',
+ Relative_Day       For Column IaRtvDay   Char(25) Not Null With Default ' ',
+ User_Id            For Column IaUsrId    Char(10) Not Null With Default ' ',
+ Crt_Timestamp      For Column IaCrtTs    TIMESTAMP Not Null Default
+                                          CURRENT TIMESTAMP,
+ Chg_Timestamp      For Column IaChgTs    TIMESTAMP Not Null For Each ROW
+                                          On Update as ROW CHANGE TIMESTAMP)
+Rcdfmt IAJOBSCDER;
+
+Rename table IA_Scheduled_Job_Detail to System Name IAJOBSCDEP;
+
+Label On Table IA_Scheduled_Job_Detail Is 'Scheduler entry Table' ;
+
+Label On Column IA_Scheduled_Job_Detail(
+ IaRepoNm    Is 'Repository          Name',
+ IaProcTyp   Is 'Process             Type',
+ IaSchJobNm  Is 'Scheduler Job       Name',
+ IaJobQNm    Is 'Job Queue           Name',
+ IaPrDate    Is 'Process             Date',
+ IaPrTime    Is 'Process             Time',
+ IaFreq      Is 'Frequency',
+ IaSchDay    Is 'Schedule            Day',
+ IaRtvDay    Is 'Relative            Day',
+ IaUsrId     Is 'User                Id',
+ IaCrtTs     Is 'Create              Timestamp',
+ IaChgTs     Is 'Change              Timestamp');
+
+Label On Column IA_Scheduled_Job_Detail(
+ IaRepoNm    Text Is 'Repository Name',
+ IaProcTyp   Text Is 'Process Type',
+ IaSchJobNm  Text Is 'Scheduler Job Name',
+ IaJobQNm    Text Is 'Job Queue',
+ IaPrDate    Text Is 'Process Date',
+ IaPrTime    Text Is 'Process Time',
+ IaFreq      Text Is 'Frequency',
+ IaSchDay    Text Is 'Schedule Day',
+ IaRtvDay    Text Is 'Relative Day',
+ IaUsrId     Text Is 'User Id',
+ IaCrtTs     Text Is 'Create Timestamp',
+ IaChgTs     Text Is 'Change Timestamp');

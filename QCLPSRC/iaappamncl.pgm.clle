@@ -1,0 +1,76 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA - App Area Maintenance Driver Program               */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2024                                              */
+/*Created Date.....: 2024/09/02                                                         */
+/*Developer........: Programmers.io                                                     */
+/*Description......: IA - Application Area Maintainence Driver Program                  */
+/*Procedure Log....:                                                                    */
+/*                   -----------------                                                  */
+/*                   Input Parameters:                                                  */
+/*                   -----------------                                                  */
+/*                   inRepo           -  Repo Name                                      */
+/*                  inAppAreaName    -  Application Area Name                          */
+/*                  inOperationMode  -  Operation Mode                                 */
+/*                   inUserId         -  Input User                                     */
+/*                   inEnvLib         -  Environment Library                            */
+/*                   ------------------                                                 */
+/*                   Output Parameters:                                                 */
+/*                   ------------------                                                 */
+/*                   outStatus          - Status                                        */
+/*                   outMessage         - Message                                       */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*-------------------------|----------------------------------------------------------- */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date    | ModID  | Developer  | Case and Description                                  */
+/*--------|--------|------------|------------------------------------------------------ */
+/*                                                                                      */
+/*------------------------------------------------------------------------------------- */
+             PGM        PARM(&INREPO &INAPPANAME &INOPERMODE +
+                          &INUSERID  &INENVLIB   &OUTSTATUS  +
+                          &OUTMESSAGE)
+
+             /*Processing Options */
+             DCLPRCOPT  DFTACTGRP(*NO)   ACTGRP(*NEW)
+
+             /*Parameter Declarations */
+             DCL        VAR(&INREPO)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INAPPANAME) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&INOPERMODE) TYPE(*CHAR) LEN(3)
+             DCL        VAR(&INUSERID)   TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INENVLIB)   TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OUTSTATUS)  TYPE(*CHAR) LEN(1)
+             DCL        VAR(&OUTMESSAGE) TYPE(*CHAR) LEN(80)
+
+             /*Variable Declarations */
+             DCL        VAR(&STATUS) TYPE(*LGL)
+
+             CALL       PGM(&INENVLIB/IASETENV) PARM((&INENVLIB) +
+                          (&STATUS))
+
+             /*Add repository library in library list */
+             ADDLIBLE   LIB(&INREPO) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+
+             DLTF       FILE(QTEMP/TEMPAPPDTL)
+             MONMSG     MSGID(CPF0000)
+
+             /*Creating temporary table for objects */
+             CRTDUPOBJ  OBJ(IAAPPAOBJL) FROMLIB(*LIBL) +
+                          OBJTYPE(*FILE) TOLIB(QTEMP) +
+                          NEWOBJ(TEMPAPPDTL) CST(*NO) TRG(*NO)
+
+             CALL       PGM(IAAPPAMNTR) PARM((&INREPO)(&INAPPANAME)(&INOPERMODE) +
+                                            (&INUSERID)(&OUTSTATUS)(&OUTMESSAGE))
+
+             /*Deleting the temporary table */
+             DLTF       FILE(QTEMP/TEMPAPPDTL)
+             MONMSG     MSGID(CPF0000)
+
+             ENDPGM

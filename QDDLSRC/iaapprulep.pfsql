@@ -1,0 +1,112 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/29/08                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: Application Area Rules Table                                       //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--                                                                                      //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction:                                                              //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAAPPRULEP) COMMIT(*NONE)                    //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Application_Area_Rules(
+ Repo_Name            For Column iARepoNam  Char(10) Not Null With Default ' ',
+ App_Area_Name        For Column iAAppANam  Char(20) Not Null With Default ' ',
+ Rule_Seq_No          For Column iARulSeqNo Decimal(3,0)
+                                                      Not Null With Default 0,
+ Rule_Type            For Column iARuleType Char(1)  Not Null With Default ' ',
+ Object_Name            For Column iAObjNam  Char(10) Not Null With Default ' ',
+ Object_Name_Condition  For Column iAObNmCon Char(2)  Not Null With Default ' ',
+ Object_Type            For Column iAObjTyp  Char(8)  Not Null With Default ' ',
+ Object_Type_Condition  For Column iAObTpCon Char(2)  Not Null With Default ' ',
+ Library_Name           For Column iALibNam  Char(10) Not Null With Default ' ',
+ Library_Name_Condition For Column iALbNmCon Char(2)  Not Null With Default ' ',
+ Created_Date           For Column iACrtDat   Decimal(8,0)
+                                                      Not Null With Default 0 ,
+ Created_Date_Condition For Column iACrDtCon Char(2)  Not Null With Default ' ',
+ Last_Used_Date         For Column iAUseDat  Decimal(8,0)
+                                                      Not Null With Default 0 ,
+ Used_Date_Condition    For Column iAUDatCon Char(2)  Not Null With Default ' ',
+ Change_Date            For Column iAChgDat  Decimal(8,0)
+                                                      Not Null With Default 0 ,
+ Change_Date_Condition  For Column iACgDtCon Char(2)  Not Null With Default ' ',
+ Days_Used_Count        For Column iADuCnt   Decimal(5,0)
+                                                      Not Null With Default 0 ,
+ Days_Used_Condition    For Column iADuCtCon Char(2)  Not Null With Default ' ',
+ Include_Referred_Pgms  For Column iARfdPgm  Char(1)  Not Null With Default ' ',
+ Include_Referring_Pgms For Column iARfrPgm  Char(1)  Not Null With Default ' ',
+ Include_Ref_File       For Column iARefFil  Char(1)  Not Null With Default ' ',
+ Created_User           For Column iACrtUsr  Char(10) Not Null
+                                                      With Default 'USER JOB',
+ Created_TimeStamp      For Column iACrtDtTm  TimeStamp Not Null Default
+                                                        Current TimeStamp ,
+ Updated_User           For Column iAUpdUsr   Char(10) Not Null
+                                                       With Default 'USER JOB',
+ Update_TimeStamp       For Column iAUpdDtTm  TimeStamp Not Null For Each ROW
+                                              On Update As Row Change TimeStamp)
+
+RcdFmt iAAppRulpR ;
+
+Rename Table Application_Area_Rules to System Name iAAppRuleP ;
+
+Label On Table iAAppRuleP Is 'Application Area Rules';
+
+Label On Column iAAppRuleP (
+ iARepoNam   Is 'Repo                Name',
+ iAAppANam   Is 'Application         Area                Name',
+ iARulSeqNo  Is 'Rule                Sequence            Number',
+ iARuleType  Is 'Rule                Type',
+ iAObjNam    Is 'Object              Name',
+ iAObNmCon   Is 'Object              Name                Condition',
+ iAObjTyp    Is 'Object              Type',
+ iAObTpCon   Is 'Object              Type                Condition',
+ iALibNam    Is 'Library             Name',
+ iALbNmCon   Is 'Library             Name                Condition',
+ iACrtDat    Is 'Created             Date',
+ iACrDtCon   Is 'Created             Date                Condition',
+ iAUseDat    Is 'Last                Used                Date',
+ iAUDatCon   Is 'Used                Date                Condition',
+ iAChgDat    Is 'Changed             Date',
+ iACgDtCon   Is 'Changed             Date                Condition',
+ iADuCnt     Is 'Days                Used                Count',
+ iADuCtCon   Is 'Days                Used                Condition',
+ iARfdPgm    Is 'Include             Referred            Programs',
+ iARfrPgm    Is 'Include             Referring           Programs',
+ iARefFil    Is 'Include             Referred            Files',
+ iACrtUsr    Is 'Created             User',
+ iACrtDtTm   Is 'Created             TimeStamp',
+ iAUpdUsr    Is 'Updated             User',
+ iAUpdDtTm   Is 'Updated             TimeStamp');
+
+Label On Column iAAppRuleP (
+ iARepoNam   Text Is 'Repo Name',
+ iAAppANam   Text Is 'Application Area Name',
+ iARulSeqNo  Text Is 'Rule Sequence Number',
+ iARuleType  Text Is 'Rule Type',
+ iAObjNam    Text Is 'Object Name',
+ iAObNmCon   Text Is 'Object Name Condition',
+ iAObjTyp    Text Is 'Object Type',
+ iAObTpCon   Text Is 'Object Type Condition',
+ iALibNam    Text Is 'Library Name',
+ iALbNmCon   Text Is 'Library Name Condition',
+ iACrtDat    Text Is 'Created Date',
+ iACrDtCon   Text Is 'Created Date Condition',
+ iAUseDat    Text Is 'Last Used Date',
+ iAUDatCon   Text Is 'Used Date Condition',
+ iAChgDat    Text Is 'Changed Date',
+ iACgDtCon   Text Is 'Changed Date Condition',
+ iADuCnt     Text Is 'Days Used Count',
+ iADuCtCon   Text Is 'Days Used Condition',
+ iARfdPgm    Text Is 'Include Referred Programs',
+ iARfrPgm    Text Is 'Include Referring Programs',
+ iARefFil    Text Is 'Include Referred Files',
+ iACrtUsr    Text Is 'Created User',
+ iACrtDtTm   Text Is 'Created TimeStamp',
+ iAUpdUsr    Text Is 'Updated User',
+ iAUpdDtTm   Text Is 'Updated TimeStamp');

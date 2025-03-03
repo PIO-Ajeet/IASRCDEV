@@ -1,0 +1,10 @@
+      /*%METADATA                                                     */
+      /* %TEXT Exportable symbol of Exception/Error log               */
+      /*%EMETADATA                                                    */
+             STRPGMEXP  SIGNATURE('IAERROR_LOG')
+
+                EXPORT     SYMBOL('IAPSSRERRORLOG')
+                EXPORT     SYMBOL('IASQLDIAGNOSTIC')
+
+             ENDPGMEXP
+

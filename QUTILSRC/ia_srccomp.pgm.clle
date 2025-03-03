@@ -1,0 +1,315 @@
+      /*%METADATA                                                     */
+      /* %TEXT iA Tool Compilation Utility for Programs               */
+      /*%EMETADATA                                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Copyright © Programmers.Io, 2021 All rights reserved.                     */
+ /*--------------------------------------------------------------------------*/
+ /*Program: iA Tool Compilation Utility for Programs                         */
+ /*--------------------------------------------------------------------------*/
+ /*Description:                                                              */
+ /*iA Tool requires compiling of all sources of #IASRC library.              */
+ /*- 1. It deletes the OLD backup library, if exist. Then, lists out all     */
+ /*     members of source file into QTEMP library.                           */
+ /*- 2. It renames DATA and OBJECT libraries as OLD library. So, that we can */
+ /*     have backup, if anything goes wrong during running utility.          */
+ /*- 3. It creates IABNDDIR binding directory.                               */
+ /*- 4. It creates service programs and add to above binding directory.      */
+ /*- 5. It y data back from OLD library for important files nerated in DATA  */
+ /*     library for PFSQL, DSPF and PRTF source types.                       */
+ /*Notes:                                                                    */
+ /*- 1. All objects created for after compilation will be generated in DATA  */
+ /*     library for PFSQL, DSPF and PRTF source types.                       */
+ /*- 2. All objects created for after compilation will be generated in OBJECT*/
+ /*     library for RPGLE, SQLRPGLE, CLP, CLLE source types.                 */
+ /*--------------------------------------------------------------------------*/
+ /*Modification Log:                                                         */
+ /*-----------------                                                         */
+ /*AK - 11th Oct 21 - Create IATOOL command at last of compilation and grant */
+ /*                 object authority to *Public and cjange object owner as   */
+ /*                 QPGMR. Also delete spool file generated.                 */
+ /*                 - Use harcoded #IAUTIL/IA_SRCCOMP for DSPPGMREF to avoid */
+ /*                 abend when CLRLIB is taken manually for library #IAOBJ.  */
+ /*--------------------------------------------------------------------------*/
+
+             PGM
+             COPYRIGHT  TEXT('Copyright © Programmers.Io,2021 All rights +
+                        reserved.')
+
+             /*Declaration Section */
+             DCL        VAR(&SRCLIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DTALIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJLIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJLIB_OLD) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OWNER)      TYPE(*CHAR) LEN(10)
+             DCL        VAR(&ERROR)      TYPE(*CHAR) LEN(01)
+             DCL        VAR(&SRCFLG)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&SRCFG1)     TYPE(*CHAR) LEN(10)
+
+             /*Declaration of File */
+             DCLF       FILE(QSYS/QAFDMBRL) OPNID(F1)
+             DCLF       FILE(QSYS/QAFDMBRL) OPNID(F2)
+
+             /*Retrieving SOURCE, DATA and OBJECT library name */
+             RTVDTAARA  DTAARA(AICTLDTA (01 10)) RTNVAR(&SRCLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (11 10)) RTNVAR(&DTALIB)
+             RTVDTAARA  DTAARA(AICTLDTA (21 10)) RTNVAR(&OBJLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (61 10)) RTNVAR(&SRCFLG)
+             RTVDTAARA  DTAARA(AICTLDTA (71 10)) RTNVAR(&OWNER)
+
+             /*Adding SOURCE library at last */
+             ADDLIBLE   LIB(&SRCLIB) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+             ADDLIBLE   LIB(&DTALIB) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Removing OLD backup library, if exists  */
+             CHGVAR     VAR(&OBJLIB_OLD) VALUE(&OBJLIB *TCAT 'OLD')
+             DLTLIB     LIB(&OBJLIB_OLD)
+             MONMSG     MSGID(CPF2113) EXEC(DO)
+             SNDPGMMSG  MSG('Old Object library is in use, unable to +
+                        delete')
+             GOTO       CMDLBL(END)
+             ENDDO
+            MONMSG     MSGID(CPF2110)
+
+             /*Taking backup of OBJECT library  */
+             CHKOBJ     OBJ(&OBJLIB_OLD) OBJTYPE(*LIB)
+             MONMSG     MSGID(CPF9801) EXEC(DO)
+             RNMOBJ     OBJ(&OBJLIB) OBJTYPE(*LIB) NEWOBJ(&OBJLIB_OLD)
+             CRTLIB     LIB(&OBJLIB)
+             MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&OBJLIB) OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB) OBJTYPE(*LIB) NEWOWN(&OWNER)
+
+             RMVLIBLE   LIB(&OBJLIB_OLD)
+             MONMSG     MSGID(CPF0000)
+             ADDLIBLE   LIB(&OBJLIB) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+             ENDDO
+
+             /*Main Programming Section */
+             IF         COND(&SRCFLG *EQ '*SOURCE') THEN(CHGVAR +
+                        VAR(&SRCFG1) VALUE(&SRCFLG))
+             IF         COND(&SRCFLG *EQ '*NONE') THEN(CHGVAR +
+                        VAR(&SRCFG1) VALUE('*NOSOURCE'))
+
+             /*Compilation of service program requires IDSPFFD and IDSPPGMREF files    */
+             /*which is same out record format of output of DSPFFD & DSPPGMREF Commands*/
+             DSPFFD     FILE(&DTALIB/IAUSRAUTP) OUTPUT(*OUTFILE) +
+                        OUTFILE(QTEMP/IDSPFFD)
+             DSPPGMREF  PGM(#IASRC/IA_SRCCOMP) OUTPUT(*OUTFILE) +
+                        OUTFILE(QTEMP/IDSPPGMREF)
+             /*DSPPGMREF  PGM(&DTALIB_OLD/IACBLDTA) OUTPUT(*OUTFILE) +
+                        OUTFILE(QTEMP/IDSPPGMREF)*/
+
+             /*Create Bindding directory for adding SRVPGM in next step */
+             CRTBNDDIR  BNDDIR(&OBJLIB/IABNDDIR)
+
+             GRTOBJAUT  OBJ(&OBJLIB/IABNDDIR) OBJTYPE(*BNDDIR) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/IABNDDIR) OBJTYPE(*BNDDIR) NEWOWN(&OWNER)
+
+             /*List out all members of SOURCE library */
+             DSPFD      FILE(&SRCLIB/*ALL) TYPE(*MBRLIST) +
+                        OUTPUT(*OUTFILE) OUTFILE(QTEMP/MBRLIST)
+
+             OVRDBF     FILE(QAFDMBRL) TOFILE(QTEMP/MBRLIST) SHARE(*YES)
+             OPNQRYF    FILE((QTEMP/MBRLIST)) QRYSLT('MLFILE *EQ +
+                        ''QMODSRC''') KEYFLD((MLFILE *DESCEND)) +
+                        OPNID(F1)
+
+ NEXT1:      RCVF       OPNID(F1)
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(EOF1))
+
+             IF         COND(&F1_MLSEU2 *EQ 'BND') THEN(GOTO +
+                        CMDLBL(NEXT1))
+             IF         COND((%SST(&F1_MLNAME 8 2) *EQ 'PR') *AND +
+                        (&F1_MLSEU2 *EQ 'SQLRPGLE')) THEN(GOTO +
+                        CMDLBL(NEXT1))
+
+             /*For compilation of 'SRVPGM'  */
+             IF         COND(&F1_MLSEU2 *EQ 'SQLRPGLE') THEN(DO)
+ R01:        CRTSQLRPGI OBJ(&OBJLIB/&F1_MLNAME) +
+                        SRCFILE(&F1_MLLIB/&F1_MLFILE) +
+                        SRCMBR(&F1_MLNAME) COMMIT(*NONE) +
+                        OBJTYPE(*MODULE) REPLACE(*YES) +
+                        DBGVIEW(&SRCFLG)
+             MONMSG     MSGID(SQL9000) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F1_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT1))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R01))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F1_MLNAME) OBJTYPE(*MODULE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F1_MLNAME) OBJTYPE(*MODULE) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F1_MLNAME) SPLNBR(*LAST)
+             DLTSPLF    FILE(&F1_MLNAME) SPLNBR(*LAST)
+             MONMSG     MSGID(CPF3309)
+
+             CRTSRVPGM  SRVPGM(&OBJLIB/&F1_MLNAME) +
+                          MODULE(&OBJLIB/&F1_MLNAME) EXPORT(*ALL) +
+                          OPTION(*DUPPROC *DUPVAR)
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F1_MLNAME) OBJTYPE(*SRVPGM) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F1_MLNAME) OBJTYPE(*SRVPGM) NEWOWN(&OWNER)
+
+             ADDBNDDIRE BNDDIR(&OBJLIB/IABNDDIR) +
+                        OBJ((&OBJLIB/&F1_MLNAME *SRVPGM))
+
+             GOTO       CMDLBL(NEXT1)
+             ENDDO
+
+ EOF1:       DLTOVR     FILE(*ALL)
+             CLOF       OPNID(F1)
+
+             OVRDBF     FILE(QAFDMBRL) TOFILE(QTEMP/MBRLIST) SHARE(*YES)
+             OPNQRYF    FILE((QTEMP/MBRLIST)) +
+                        QRYSLT('MLFILE *NE ''QMODSRC'' +
+                           *AND MLFILE *NE ''QDDLSRC'' +
+                           *AND MLFILE *NE ''QDDSSRC'' +
+                           *AND MLFILE *NE ''QCOMPILE'' +
+                           *AND MLFILE *NE ''QCPYSRC'' +
+                           *AND MLFILE *NE ''QIADEPLOY'' +
+                           *AND MLFILE *NE ''QIGNORE''') +
+                        KEYFLD((MLFILE *DESCEND)) OPNID(F2)
+
+ NEXT2:      RCVF       OPNID(F2)
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(EOF2))
+
+             /*For compilation of 'RPG'  */
+             IF         COND(&F2_MLSEU2 *EQ 'RPG') THEN(DO)
+ R02:        CRTRPGPGM  PGM(&OBJLIB/&F2_MLNAME) +
+                        SRCFILE(&F2_MLLIB/&F2_MLFILE) +
+                        SRCMBR(&F2_MLNAME) OPTION(&SRCFG1) +
+                        REPLACE(*YES)
+             MONMSG     MSGID(QRG9000) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT2))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R02))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             ENDDO
+
+             /*For compilation of 'RPGLE'  */
+             IF         COND(&F2_MLSEU2 *EQ 'RPGLE') THEN(DO)
+ R03:        CRTBNDRPG  PGM(&OBJLIB/&F2_MLNAME) +
+                        SRCFILE(&F2_MLLIB/&F2_MLFILE) +
+                        SRCMBR(&F2_MLNAME) DBGVIEW(&SRCFLG) +
+                        REPLACE(*YES)
+             MONMSG     MSGID(CPA0702 RNS9310 CPF3303) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT2))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R03))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             ENDDO
+
+             /*For compilation of 'SQLRPGLE'  */
+             IF         COND(&F2_MLSEU2 *EQ 'SQLRPGLE') THEN(DO)
+ R04:        CRTSQLRPGI OBJ(&OBJLIB/&F2_MLNAME) +
+                        SRCFILE(&F2_MLLIB/&F2_MLFILE) +
+                        SRCMBR(&F2_MLNAME) COMMIT(*NONE) +
+                        OBJTYPE(*PGM) REPLACE(*YES) DBGVIEW(&SRCFLG)
+             MONMSG     MSGID(SQL9000) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT2))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R04))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             MONMSG     MSGID(CPF3309)
+             ENDDO
+
+             /*For compilation of 'CLP' */
+             IF         COND(&F2_MLSEU2 *EQ 'CLP') THEN(DO)
+ R05:        CRTCLPGM   PGM(&OBJLIB/&F2_MLNAME) +
+                        SRCFILE(&F2_MLLIB/&F2_MLFILE) +
+                        SRCMBR(&F2_MLNAME) OPTION(&SRCFG1)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT2))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R05))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             ENDDO
+
+             /*For compilation of 'CLLE'  */
+             IF         COND(&F2_MLSEU2 *EQ 'CLLE') THEN(DO)
+ R06:        CRTBNDCL   PGM(&OBJLIB/&F2_MLNAME) +
+                        SRCFILE(&F2_MLLIB/&F2_MLFILE) +
+                        SRCMBR(&F2_MLNAME) DBGVIEW(&SRCFLG)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&F2_MLNAME) || ' is not compiled. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(NEXT2))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(R06))
+             ENDDO
+
+             GRTOBJAUT  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/&F2_MLNAME) OBJTYPE(*PGM) NEWOWN(&OWNER)
+
+             DLTSPLF    FILE(&F2_MLNAME) SPLNBR(*LAST)
+             ENDDO
+
+             GOTO       CMDLBL(NEXT2)
+
+ EOF2:       DLTOVR     FILE(*ALL)
+             CLOF       OPNID(F2)
+
+             /*Create IATOOL Command */
+             CRTCMD     CMD(&OBJLIB/AIPRODUCT) PGM(&OBJLIB/IADRVCL) +
+                        SRCFILE(&SRCLIB/QCLPSRC) SRCMBR(IATOOL)
+             GRTOBJAUT  OBJ(&OBJLIB/IATOOL) OBJTYPE(*CMD) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB/IATOOL) OBJTYPE(*CMD) NEWOWN(&OWNER)
+             DLTSPLF    FILE(IATOOL) SPLNBR(*LAST)
+
+
+             /*Main programming Section Ends! */
+ END:        RCLRSC
+             ENDPGM

@@ -1,0 +1,42 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-------------------------------------------------------------------------------
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAHELPWPF) COMMIT(*NONE)
+-------------------------------------------------------------------------------
+--HLPID - Help ID for function    - IAHLPF00
+--        Help ID for Option's    - IAHLPO00
+--        Help ID for Description - IAHLPD00
+
+--HLPVAL - Help Value for function    - F-00
+--         Help Value for Option's    - O-00
+--         Help Value for Description - D-00
+
+CREATE OR REPLACE TABLE IAHELPWPF(
+ HLPID    FOR COLUMN HID   CHAR(09) NOT NULL WITH DEFAULT ' ',
+ HLPVAL   FOR COLUMN HVAL  CHAR(05) NOT NULL WITH DEFAULT ' ',
+ HLPDESC  FOR COLUMN HDESC CHAR(68) NOT NULL WITH DEFAULT ' ')
+
+RCDFMT IAHELPWPFR;
+
+LABEL ON TABLE IAHELPWPF IS 'IA - HELP DETAILS FILE';
+
+LABEL ON COLUMN IAHELPWPF(
+ HLPID       IS 'Help ID',
+ HLPVAL      IS 'Help Value',
+ HLPDESC     IS 'Help Description');
+
+LABEL ON COLUMN IAHELPWPF(
+ HLPID      TEXT IS 'Help ID',
+ HLPVAL     TEXT IS 'Help Value',
+ HLPDESC    TEXT IS 'Help Description');

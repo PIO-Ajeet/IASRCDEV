@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2023/09/25                                                        //
+--Developer........: Vipul Pardeshi                                                    //
+--Description......: Failure Audit Table for HSD Export Files. [Used From Frontend]    //
+-------------------------------------------------------------------------------------- //
+--Modification Log:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--        |        |            |                                                      //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAHSDAUDT) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Hsd_Export_Failure_Audit (
+ Hsd_Audit_Id             For Column iAHsdAudId   BigInt Primary Key,
+ Hsd_Request_Id           For Column iAHsdReqId   Integer Not Null,
+ Error_Message            For Column iAErrMsg     VarChar(255) Not Null With
+                                                  Default ' ',
+ Error_Log                For Column iAErrLog     Blob Not Null,
+ Created_TimeStamp        For Column iACrtTim     TimeStamp Not Null Default
+                                                  Current TimeStamp)
+--Foreign Key (Hsd_Request_Id) References AiExpRsq(AIHSCRID))
+
+RcdFmt iAHsdAudTR;
+
+Rename Table Hsd_Export_Failure_Audit To System Name iAHsdAudT;
+
+Label On Table Hsd_Export_Failure_Audit Is
+                                'Failure Audit Table for HSD export files';
+
+Label On Column Hsd_Export_Failure_Audit(
+ iAHsdAudId  Is 'Hsd                 Audit Id',
+ iAHsdReqId  Is 'Hsd                 Request Id',
+ iAErrMsg    Is 'Error               Message',
+ iAErrLog    Is 'Error               Log',
+ iACrtTim    Is 'Created             TimeStamp');
+
+Label On Column Hsd_Export_Failure_Audit(
+ iAHsdAudId  Text Is 'Hsd Audit Id',
+ iAHsdReqId  Text Is 'Hsd Request Id',
+ iAErrMsg    Text Is 'Error Message',
+ iAErrLog    Text Is 'Error Log',
+ iACrtTim    Text Is 'Created TimeStamp');
+

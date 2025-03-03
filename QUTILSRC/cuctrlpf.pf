@@ -1,0 +1,61 @@
+      *%METADATA                                                       *
+      * %TEXT CU Main control file.                                    *
+      *%EMETADATA                                                      *
+     *-----------------------------------------------------------------------*/
+     * COPYRIGHT © PROGRAMMERS.IO, 2022 ALL RIGHTS RESERVED.                 */
+     *-----------------------------------------------------------------------*/
+     * FILE       : COMPILATION UTILITY MAIN CONTROL FILE.                   */
+     * DEVELOPER  : ASHWANI KUMAR                                            */
+     * DESCRIPTION: THIS UTILITY FILE WILL BE USED FOR ALL ACTIVITY OF PACK- */
+     *              AGAING AND DEPLOYMENT OF IA TOOL FOR DIFFERENT SERVER AND*/
+     *              CLIENT SERVER.                                           */
+     *=======================================================================*/
+     * MODIFICATION LOG:                                                     */
+     *=======================================================================*/
+     * DATE   | MOD_ID | DEVELOPER  | CASE AND DESCRIPTION                   */
+     *--------|--------|------------|----------------------------------------*/
+     *        |        |            |                                        */
+     *-----------------------------------------------------------------------*/
+     *------------------------------------------------------------------------*
+     * FILE LEVEL DESCRIPTION                                                 *
+     *------------------------------------------------------------------------*
+                                            UNIQUE
+     *------------------------------------------------------------------------*
+     * RECORD FORMAT LEVEL DESCRIPTION                                        *
+     *------------------------------------------------------------------------*
+                R CUCTRLPFR                 TEXT('COMPILATION UTILITY CONTROL -
+                                            RECORD FORMAT')
+     *------------------------------------------------------------------------*
+     * FIELD LEVEL DESCRIPTION                                                *
+     *------------------------------------------------------------------------*
+                  CUSEQNBR       6S 0       TEXT('SEQUENCE NUMBER')
+                                            COLHDG('SEQUENCE NUMBER')
+                  CUSRCLIB      10A         TEXT('SOURCE LIBRARY')
+                                            COLHDG('SOURCE LIBRARY')
+                  CUSRCFLE      10A         TEXT('SOURCE FILE')
+                                            COLHDG('SOURCE FILE')
+                  CUSRCMBR      10A         TEXT('SOURCE MEMBER')
+                                            COLHDG('SOURCE MEMBER')
+                  CUSRCTYP      10A         TEXT('SOURCE MBR TYPE')
+                                            COLHDG('SOURCE MBR TYPE')
+                  CUOBJLIB      10A         TEXT('OBJECT LIBRARY')
+                                            COLHDG('OBJECT LIBRARY')
+                  CUOBJNAM      10A         TEXT('OBJECT NAME')
+                                            COLHDG('OBJECT NAME')
+                  CUOBJTYP       8A         TEXT('OBJECT TYPE')
+                                            COLHDG('OBJECT TYPE')
+                  CUGENSCT     100A         TEXT('GENERATION SCRIPT')
+                                            COLHDG('GENERATION SCRIPT')
+                  CUCMPCL2     100A         TEXT('SCRIPT 2')
+                                            COLHDG('SCRIPT 2')
+                  CUCMPCL3     100A         TEXT('SCRIPT 3')
+                                            COLHDG('SCRIPT 2')
+                  CUHSPECBND     1A         TEXT('BND DIR H SPEC')
+                                            COLHDG('H_SPEC_BND_DIR')
+                  CUSUCESS       1A         TEXT('COMPILE_SUCESS')
+                                            COLHDG('COMPILE_SUCESS')
+     *------------------------------------------------------------------------*
+     * KEY LEVEL DESCRIPTION                                                  *
+     *------------------------------------------------------------------------*
+                K CUSEQNBR
+

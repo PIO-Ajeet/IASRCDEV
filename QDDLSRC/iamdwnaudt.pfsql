@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2023/09/25                                                        //
+--Developer........: Vipul Pardeshi                                                    //
+--Description......: Failure Audit Table For MyDownload.[Used From Frontend Only]      //
+-------------------------------------------------------------------------------------- //
+--Modification Log:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--        |        |            |                                                      //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAMDWNAUDT) COMMIT(*NONE) DFTRDBCOL(#IADTA) //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table File_Download_Failure_Audit (
+ File_Failure_Audit_Id    For Column iAFFAudId    BigInt ,
+ Fd_Request_Id            For Column iAFdReqId    BigInt Not Null,
+ Error_Message            For Column iAErrMsg     VarChar(255) Not Null With
+                                                  Default ' ',
+ Error_Log                For Column iAErrLog     Blob Not Null,
+ Created_TimeStamp        For Column iACrtTim     TimeStamp Not Null Default
+                                                  Current TimeStamp)
+--Foreign Key (Fd_Request_Id) References File_Download_Request(Request_Id))
+
+RcdFmt iAMDwnAudR;
+
+Rename Table File_Download_Failure_Audit To System Name iAMDwnAudT;
+
+Label On Table File_Download_Failure_Audit Is
+                                'Failure Audit Table For MyDownload';
+
+Label On Column File_Download_Failure_Audit(
+ iAFFAudId   Is 'File Failure        Audit Id',
+ iAFDReqId   Is 'Fd                  Request Id',
+ iAErrMsg    Is 'Error               Message',
+ iAErrLog    Is 'Error               Log',
+ iACrtTim    Is 'Created             TimeStamp');
+
+Label On Column File_Download_Failure_Audit(
+ iAFFAudId   Text Is 'File Failure Audit Id',
+ iAFDReqId   Text Is 'Fd Request Id',
+ iAErrMsg    Text Is 'Error Message',
+ iAErrLog    Text Is 'Error Log',
+ iACrtTim    Text Is 'Created TimeStamp');
+

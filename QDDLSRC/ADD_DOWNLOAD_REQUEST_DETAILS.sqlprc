@@ -1,0 +1,40 @@
+      --%METADATA                                                      *
+      -- %TEXT Add records in File_Download_Request_details file       *
+      --%EMETADATA                                                     *
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/04/24                                                         //
+--Developer........: Sabarish Prakash                                                   //
+--Description......: Stored Procedure For Adding Records to file                        //
+--                 : FILE_DOWNLOAD_REQUEST_DETAIL.                                      //
+--                 : This procedures calls external program IABRDOCGP for processing.   //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--25/07/24| 0001   | SASIKUMAR R| To add input parameters for user id                   //
+--        |        |            | and environmet library.                               //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAFDWNDTLS) DFTRDBCOL(#IAOBJ) COMMIT(*NONE)  //
+--------------------------------------------------------------------------------------- //
+Create Or Replace Procedure  ADD_DOWNLOAD_REQUEST_DETAILS
+  (In wRequestID   char(18),
+   IN WRepoName    char(10),
+   In wMemberLib   char(10),
+   In wMemberSrcpf char(10),
+   In wMemberName  char(10),
+   In wMemberType  char(10),
+   In wUserId      char(10),                                                     --0004
+   In wEnvLib      char(10),                                                     --0004
+   Out wReturnStat  char(1),
+   Out wReturnMsg   char(100))
+
+language rpgle
+specific  IAFDWNDTLS
+not deterministic
+modifies sql data
+parameter style general
+external name IAFDWNDTLR

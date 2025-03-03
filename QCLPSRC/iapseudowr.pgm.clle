@@ -1,0 +1,68 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA Pseudocode generation wrapper program               */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2024                                              */
+/*Created Date.....: 2024/02/27                                                         */
+/*Developer........: Programmers.io                                                     */
+/*Description......: Wrapper program to call iAPseudoDR                                 */
+/*                                                                                      */
+/*Procedure Log:                                                                        */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*-------------------------|----------------------------------------------------------- */
+/*                        |                                                            */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date(YMD)| Mod_ID | Developer  | Case and Description                                 */
+/*-------- |--------|------------|----------------------------------------------------- */
+/*25/07/24 | 0001   | Sasikumar R| To add the input parameters to                       */
+/*         |        |            | to set the library list and user id                  */
+/*08/10/24 | 0002   | HIMANSHUGA | Added parm to determine if commented text will be    */
+/*         |        |            | included in pseudo code document: Task 689           */
+/*08/10/24 | 0003   | HIMANSHUGA | Added parm to determine if declaration specs will be */
+/*         |        |            | included in pseudo code document: Task 1099          */
+/*--------------------------------------------------------------------------------------*/
+
+             PGM        PARM(&REQUESTID &REPONAME &LIBNAME +
+                          &SRCPFNAME &MBRNAME &MBRTYPE &USERID +
+                          &ENVLIB &INTEXT &INDECL &RTNSTS &RTNMSG)                       /*0003*/
+
+             DCL        VAR(&REQUESTID) TYPE(*CHAR) LEN(18)
+             DCL        VAR(&REPONAME) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&LIBNAME) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&SRCPFNAME) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&MBRNAME) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&MBRTYPE) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&USERID) TYPE(*CHAR) LEN(10)                                 /*0001*/
+             DCL        VAR(&ENVLIB) TYPE(*CHAR) LEN(10)                                 /*0001*/
+             DCL        VAR(&INTEXT) TYPE(*CHAR) LEN(01)                                 /*0002*/
+             DCL        VAR(&INDECL) TYPE(*CHAR) LEN(01)                                 /*0003*/
+             DCL        VAR(&RTNSTS) TYPE(*CHAR) LEN(01)
+             DCL        VAR(&RTNMSG) TYPE(*CHAR) LEN(100)
+             DCL        VAR(&WKJOBNAME) TYPE(*CHAR) LEN(10) +
+                          VALUE('IAPSEUDOCD')
+
+             /*Set Library List  */
+             IF         COND(&ENVLIB = '#IAOBJ') THEN(CHGLIBL +
+                          LIBL(&REPONAME #IAOBJ #IADTA QGPL QTEMP)) +
+                          /*0001*/
+
+             IF         COND(&ENVLIB ¬= '#IAOBJ') THEN(CHGLIBL +
+                          LIBL(&REPONAME IAEMGDEV IAOBJDEV IADTADEV +
+                          QGPL QTEMP)) /*0001*/
+
+             /*Submit the job for Pseudocode Generation                                 */
+             SBMJOB     CMD(CALL PGM(IAPSEUDODR) PARM((&REQUESTID) +
+                          (&REPONAME) (&LIBNAME) (&SRCPFNAME) +
+                          (&MBRNAME) (&MBRTYPE) (&INTEXT) (&INDECL))) JOB(&WKJOBNAME)    /*0003*/
+             /*Return success messgage to the stored procedure                          */
+             CHGVAR     VAR(&RTNSTS) VALUE('S')
+             CHGVAR     VAR(&RTNMSG) VALUE('IA Pseudocode Generation +
+                          Job Submitted Successfully')
+
+             CHGLIBL    LIBL(QGPL QTEMP) CURLIB(*CRTDFT)
+ENDPGM

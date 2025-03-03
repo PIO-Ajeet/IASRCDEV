@@ -1,0 +1,425 @@
+      *%METADATA                                                       *
+      * %TEXT Main Menu Screen                                         *
+      *%EMETADATA                                                      *
+     A*----------------------------------------------------------------------*
+     A*   CREATED BY.......: PROGRAMMERS.IO @ 2020                           *
+     A*   CREATE DATE......: 2020/01/01                                      *
+     A*   DEVELOPER........: KAUSHAL KUMAR                                   *
+     A*   DESCRIPTION......: Main Menu Screen                                *
+     A*   -------------------------------------------------------------------*
+     A*   MODIFICATION LOG                                                   *
+     A*   -------------------------------------------------------------------*
+     A*   DATE     MOD_ID      DEVELOPER   CASE AND DESCRIPTION              *
+     A*   YY/MM/DD ----------  ----------  ----------------------------------*
+     A*   22/04/19|  HJ01    | HIMANSHU J| REMOVE THE 6TH OPTION FROM UTILITY*
+     A*   31/05/22|  PP01    | PRASHANT P| INVALID OPTION ERROR MESSAGE      *
+     A*   10/10/22|  SJ01    | SUNNY JHA | CHANGE 'LIBRARY' HEAD TO          *
+     A*           |          |           | 'APPLICATION LIBRARY'             *
+     A*   27/10/22|  RK01    | RISHAB KA | Header and sub header changes     *
+KD01 A*   10/28/22|  KD01    | KOUNDINYA | CHANGED THE POSITIONS OF FUNCTION *
+KD01 A*           |          |           | KEYS TO THE PARTICULAR SCREENS    *
+SS01 A*   10/31/22|  SS01    | SUSHANT S | ADDED EDITMASK KEYWORD FOR DATE   *
+SS01 A*           |          |           | AND TIME STAMP FIELD              *
+SS02 A*   02/15/23|  SS02    | SUSHANT S | Added Help panel for the screen.  *
+     A*   03/07/23|  0001    | VIPUL P   | Remove the Interactive message -  *
+     A*           |          |           | info from window popup.           *
+     A*   23/07/12|  0002    | ANJAN G.  | ADDED N46 INDICATOR TO HANDLE     *
+     A*           |          |           | THE HELP PANEL SOURCE PROGRAM     *
+     A*           |          |           | TASK#:70                          *
+     A*   04/05/23|  0003    | AHMED S   | Added Refresh option for refresh  *
+     A*           |          |           | Metadata                          *
+     A*   09/11/23|  0004    | ARUN C    | Modifed WNDREBUILD record format  *
+     A*           |          |           | to change the pop up window       *
+     A*           |          |           | message for Refresh Metadata      *
+     A*           |          |           | Task#:354                         *
+     A*   23/12/23|  0005    | SAIKIRAN  | Added new IAEXCDETD3 record format*
+     A*           |          |           | to add the exclusion details for  *
+     A*           |          |           | members or objects                *
+     A*           |          |           | Task#:500                         *
+     A*   23/10/05|  0006    | HIMANSHU  | Rename AIHELPPNL TO IAHELPPNL     *
+     A*           |          | GEHLOT    | TASK#:270                         *
+     A*   02/07/24|  0007    | SRIBALAJI | Remove the hardcoded #IADTA lib   *
+     A*           |          |           | from all sources     TASK#: 754   *
+     A*   22/11/24|  0008    | SASIKUMAR | Add the function key F18 to show  *
+     A*           |          |           | the status of iA Jobs TASK#: 1073 *
+     A*                                                                      *
+     A*----------------------------------------------------------------------*
+     A*
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A N46                                  HELP
+     A                                      ALTHELP
+     A                                      HLPTITLE('AIPROD HELP')
+0006 A                                      HLPSCHIDX(*LIBL/IAHELPPNL)
+     A                                      CF12(12 'CANCEL')
+KD01 A*                                     CF17(17 'CHANGE DESC')
+KD01 A*                                     CF23(23 'MORE OPTION')
+KD01 A*                                     CF24(24 'MORE KEYS')
+     A*---------------------------------------------------------------------*
+     A*   MSGSFL1, MSGSFLCTL1 - MESSAGE SUBFILE                             *
+     A*---------------------------------------------------------------------*
+     A          R MSGSFL                    SFL
+     A                                      TEXT('MESSAGE SUBFILE')
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PROGRAMQ                  SFLPGMQ
+      *
+     A          R MSGSFLCTL                 SFLCTL(MSGSFL)
+     A                                      TEXT('MESSAGE SUBFCTL')
+     A                                      OVERLAY
+     A                                      ERASE(MSGSFL)
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A                                      SFLINZ
+     A N49                                  SFLEND
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A            PROGRAMQ                  SFLPGMQ(10)
+      *
+     A          R HEADER
+     A                                      OVERLAY
+ 0006A          H                           HLPPNLGRP(IAHELP IAHELPPNL)
+ SS02A                                      HLPARA(1 1 21 80)
+ 0006A          H                           HLPPNLGRP(FUNKEYS IAHELPPNL)
+ SS02A                                      HLPARA(22 1 23 80)
+     A                                  1 30'{P}rogrammers.io'
+     A                                      COLOR(WHT)
+     A                                  1 72DATE
+     A                                      EDTCDE(Y)
+     A                                  2 72TIME
+     A                                  1  2USER
+     A*
+     A          R SFL01                     SFL
+     A  30                                  SFLNXTCHG
+     A            S1_OPT         2Y 0B 10  2EDTCDE(4)
+     A  45                                  DSPATR(PC)
+     A  45                                  DSPATR(RI)
+     A*           I_S1OPT        1A  P
+     A            S1_XREF       10A  O 10  7
+     A            S1_USER       10A  O 10 19
+     A            S1_DESC       30A  B 10 31CHECK(LC)
+     A  35                                  DSPATR(PR)
+     A N35                                  DSPATR(UL)
+     A N35                                  DSPATR(PC)
+      *
+     A          R SFLCTL01                  SFLCTL(SFL01)
+KD01 A                                      CF01(01 'HELP')
+KD01 A                                      CF03(03 'EXIT')
+KD01 A                                      CF05(05 'REFRESH')
+KD01 A                                      CF06(06 'ADD')
+KD01 A                                      CF17(17 'CHANGE DESC')
+0008 A                                      CF18(18 'IA JOBS STATUS')
+KD01 A                                      CF23(23 'MORE OPTION')
+KD01 A                                      CF24(24 'MORE KEYS')
+     A                                      OVERLAY
+     A                                      ERASE(SFL01)
+     A                                      SFLCSRRRN(&CSRRRN)
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  33                                  SFLCLR
+     A  34                                  SFLEND(*MORE)
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0011)
+     A            CSRRRN         5S 0H
+     A            DSPREC         4S 0H      SFLRCDNBR(CURSOR)
+     A                                  6  2'Type options, press Enter.'
+     A                                      COLOR(BLU)
+     A                                  7  3'2=Library Setup  3=Build Meta Data-
+     A                                        4=Delete Repository'
+     A                                      COLOR(BLU)
+     A                                  9  2'Opt  Repository  Created By  Descr-
+     A                                      iption'
+     A                                      COLOR(WHT)
+     A            C1SEARCHBY    10A  B  4 70
+     A            C1POSTO       10A  B  5 70
+     A                                  4 44'Search by . . . . . . . .'
+     A                                  5 44'Position to . . . . . . .'
+     A            C1REPOFLTR    35A  O  4  2
+     A  25                                  COLOR(TRQ)
+     A  26                                  COLOR(YLW)
+0003 A                                  7 60'5=Refresh Metadata'
+0003 A                                      COLOR(BLU)
+0005 A                                  8  3'6=Exclusion Setup'
+0005 A                                      COLOR(BLU)
+     A*
+     A          R ADDREPOD1
+     A                                      CF01(01 'HELP')
+     A                                      CF03(03 'EXIT')
+     A                                      CF05(05 'REFRESH')
+     A                                      OVERLAY
+     A                                      ERASE(ADDREPOD1)
+     A                                  1 30'{P}rogrammers.io'
+     A                                      COLOR(WHT)
+     A                                  1 71DATE
+     A                                      EDTCDE(Y)
+     A                                  2 71TIME
+     A                                  1  2USER
+     A                                  2 31'Add Repository'
+     A                                      COLOR(WHT)
+     A                                  6  2'Repository Name . . . . . . . . .'
+     A                                  7  2'Application Library . . . . . . .'
+     A                                  8  2'Text Description. . . . . . . . .'
+     A            D1_XREF       10A  B  6 37
+     A  36                                  DSPATR(PC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                      DSPATR(&I_XREF)
+     A            I_XREF         1A  P
+     A            D1_LIB        10A  B  7 37
+     A  37                                  DSPATR(PC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                      DSPATR(&I_LIB)
+     A            I_LIB          1A  P
+     A            D1_DESC       30A  B  8 37
+     A  38                                  DSPATR(PC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                      DSPATR(&I_DESC)
+     A                                      CHECK(LC)
+     A            I_DESC         1A  P
+     A                                 14 13'Do you want to add more libraries:'
+     A  39                                  DSPATR(ND)
+     A            D1_OPT         1A  I 14 49
+     A  39                                  DSPATR(ND)
+     A N39                                  DSPATR(PC)
+     A                                      DSPATR(&I_D1_OPT)
+     A            I_D1_OPT       1A  P
+     A                                 14 52'(Y/N)'
+     A                                      COLOR(WHT)
+     A  39                                  DSPATR(ND)
+     A                                  7 48'(For Impact Analysis)'
+     A                                      COLOR(WHT)
+     A*
+     A          R FOOTER
+     A                                      OVERLAY
+     A            FOOTERKEY    159A  O 22  2COLOR(BLU)
+      *
+     A          R SFL02                     SFL
+     A            S2_XREF       10A  O  8  2
+     A            S2_DESC       30A  O  8 26
+     A            S2_USER       10A  O  8 14
+      *
+     A          R SFLCTL02                  SFLCTL(SFL02)
+KD01 A                                      CF01(01 'HELP')
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0013)
+     A                                      OVERLAY
+     A                                      ERASE(SFL02)
+     A  41                                  SFLDSP
+     A  42                                  SFLDSPCTL
+     A  43                                  SFLCLR
+     A  44                                  SFLEND(*MORE)
+     A                                  1 26'Confirm Deletion of Repositories'
+     A                                      COLOR(WHT)
+     A                                  4  2'Press Enter to confirm your choice-
+     A                                      s for Delete.'
+     A                                      COLOR(BLU)
+     A                                  5  2'Press F12=Cancel to return to chan-
+     A                                      ge your choices.'
+     A                                      COLOR(BLU)
+     A                                  7  2'Repository'
+     A                                      COLOR(WHT)
+     A                                      DSPATR(UL)
+     A                                  7 26'Description'
+     A                                      COLOR(WHT)
+     A                                      DSPATR(UL)
+     A                                  7 14'User'
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+      *
+     A          R WRKREPOD2
+     A                                      OVERLAY
+     A                                      ERASE(WRKREPOD2)
+     A                                  1 30'{P)rogrammers.io'
+     A                                      COLOR(WHT)
+     A                                  2 72DATE
+     A                                      EDTCDE(Y)
+     A                                  3 72TIME
+     A                                  2  2USER
+     A                                  3  2'Repository:'
+     A            D2REPOSNM     10A  O  3 14COLOR(WHT)
+     A                                  5  2'Select one of the following:'
+     A                                      COLOR(BLU)
+     A                                  7  3' 1. Source Scan'
+     A                                  8  3' 2. Source Location'
+     A                                  9  3' 3. Where File Is Used'
+     A                                 10  3' 4. File Details At Program Level'
+     A                                 11  3' 5. Where File Field Is Used'
+     A                                 12  3' 6. File Field Details'
+     A                                 13  3' 7. Where Variable Is Used'
+     A                                 21  2'Select Option:'
+     A                                      COLOR(WHT)
+     A            D2REPOOPT      2Y 0B 21 17EDTCDE(4)
+     A                                      COLOR(WHT)
+     A                                      DSPATR(&I_D2REPOPT)
+     A            I_D2REPOPT     1A  P
+     A                                 23  2'F1=Help  F3=Exit   F5=Refresh   F1-
+     A                                      2=Previous'
+     A                                      COLOR(BLU)
+     A*
+     A          R WNDREBUILD
+KD01 A                                      CF01(01 'HELP')
+0004 A*                                     WINDOW(8 12 7 50)
+0004 A                                      WINDOW(8 12 7 60)
+     A                                      OVERLAY
+     A                                      WDWBORDER((*COLOR BLU) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+0003 A*                                 2  2'Do you want to Re - Build the Meta-
+0003 A N77                              2  2'Do you want to Re - Build the Meta-
+     A                                      -Data Again ?'
+0004 A* 77                              2  2'Do you want to Re - Build the Meta-
+0004 A*                                     -Data Again ?'
+0004 A  77                              2  2'Do you want to Refresh the Meta-Da-
+0004 A                                      ta?'
+     A                                  4  4'Press enter to confirm..'
+     A                                  4 31'(Y/N)'
+     A            WDREBLDFLG     1A  B  4 29
+0007 A* 55                                  ERRMSGID(MSG0006 #IADTA/IAMSGF &PAR-
+0007 A  55                                  ERRMSGID(MSG0006 IAMSGF &PAR-
+     A                                      A2)
+     A*                                     COLOR(WHT)
+     A  56                                  DSPATR(RI)
+     A                                  6  2'F1=Help  F12=Previous'
+     A                                      COLOR(BLU)
+     A            PARA2         10A  P
+     A          R DUMMY
+     A                                      OVERLAY
+     A                                      TEXT('PREVENTS PREVIOUS +
+     A                                      SCREEN FROM BEING CLEARED')
+     A                                  5  9' '
+     A*
+     A          R WNBATCHPRC
+     A                                      WINDOW(6 12 12 52)
+     A                                      OVERLAY
+     A                                      WDWBORDER((*COLOR BLU) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A                                 11  3'F12=Cancel'
+     A                                      COLOR(BLU)
+0003 A*                                 1 15'Metadata Building Process'
+0003 A N77                              1 15'Metadata Building Process'
+0003 A  77                              1 15'Refresh Metadata Process'
+     A                                      COLOR(WHT)
+     A                                  3  3'Run in batch:'
+     A            BATCH          1A  B  3 18
+0007 A* 53                                  ERRMSGID(MSG0006 #IADTA/IAMSGF &PAR-
+0007 A  53                                  ERRMSGID(MSG0006 IAMSGF &PAR-
+     A                                      A1)
+     A                                      VALUES('B')
+     A                                      DSPATR(PR)
+0001 A*                                 3 22'(B=Batch I=Intractive)'
+     A                                  3 22'(B=Batch)'
+     A                                      COLOR(BLU)
+     A                                  5  3'Batch Details'
+     A                                      COLOR(WHT)
+     A                                      DSPATR(UL)
+     A N71                                  DSPATR(ND)
+     A                                  6  3'Job Queue:'
+     A N71                                  DSPATR(ND)
+     A                                  7  3'Process Date-Time:'
+     A N71                                  DSPATR(ND)
+     A            JOBQ          10A  B  6 23
+     A N71                                  DSPATR(ND)
+     A N71                                  DSPATR(PR)
+0007 A* 54                                  ERRMSGID(MSG0105 #IADTA/IAMSGF &PAR-
+0007 A  54                                  ERRMSGID(MSG0105 IAMSGF &PAR-
+     A                                      A1)
+     A            JOBDATE        6Y 0B  7 23
+     A N71                                  DSPATR(ND)
+     A N71                                  DSPATR(PR)
+     A                                      EDTWRD('0 /  /  ')
+     A                                      EDTMSK('  &  &  ')
+0007 A* 51                                  ERRMSGID(MSG0102 #IADTA/IAMSGF &PAR-
+0007 A  51                                  ERRMSGID(MSG0102 IAMSGF &PAR-
+     A                                      A1)
+     A            JOBTIME        6Y 0B  7 33
+     A N71                                  DSPATR(PR)
+     A N71                                  DSPATR(ND)
+     A                                      EDTWRD('0 :  :  ')
+     A                                      EDTMSK('  &  &  ')
+0007 A* 52                                  ERRMSGID(MSG0103 #IADTA/IAMSGF &PAR-
+0007 A  52                                  ERRMSGID(MSG0103 IAMSGF &PAR-
+     A                                      A1)
+     A                                  7 42'(MM/DD/YY)'
+     A                                      COLOR(BLU)
+     A N71                                  DSPATR(ND)
+     A            PARA1         10A  P
+     A*
+     A          R WNCONFIRM
+     A                                      OVERLAY
+     A                                      WINDOW(9 5 8 67)
+     A                                      WDWBORDER((*COLOR BLU) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A                                  5 21'(Y/N)'
+     A            CONFIRM        1A  B  5 18DFTVAL('N')
+     A  57                                  DSPATR(RI)
+0007 A* 57                                  ERRMSGID(MSG0006 #IADTA/IAMSGF &PAR-
+0007 A  57                                  ERRMSGID(MSG0006 IAMSGF &PAR-
+     A                                      A3)
+     A                                      COLOR(WHT)
+     A            MSGLINE01     65A  O  2  2
+     A            MSGLINE02     65A  O  3  2
+     A                                  5  2'Please Confirm'
+     A                                  7  2'F12=Cancel'
+     A                                      COLOR(BLU)
+     A            PARA3         10A  P
+     A*         R WNCONFIRM
+     A          R WNSCHEDLD
+     A                                      WINDOW(9 5 10 67)
+     A                                      OVERLAY
+     A                                      WDWBORDER((*COLOR BLU) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A                                  7 21'(Y/N)'
+     A            CONFIRM        1A  B  7 18DFTVAL('N')
+     A  57                                  DSPATR(RI)
+0007 A* 57                                  ERRMSGID(MSG0006 #IADTA/IAMSGF &PAR-
+0007 A  57                                  ERRMSGID(MSG0006 IAMSGF &PAR-
+     A                                      A3)
+     A                                      COLOR(WHT)
+     A            MSGLINE01     65A  O  2  2
+     A            MSGLINE02     65A  O  3  2
+     A                                  7  2'Please Confirm'
+     A                                  9  2'F12=Cancel'
+     A                                      COLOR(BLU)
+     A            PARA3         10A  P
+     A            MSGLINE03     65A  O  5  2DSPATR(HI)
+0005 A          R IAEXCDETD3
+0005 A                                      CF03(03 'EXIT')
+0005 A                                      CF05(05 'REFRESH')
+0005 A                                      CF08(08 'TOGGLE OBJECTS/MEMBERS')
+0005 A                                      OVERLAY
+0005 A                                  1  2USER
+0005 A                                  1 33'{P}rogrammers.io'
+0005 A                                      COLOR(WHT)
+0005 A N78                              2 30'Member Exclusion Setup'
+0005 A N78                                  COLOR(WHT)
+0005 A  78                              2 30'Object Exclusion Setup'
+0005 A  78                                  COLOR(WHT)
+0005 A                                  1 73DATE
+0005 A                                      EDTCDE(Y)
+0005 A                                  2 73TIME
+0005 A N78                              5  2'Source File ...........:'
+0005 A N78                              7  2'Library Name ..........:'
+0005 A N78                              9  2'Member Name ...........:'
+0005 A  78                              5  2'Object Name ...........:'
+0005 A  78                              7  2'Object Library ........:'
+0005 A  78                              9  2'Object Type ...........:'
+0005 A                                 23  2'F3=Exit'
+0005 A                                      COLOR(BLU)
+0005 A                                 23 13'F5=Refresh'
+0005 A                                      COLOR(BLU)
+0005 A N78                             23 27'F8=Object Exclusion Setup'
+0005 A N78                                  COLOR(BLU)
+0005 A  78                             23 27'F8=Member Exclusion Setup'
+0005 A  78                                  COLOR(BLU)
+0005 A                                 23 56'F12=Cancel'
+0005 A                                      COLOR(BLU)
+0005 A            D3SRCFOBJN    10A  B  5 27
+0005 A  79                                  DSPATR(RI)
+0005 A  79                                  DSPATR(PC)
+0005 A            D3SRCOBJLB    10A  B  7 27
+0005 A  80                                  DSPATR(RI)
+0005 A  80                                  DSPATR(PC)
+0005 A            D3SRCMBR      10A  B  9 27
+0005 A  81                                  DSPATR(RI)
+0005 A  81                                  DSPATR(PC)

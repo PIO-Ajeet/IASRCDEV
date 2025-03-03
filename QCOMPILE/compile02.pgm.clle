@@ -1,0 +1,283 @@
+      /*%METADATA                                                     */
+      /* %TEXT Compile Service programs                               */
+      /*%EMETADATA                                                    */
+PGM
+
+
+    dcl    ( &BND_DIR )  ( *char )  ( 10 )  ( 'IABNDDIR' )
+    dcl    ( &SRC_LIB )  ( *char )  ( 10 )
+    dcl    ( &SRC_FIL )  ( *char )  ( 10 )
+    dcl    ( &SRC_MBR )  ( *char )  ( 10 )
+    dcl    ( &SRC_TYP )  ( *char )  ( 10 )
+    dcl    ( &SRC_CMD )  ( *char )  ( 10 )
+    dcl    ( &OBJ_LIB )  ( *CHAR )  ( 10 )
+    dcl    ( &OBJ_TYP )  ( *char )  ( 10 )
+    dcl    ( &BND_SRC )  ( *char )  ( 10 )
+    dcl    ( &SRC_LEN )  ( *dec  )  (  2 )
+    dcl    ( &DBG_ACT )  ( *char )  (  1 )  ( 'Y' )
+    dcl    ( &SQL_DBG )  ( *char )  ( 10 )  ( '*NONE' )
+    dcl    ( &CLP_DBG )  ( *char )  ( 10 )  ( '*NONE' )
+    dcl    ( &TRG_RLS )  ( *char )  ( 10 )  ( 'V7R2M0' )
+
+    DCLF  FILE(QTEMP/IACOMPSTS) OPNID(IACOMPPF)
+
+    IF (&DBG_ACT *eq 'Y') THEN(DO)
+       CHGVAR  ( &SQL_DBG )  ( '*SOURCE' )
+       CHGVAR  ( &CLP_DBG )  ( '*LIST' )
+    ENDDO
+
+    CALLSUBR cmpSrcMbr
+
+
+
+
+    SUBR makBndDir
+
+       DLTBNDDIR BNDDIR(&OBJ_LIB/&BND_DIR)
+       MONMSG  (CPF0000)
+
+       CRTBNDDIR BNDDIR(&OBJ_LIB/&BND_DIR) +
+                 TEXT('IATOOL binding directory')
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR cmpSrcMbr
+
+       readNext:
+       RCVF  OPNID(IACOMPPF)
+       MONMSG  (CPF0864) EXEC(GOTO (ENDOFFILE))
+
+       CHGVAR  ( &SRC_LIB )  ( &IACOMPPF_PFSRCLIB )
+       CHGVAR  ( &SRC_FIL )  ( &IACOMPPF_PFSRCFIL )
+       CHGVAR  ( &SRC_MBR )  ( &IACOMPPF_PFSRCMBR )
+       CHGVAR  ( &SRC_TYP )  ( &IACOMPPF_PFSRCTYP )
+       CHGVAR  ( &OBJ_LIB )  ( &IACOMPPF_PFOBJLIB )
+
+       IF ( &SRC_TYP *EQ 'PFSQL' *or &SRC_TYP *EQ 'SQL' ) THEN(DO)
+          CALLSUBR bldSqlObj
+       ENDDO
+
+       IF ( &SRC_FIL *EQ 'QMODSRC' ) THEN(DO)
+          IF ( &SRC_TYP *EQ 'BND' ) THEN(DO)
+             CHGVAR  ( &BND_SRC )  ( &SRC_MBR )
+          ENDDO
+          IF ( &SRC_TYP *EQ 'RPGLE' *or &SRC_TYP *EQ 'SQLRPGLE' ) THEN(DO)
+             CHGVAR  ( &SRC_LEN )  ( %len(&SRC_MBR) )
+             CHGVAR  ( &SRC_LEN )  ( &SRC_LEN - 2 )
+             IF ( %SST( &SRC_MBR &SRC_LEN 2 ) *EQ 'SV' ) THEN(DO)
+                CALLSUBR bldSrvPgm
+             ENDDO
+          ENDDO
+       ENDDO
+
+       GOTO (readNext)
+
+       endOfFile:
+
+    ENDSUBR
+
+
+    SUBR bldSqlObj
+
+       RUNSQLSTM  SRCFILE(&SRC_LIB/&SRC_FIL) +
+                  SRCMBR(&SRC_MBR) +
+                  COMMIT(*NONE)
+       MONMSG  (CPF0000)  EXEC(CALLSUBR updFailLog)
+
+    ENDSUBR
+
+
+    SUBR updFailLog
+
+
+
+    ENDSUBR
+
+
+    SUBR bldSrvPgm
+
+       /* delete existing module object */
+       CALLSUBR dltModObj
+
+       /* delete existing service program object */
+       CALLSUBR dltSrvObj
+
+       /* create module object */
+       CHGVAR (&OBJ_TYP)  ('*MODULE')
+       CALLSUBR runSqlRpgI
+
+       /* create service program object */
+       CALLSUBR crtSrvObj
+
+       /* delete existing service program object */
+       CALLSUBR dltModObj
+
+       /* add service program entry to binding directory */
+       CALLSUBR addSrvEnt
+
+    ENDSUBR
+
+
+    SUBR addSrvEnt
+
+       ADDBNDDIRE BNDDIR(&OBJ_LIB/&BND_DIR) +
+                  OBJ((&SRC_MBR *SRVPGM))
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+    SUBR dltModObj
+
+       DLTMOD MODULE(&OBJ_LIB/&SRC_MBR)
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR dltSrvObj
+
+       DLTSRVPGM SRVPGM(&OBJ_LIB/&SRC_MBR)
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR crtSrvObj
+
+       CRTSRVPGM SRVPGM(&OBJ_LIB/&SRC_MBR) +
+                 SRCFILE(&SRC_LIB/&SRC_FIL) +
+                 SRCMBR(&BND_SRC) +
+                 TGTRLS(&TRG_RLS)
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR makClpObj
+
+       CHGVAR (&OBJ_TYP)  ('*PGM')
+
+       CHGVAR (&SRC_MBR) (' ')
+       CALLSUBR dltPgmObj
+       CALLSUBR runBndCl
+
+       CHGVAR (&SRC_CMD) (' ')
+       CALLSUBR makUsrCmd
+
+    ENDSUBR
+
+
+    SUBR runBndCl
+
+       CRTBNDCL PGM(&OBJ_LIB/&SRC_MBR) +
+                SRCFILE(&SRC_LIB/&SRC_FIL) +
+                ALWRTVSRC(*NO) +
+                TGTRLS(&TRG_RLS) +
+                DBGVIEW(&CLP_DBG)
+
+    ENDSUBR
+
+
+    SUBR makRpgObj
+
+       CHGVAR (&OBJ_TYP)  ('*PGM')
+
+       CHGVAR (&SRC_MBR) (' ')
+       CALLSUBR dltPgmObj
+       CALLSUBR runSqlRpgI
+
+       CHGVAR (&SRC_MBR) (' ')
+       CALLSUBR dltPgmObj
+       CALLSUBR runSqlRpgI
+
+    ENDSUBR
+
+
+    SUBR dltPgmObj
+
+       DLTPGM PGM(&OBJ_LIB/&SRC_MBR)
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR runSqlRpgI
+
+       CRTSQLRPGI OBJ(&OBJ_LIB/&SRC_MBR) +
+                  SRCFILE(&SRC_LIB/&SRC_FIL) +
+                  OBJTYPE(&OBJ_TYP) +
+                  RPGPPOPT(*LVL2) +
+                  TGTRLS(&TRG_RLS) +
+                  DBGVIEW(&SQL_DBG)
+
+    ENDSUBR
+
+
+    SUBR makUsrCmd
+
+       CRTCMD  CMD(&OBJ_LIB/&SRC_CMD) +
+               PGM(&OBJ_LIB/&SRC_MBR) +
+               SRCFILE(&SRC_LIB/&SRC_FIL) +
+               SRCMBR(&SRC_CMD)
+       MONMSG  (CPF0000)
+
+    ENDSUBR
+
+
+    SUBR makRpgPgm
+
+       CHGVAR (&SRC_FIL) ('QRPGLESRC')
+
+       CHGVAR (&SRC_MBR) ('IASRV01SV')
+       CALLSUBR bldSrvPgm
+
+       CHGVAR (&SRC_MBR) ('IASRV02SV')
+       CALLSUBR bldSrvPgm
+
+       CHGVAR (&SRC_MBR) ('IASRV03SV')
+       CALLSUBR bldSrvPgm
+
+    ENDSUBR
+
+
+
+    SUBR makSrvPgm
+
+       CALLSUBR makBndDir
+
+       CHGVAR (&SRC_FIL) ('QMODSRC')
+
+       CHGVAR (&SRC_MBR) ('IASRV01SV')
+       CHGVAR (&BND_SRC) ('IASRV01BN')
+       CALLSUBR bldSrvPgm
+
+       CHGVAR (&SRC_MBR) ('IASRV02SV')
+       CHGVAR (&BND_SRC) ('IASRV02BN')
+       CALLSUBR bldSrvPgm
+
+       CHGVAR (&SRC_MBR) ('IASRV03SV')
+       CHGVAR (&BND_SRC) ('IASRV03BN')
+       CALLSUBR bldSrvPgm
+
+    ENDSUBR
+
+
+    SUBR setObjAuth
+
+       GRTOBJAUT OBJ(&OBJ_LIB/*ALL) +
+                 OBJTYPE(*ALL) +
+                 USER(*PUBLIC) +
+                 AUT(*ALL)
+       MONMSG (CPF0000)
+
+       GRTOBJAUT OBJ(&OBJ_LIB/*ALL) +
+                 OBJTYPE(*ALL) +
+                 USER(QSECOFR) +
+                 AUT(*ALL)
+       MONMSG (CPF0000)
+
+    ENDSUBR
+
+endpgm

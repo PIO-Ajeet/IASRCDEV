@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2022                                             //
+--Creation Date....:                                                                   //
+--Developer........:                                                                   //
+--Description......: Data for CREATE TABLE Parsing                                     //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Developer  | Case and Description                                          //
+----------|------------|-------------------------------------------------------------- //
+--16/10/24| Sabarish   | IFS Member Parsing Feature MOD: 0001                          //
+-------------------------------------------------------------------------------------- //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IAEMG/QDDLSRC) SRCMBR(IAESQLFFD) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAESQLFFD(
+
+ LIBRARY_NAME      FOR COLUMN CSRCLIB     CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ SRC_PF_NAME       FOR COLUMN CSRCFLN     CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ MEMBER_NAME       FOR COLUMN CPGMNM      CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ IFS_LOCATION      FOR COLUMN CIFSLOC     CHAR(100) NOT NULL WITH DEFAULT ' ',   --0001
+ OBJ_TYPE          FOR COLUMN COBJTYPE    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ OBJ_SQL_NAME      FOR COLUMN COBJSQLNM VARCHAR(128) NOT NULL WITH DEFAULT ' ',
+ OBJ_SYS_NAME      FOR COLUMN COBJSYSNM   CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ FLD_SQL_NAME      FOR COLUMN CFLDSQLNM VARCHAR(128) NOT NULL WITH DEFAULT ' ',
+ FLD_SYS_NAME      FOR COLUMN CFLDSYSNM   CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ FLD_DATATYPE      FOR COLUMN CFLDTYP     CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ FLD_LENGTH        FOR COLUMN CFLDLEN     DECIMAL(9,0) NOT NULL WITH DEFAULT 0,
+ FLD_DECPOS        FOR COLUMN CFLDDEC     DECIMAL(9,0) NOT NULL WITH DEFAULT 0,
+ CRT_TIMESTAM      FOR COLUMN CRTTIMESTP  TIMESTAMP NOT NULL DEFAULT
+                                          CURRENT TIMESTAMP,
+ CHG_TIMESTAM      FOR COLUMN CHGTIMESTP  TIMESTAMP NOT NULL FOR EACH ROW
+                                          ON UPDATE AS ROW CHANGE TIMESTAMP
+)
+RCDFMT ESQLFFDR;
+

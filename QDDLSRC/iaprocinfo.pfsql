@@ -1,0 +1,73 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2022                                              //
+--Creation Date....: 09/09/2023                                                         //
+--Developer........: Akshay Sopori                                                      //
+--Description......: Procedure Details Information                                      //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date     Mod_ID      Developer   Case and Description                                 //
+--DD/MM/YY ----------  ----------  ---------------------------------------------------- //
+-- 02/09/24 0001        Vishwas K.  Task #833 - Add new field IFS Path.                  //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPROCINFO) COMMIT(*NONE)                    //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Procedure_Information(
+
+ Member_Name        For Column iAMbrNam    Char(10)  Not Null With Default ' ',
+ Source_File        For Column iASrcFile   Char(10)  Not Null With Default ' ',
+ Member_Library     For Column iAMbrLib    Char(10)  Not Null With Default ' ',
+ IFS_LOCATION       For Column iAIFSLOC    CHAR(100) Not Null With Default ' ',          --0001
+ Member_Type        For Column iAMbrTyp    Char(10)  Not Null With Default ' ',
+ Sequence_Number    For Column iASeqNum    Decimal(6,2) Not Null With Default 0,
+ RRN_Number         For Column iARrnNo     Decimal(6,0) Not Null With Default 0,
+ Procedure_Name     For Column iAPrcNam    Char(80)  Not Null With Default ' ',
+ Procedure_Type     For Column iAPrcTyp    Char(2)   Not Null With Default ' ',
+ Export_Or_Import   For Column iAExpImp    Char(1)   Not Null With Default ' ',
+ Created_By         For Column iACrtUsr    Char(10)  Not Null With Default ' ',
+ Created_TimeStamp  For Column iACrtTim    Timestamp Not Null With Default
+                                           Current Timestamp,
+ Updated_By         For Column iAUpdUsr    Char(10) Not Null With Default ' ',
+ Updated_Timestamp  For Column iAUpdTim    Timestamp Not Null For Each Row
+                                           On Update As Row Change Timestamp)
+
+Rcdfmt iAProcInfR;
+
+Rename Table Procedure_Information To System Name iAProcInfo;
+
+Label On Table iAProcInfo Is 'PR and PI Info For Procedure At Source Level';
+
+Label On Column iAProcInfo(
+ iAMbrNam    Is 'Member              Name',
+ iASrcFile   Is 'Source              File',
+ iAMbrLib    Is 'Member              Library',
+ iAIFSLOC    Is 'IFS                 Location'  ,                                        --0001
+ iAMbrTyp    Is 'Member              Type',
+ iASeqNum    Is 'Sequence            Number',
+ iARrnNo     Is 'RRN                 Number',
+ iAPrcNam    Is 'Procedure           Name',
+ iAPrcTyp    Is 'Procedure           Type(PI/PR)',
+ iAExpImp    Is 'Procedure           Sign(E/I)',
+ iACrtUsr    Is 'Created             By',
+ iACrtTim    Is 'Created             TimeStamp',
+ iAUpdUsr    Is 'Updated             By',
+ iAUpdTim    Is 'Updated             TimeStamp');
+
+Label On Column iAProcInfo(
+  iAMbrNam    Text Is 'Member Name',
+  iASrcFile   Text Is 'Source File',
+  iAMbrLib    Text Is 'Member Library',
+  iAIFSLOC    TEXT Is 'Ifs Location'  ,                                                  --0001
+  iAMbrTyp    Text Is 'Member Type',
+  iASeqNum    Text Is 'Sequnce Number',
+  iARrnNo     Text Is 'RRN Number',
+  iAPrcNam    Text Is 'Procedure Name',
+  iAPrcTyp    Text Is 'Procedure Type(PI/PR)',
+  iAExpImp    Text Is 'Procedure Sigm(E/I)',
+  iACrtUsr    Text Is 'Created By',
+  iACrtTim    Text Is 'Created TimeStamp',
+  iAUpdUsr    Text Is 'Updated By',
+  iAUpdTim    Text Is 'Updated TimeStamp');

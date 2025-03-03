@@ -1,0 +1,36 @@
+      /*%METADATA                                                     */
+      /* %TEXT CU Compilation Utility Tool - Main Driver CL           */
+      /*%EMETADATA                                                    */
+/*---------------------------------------------------------------------------*/
+/*Copyright © Programmers.Io, All rights reserved.                           */
+/*---------------------------------------------------------------------------*/
+/*Program    : CU Compilation Utility Tool - Main Driver CL                  */
+/*Developer  : Ashwani Kumar                                                 */
+/*Description: iA Tool requires compiling of all sources of SOURCE library.  */
+/*We always require do following steps to achieve packaging and deployment   */
+/*activities. This program calls 4 programs:                                 */
+/*- CUPRECOMPC                                                               */
+/*- CUDBCOMPR                                                                */
+/*- CUSRCCOMPC                                                               */
+/*- CUCRTSAVFC                                                               */
+/*---------------------------------------------------------------------------*/
+/*Modification Log:                                                          */
+/*-----------------                                                          */
+/*---------------------------------------------------------------------------*/
+
+             PGM
+
+             /*Copyright section */
+             COPYRIGHT  TEXT('Copyright © Programmers.Io, All rights +
+                        reserved.')
+
+             /*Complete pre-utility things before compilation section */
+             CALL       PGM(CUPRECOMPC)
+             /*First compile all files - database and device files */
+             CALL       PGM(CUDBCOMPR)
+             /*Next compile all programs */
+             CALL       PGM(CUSRCCOMPR)
+             /*Next create SAVF */
+             CALL       PGM(CUCRTSAVFC)
+
+             ENDPGM

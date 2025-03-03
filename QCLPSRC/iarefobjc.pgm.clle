@@ -1,0 +1,208 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA Refresh Driver program for metadata process         */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2023                                              */
+/*Created Date.....: 2023/09/13                                                         */
+/*Developer........: Vipul Pardeshi                                                     */
+/*Description......: Create an outfile of DSPOBJD and DSPFD command for REFRESH         */
+/*                   process. This will update the IASRCPF file with latest source      */
+/*                   file detail.                                                       */
+/*                                                                                      */
+/*Procedure Log:                                                                        */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*-------------------------|----------------------------------------------------------- */
+/*                         |                                                            */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date(YMD)| Mod_ID | Developer  | Case and Description                                 */
+/*-------- |--------|------------|----------------------------------------------------- */
+/*21/11/23 | 0001   | Akshay S.  | Added logic to create IDSPFDMBR outfile.             */
+/*21/11/23 | 0002   | Kunal P.   | Added CLRPFM for IAREFOBJF.                          */
+/*22/11/23 | 0003   | Akshay S.  | IDSPFDMBRL should be created on the basis of IASRCPF */
+/*23/11/23 | 0004   | Akshay S.  | Create duplicate object for IDSPOBJD from #IADTA.    */
+/*05/12/23 | 0005   | Yogita K.  | [TASK #432]  :  For AIERRLOGP and AIDUMPTLP files,   */
+/*         |        |            | CLRPFM was added since, if there were any errors     */
+/*         |        |            | in these files during the previous run,they were not */
+/*         |        |            | being cleaned up during the refresh process.         */
+/*18/12/23 | 0006   | Akhil K.   | [Task #463] : Added an entry parameter. After calling*/
+/*         |        |            | IAREFOBJR, this will have 'Y' if any member or object*/
+/*         |        |            | is added or modified. IAREFOUTFC will be called if it*/
+/*         |        |            | is 'Y'.                                              */
+/*22/12/23 | 0007   | Saikiran   | [TASK #487]  :  Call the program IAMBREXCR to        */
+/*         |        |            | exclude the source member/library from IDSPFDMBRL    */
+/*09/01/24 | 0008   | Naresh S   | Handled exceptions in DSPOBJD and DSPFD commands.    */
+/*         |        |            | [Task #522]                                          */
+/*12/01/24 | 0009   | Venkatesh  | Added call to program IAUPGTAB for version upgrade   */
+/*         |        |   Battula  |    changes. [Task #531]                              */
+/*04/10/23 | 0010   | Himanshu   | Rename AIAUTCTLP TO IAAUTCTLP [Task #251]            */
+/*28/06/24 | 0011   | Pranav J   | Rename AIERRLOGP TO IAERRLOGP [Task #247]            */
+/*02/07/24 | 0012   | Vamsi      | Rename AIDUMPDTLP TO IADUMPDTLP [Task #251]          */
+/*29/07/24 | 0013   | Karthick S | Set the Library Based on Environment [Task #824]     */
+/*------------------------------------------------------------------------------------- */
+
+             PGM        PARM(&UPXREF &UPRCDFND)                                          /*0006*/
+
+             DCL        VAR(&UPXREF) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&UPRCDFND) TYPE(*CHAR) LEN(1) VALUE(' ')                     /*0006*/
+             DCL        VAR(&UWSQLSTMT) TYPE(*CHAR) LEN(1000)
+             DCL        VAR(&SINGLEQUOT) TYPE(*CHAR) LEN(1) VALUE('''')
+             DCL        VAR(&EXCFLAG) TYPE(*CHAR) LEN(1) VALUE('0')                      /*0007*/
+             DCL        VAR(&FALSE) TYPE(*CHAR) LEN(1) VALUE('0')                        /*0007*/
+             DCL        VAR(&TRUE) TYPE(*CHAR) LEN(1) VALUE('1')                         /*0007*/
+             DCL        VAR(&PGMLIB) TYPE(*CHAR) LEN(10) VALUE(' ')                      /*0013*/
+             DCL        VAR(&DATA) TYPE(*CHAR) LEN(80)                                   /*0013*/
+
+             DCLF       FILE(IAINPLIB) OPNID(IAINPLIB)                                   /*0003*/
+             DCLF       FILE(IASRCPF) OPNID(IASRCPF)                                     /*0003*/
+
+             CHGVAR VAR(%BIN(&DATA 1 4)) VALUE(80)                                       /*0013*/
+             CHGVAR VAR(%BIN(&DATA 5 4)) VALUE(80)                                       /*0013*/
+             CHGVAR VAR(%BIN(&DATA 9 4)) VALUE(0)                                        /*0013*/
+             CHGVAR VAR(%BIN(&DATA 13 4)) VALUE(0)                                       /*0013*/
+
+             CALLPRC    PRC('_MATPGMNM') PARM((&DATA))                                   /*0013*/
+             MONMSG     MSGID(CPF0000) EXEC(DO)                                          /*0013*/
+             CHGVAR     VAR(&PGMLIB) VALUE('#IAOBJ')                                     /*0013*/
+             ENDDO                                                                       /*0013*/
+
+             IF         COND(&PGMLIB = ' ') THEN(DO)                                     /*0013*/
+             CHGVAR     VAR(&PGMLIB) VALUE(%SST(&DATA 19 10))                            /*0013*/
+             ENDDO                                                                       /*0013*/
+
+             /*Close open identifier if already open */
+             CLOF       OPNID(IAINPLIB)
+             MONMSG     MSGID(CPF4520)
+
+             /*Delete overrides if already present */
+             DLTOVR     FILE(IAINPLIB)
+             MONMSG     MSGID(CPF9841)
+
+             /*Call IAUPGTAB to upgrade files if version changed*/                      /*0009*/
+             CALL       PGM(IAUPGTAB) PARM((&UPXREF))                                    /*0009*/
+
+             /*Create override for ODP */
+             OVRDBF     FILE(IAINPLIB) SHARE(*YES)
+
+             /*Filter repository records */
+             OPNQRYF    FILE((IAINPLIB)) QRYSLT('XREFNAM = ''' *CAT +
+                           &UPXREF *CAT '''')
+
+             /*CRTDUPOBJ for IDSPOBJD file into QTEMP */                                /*0004*/
+             IF         COND(&PGMLIB = '#IAOBJ') THEN(DO)                                /*0013*/
+             CRTDUPOBJ  OBJ(IDSPOBJD) FROMLIB(#IADTA) OBJTYPE(*FILE) +
+                          TOLIB(QTEMP) NEWOBJ(IDSPOBJD)                                  /*0004*/
+             ENDDO                                                                       /*0013*/
+
+             IF         COND(&PGMLIB = 'IAOBJDEV') THEN(DO)                              /*0013*/
+               CRTDUPOBJ  OBJ(IDSPOBJD) FROMLIB(IADTADEV) OBJTYPE(*FILE) +
+               TOLIB(QTEMP) NEWOBJ(IDSPOBJD)                                             /*0013*/
+             ENDDO                                                                       /*0013*/
+
+             /*Process For Each Library */
+ LOOP:       RCVF       OPNID(IAINPLIB)                                                  /*0003*/
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(ENDOFFILE))
+
+             /*Output File For DSPOBJD */
+             DSPOBJD    OBJ(&IAINPLIB_XLIBNAM/*ALL) OBJTYPE(*ALL) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/IDSPOBJD) +
+                          OUTMBR(*FIRST *ADD)                                            /*0003*/
+             MONMSG     MSGID(CPF0000)                                                   /*0008*/
+
+             /*Output File For DSPFD TYPE(*MBR    ) */                                  /*0001*/
+             DSPFD      FILE(&IAINPLIB_XLIBNAM/*ALL) TYPE(*MBR) +
+                          OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDMBR) OUTMBR(*FIRST *ADD)                   /*0001*/
+             MONMSG     MSGID(CPF0000)                                                   /*0008*/
+
+             /*Output File For DSPFD TYPE(*BASATR) */
+             DSPFD      FILE(&IAINPLIB_XLIBNAM/*ALL) TYPE(*BASATR) +
+                          OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDBASA) OUTMBR(*FIRST *ADD)                  /*0003*/
+             MONMSG     MSGID(CPF0000)                                                   /*0008*/
+
+             GOTO       CMDLBL(LOOP)
+
+ ENDOFFILE:
+
+             /*Close open identifiers */
+             CLOF       OPNID(IAINPLIB)
+
+             /*Delete overrides if already present */
+             DLTOVR     FILE(IAINPLIB)
+
+             CLRPFM     FILE(&UPXREF/IASRCPF) MBR(*ALL)
+             MONMSG     MSGID(CPF0000)
+
+             /*Restart The Value With 1 For IDENTITY_COLUMN Every Time */
+             CHGVAR     VAR(&UWSQLSTMT) VALUE('ALTER TABLE' *BCAT +
+                          %TRIM(&UPXREF) *CAT '.IASRCPF ALTER +
+                          COLUMN CMDID RESTART WITH 1')
+
+             RUNSQL     SQL(&UWSQLSTMT) COMMIT(*NONE) NAMING(*SQL)
+
+             /*Insert The Source File Details To IASRCPF From IDSPFDBASA */
+             CHGVAR     VAR(&UWSQLSTMT) VALUE('INSERT INTO' *BCAT +
+                          %TRIM(&UPXREF) *CAT '.IASRCPF +
+                          (LIBRARY_NAME, SRCPF_NAME) SELECT' *BCAT +
+                          'ATLIB, ATFILE FROM QTEMP.IDSPFDBASA +
+                          WHERE' *BCAT 'ATDTAT =')
+
+             CHGVAR     VAR(&UWSQLSTMT) VALUE(%TRIM(&UWSQLSTMT) +
+                          *BCAT &SINGLEQUOT *CAT 'S' *CAT &SINGLEQUOT)
+
+             RUNSQL     SQL(&UWSQLSTMT) COMMIT(*NONE) NAMING(*SQL)
+             MONMSG     MSGID(SQL9010)
+                                                                                         /*0002*/
+
+ LOOP2:      RCVF       OPNID(IASRCPF)                                                   /*0003*/
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(ENDOFFILE2))                     /*0003*/
+
+             CHGVAR     VAR(&EXCFLAG) VALUE(&FALSE)                                      /*0007*/
+             /*Call IAMBREXCR program to check if the */                                /*0007*/
+             /*source file/library can be excluded    */                                /*0007*/
+             CALL       PGM(IAMBREXCR) PARM((&IASRCPF_XSRCPF) +
+                          (&IASRCPF_XLIBNAM) (&EXCFLAG))                                 /*0007*/
+             IF         COND(&EXCFLAG = &TRUE) THEN(GOTO +
+                          CMDLBL(LOOP2))                                                 /*0007*/
+
+             /*Output File For DSPFD TYPE(*MBRLIST) */                                  /*0003*/
+             DSPFD      FILE(&IASRCPF_XLIBNAM/&IASRCPF_XSRCPF) +
+                          TYPE(*MBRLIST) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/IDSPFDMBRL) OUTMBR(*FIRST *ADD)                  /*0003*/
+             MONMSG     MSGID(CPF0000)                                                   /*0008*/
+
+             GOTO       CMDLBL(LOOP2)                                                    /*0003*/
+
+ ENDOFFILE2:                                                                             /*0003*/
+
+             /*Clear File IAREFOBJF */                                                  /*0002*/
+             CLRPFM     FILE(&UpXRef/IAREFOBJF)                                          /*0002*/
+                                                                                         /*0002*/
+             /*Clear File IAERRLOGP */                                                  /*0005*/
+          /*CLRPFM     FILE(&UpXRef/AIERRLOGP) */                                       /*0005*/
+             CLRPFM     FILE(&UpXRef/IAERRLOGP)                                          /*0011*/
+                                                                                         /*0005*/
+             /*Clear File IADUMPDTLP */                                                 /*0012*/
+             CLRPFM     FILE(&UpXRef/IADUMPDTLP)                                         /*0012*/
+                                                                                         /*0005*/
+             /*This program populates the iarefobjf table for modified/added/delet*/
+             /*for objects & sources .                                            */
+             CALL       PGM(IAREFOBJR) PARM((&UPXREF) (' ') (' ') +
+                          (&UPRCDFND))                                                   /*0006*/
+
+             /*If only any added or modified object or member is there                  /*0006*/
+             IF         COND(&UPRCDFND = 'Y') THEN(DO)                                   /*0006*/
+             /*This program creates the DSPFD, DSPDBR & DSPPGMREF outfiles and    */
+             /*refresh them based on iarefobjf table.                             */
+             CALL       PGM(IAREFOUTFC) PARM((&UPXREF) (' ') (' '))
+             ENDDO                                                                       /*0006*/
+
+             CLOF       OPNID(IASRCPF)
+             MONMSG     MSGID(CPF4520)
+
+             ENDPGM

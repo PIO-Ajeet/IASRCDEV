@@ -1,0 +1,123 @@
+      /*%METADATA                                                     */
+      /* %TEXT iA Tool Create SAVF files                              */
+      /*%EMETADATA                                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Copyright © Programmers.Io, 2021 All rights reserved.                     */
+ /*--------------------------------------------------------------------------*/
+ /*Program: iA Tool Creating SAVF Utility                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Description:                                                              */
+ /*After compilation and packaging, iA Tool requires creating SAVF files for */
+ /*all important libraries.                                                  */
+ /*- SOURCE    library.                                                      */
+ /*- DATA      library.                                                      */
+ /*- OBJECT    library.                                                      */
+ /*- EMERGENCY library.                                                      */
+ /*- COMPILE   library.                                                      */
+ /*- SAVE library should not be above list of libraries or 'BACKUP' library. */
+ /*--------------------------------------------------------------------------*/
+ /*Modification Log:                                                         */
+ /*-----------------                                                         */
+ /*AK - 11th Oct 21 - Compile library has been blanked in AICTLDTA.          */
+ /*--------------------------------------------------------------------------*/
+             PGM
+
+             DCL        VAR(&SAVLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&SRCLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DTALIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&EMGLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&CMPLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OWNER)  TYPE(*CHAR) LEN(10)
+
+             /*Retrieve all library names */
+             RTVDTAARA  DTAARA(AICTLDTA (01 10)) RTNVAR(&SRCLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (11 10)) RTNVAR(&DTALIB)
+             RTVDTAARA  DTAARA(AICTLDTA (21 10)) RTNVAR(&OBJLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (31 10)) RTNVAR(&EMGLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (41 10)) RTNVAR(&CMPLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (51 10)) RTNVAR(&SAVLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (71 10)) RTNVAR(&OWNER)
+
+
+             /*Deleate SAVE library if exists and then create new SAVE library.*/
+             DLTLIB     LIB(&SAVLIB)
+             MONMSG     MSGID(CPF2110)
+
+             CRTLIB     LIB(&SAVLIB) TYPE(*TEST)
+             GRTOBJAUT  OBJ(&SAVLIB) OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB) OBJTYPE(*LIB) NEWOWN(&OWNER)
+
+             /*Call subroutine to create SAVF */
+             CALLSUBR   SUBR(CRTSAVFILE)
+
+             /*Call subroutine to save library into SAVF*/
+             CALLSUBR   SUBR(SAVSAFLIB)
+
+             IF         COND(&CMPLIB *NE ' ') THEN(DO)
+             SAVOBJ     OBJ(IADTASAVF IAOBJSAVF IASRCSAVF IAEMGSAVF +
+                        IACMPSAVF) LIB(&SAVLIB) DEV(*SAVF) +
+                        SAVF(&SAVLIB/IATOOL)
+             ENDDO
+             ELSE       CMD(DO)
+             SAVOBJ     OBJ(IADTASAVF IAOBJSAVF IASRCSAVF IAEMGSAVF) +
+                        LIB(&SAVLIB) DEV(*SAVF) SAVF(&SAVLIB/IATOOL)
+             ENDDO
+             GOTO       CMDLBL(END)
+
+
+             /*Subroutine to SAVLIB */
+             SUBR       SUBR(SAVSAFLIB)
+             /*Save Data library */
+             SAVLIB     LIB(&DTALIB) DEV(*SAVF) SAVF(&SAVLIB/IADTASAVF)
+             /*Save Object library */
+             SAVLIB     LIB(&OBJLIB) DEV(*SAVF) SAVF(&SAVLIB/IAOBJSAVF)
+             /*Save Source library */
+             SAVLIB     LIB(&SRCLIB) DEV(*SAVF) SAVF(&SAVLIB/IASRCSAVF)
+             /*Save Emergency library */
+             SAVLIB     LIB(&EMGLIB) DEV(*SAVF) SAVF(&SAVLIB/IAEMGSAVF)
+             /*Save Compile library */
+             IF         COND(&CMPLIB *NE ' ') THEN(DO)
+             SAVLIB     LIB(&CMPLIB) DEV(*SAVF) SAVF(&SAVLIB/IACMPSAVF)
+             ENDDO
+             ENDSUBR
+
+
+             /*Subroutine to create SAVF */
+             SUBR       SUBR(CRTSAVFILE)
+
+             /*Source library SAVF */
+             CRTSAVF    FILE(&SAVLIB/IASRCSAVF)
+             GRTOBJAUT  OBJ(&SAVLIB/IASRCSAVF) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB/IASRCSAVF) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             /*Data library SAVF */
+             CRTSAVF    FILE(&SAVLIB/IADTASAVF)
+             GRTOBJAUT  OBJ(&SAVLIB/IADTASAVF) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB/IADTASAVF) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             /*Object library SAVF */
+             CRTSAVF    FILE(&SAVLIB/IAOBJSAVF)
+             GRTOBJAUT  OBJ(&SAVLIB/IAOBJSAVF) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB/IAOBJSAVF) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             /*IATOOL library SAVF */
+             CRTSAVF    FILE(&SAVLIB/IATOOL)
+             GRTOBJAUT  OBJ(&SAVLIB/IATOOL) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB/IATOOL) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             /*Emergency library SAVF */
+             CRTSAVF    FILE(&SAVLIB/IAEMGSAVF)
+             GRTOBJAUT  OBJ(&SAVLIB/IAEMGSAVF) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB/IAEMGSAVF) OBJTYPE(*FILE) NEWOWN(&OWNER)
+
+             /*Compile library SAVF */
+             IF         COND(&CMPLIB *NE ' ') THEN(DO)
+             CRTSAVF    FILE(&SAVLIB/IACMPSAVF)
+             GRTOBJAUT  OBJ(&SAVLIB/IACMPSAVF) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&SAVLIB/IACMPSAVF) OBJTYPE(*FILE) NEWOWN(&OWNER)
+             ENDDO
+
+             ENDSUBR
+
+ END:        ENDPGM

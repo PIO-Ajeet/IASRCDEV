@@ -1,0 +1,64 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2020                                              //
+--Created Date.....: 2022/02/09                                                         //
+--Developer........: Ajeet Srivastava                                                   //
+--Description......: Authority Control Table                                            //
+--------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--22/04/12| BA12   | BHOOMISH A | To Add oder field for function in front end           //
+--23/10/04| 0001   | AKSHAY S   | Rename the file from AIAUTCTL to IAAUTCTL [Task #250] //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(AIAUTCTLP) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Authority_Control(
+ User_Profile       For Column AIUSER     Char(10) Not Null With Default ' ',
+ Fnc_Name           For Column AIFUNNAM   Char(50) Not Null With Default ' ',
+ Fnc_Access         For Column AIFUNACC   Char(2) Not Null With Default ' ',
+ Dwnload_Src        For Column AIDWNSRC   Char(2) Not Null With Default ' ',
+ Dwnload_Exl        For Column AIDWNEXL   Char(2) Not Null With Default ' ',
+ Admin_Profile      For Column AIADMPRF   Char(1) Not Null With Default ' ',
+ Dspl_order         For ColUmn AIDSPLOR   Decimal(2,0) Not Null With Default 0 ,   --BA12
+ Created_By         For Column AICRTUSR   Char(10) Not Null With Default ' ',
+ Created_TimeStamp  For Column AICRTTIM   Timestamp Not Null Default
+                                          Current Timestamp,
+ Updated_By         For Column AIUPDUSR   CHAR(10) NOT NULL WITH DEFAULT ' ',
+ Updated_TimeSatmp  For Column AIUPDTIM   Timestamp Not Null For Each Row
+                                          On Update As Row Change Timestamp,
+PRIMARY KEY (AIUSER,AIFUNNAM))
+Rcdfmt IAAUTCTLPR;                                                                       --0001
+
+Rename table Authority_Control to System Name IAAUTCTLP;                                 --0001
+
+Label On Table Authority_Control Is 'IA Authority Control Table' ;                       --0001
+
+Label On Column Authority_Control(
+ AIUSER      Is 'User                Profile',
+ AIFUNNAM    Is 'Function            Name',
+ AIFUNACC    Is 'Function            Access',
+ AIDWNSRC    Is 'Download            Source',
+ AIDWNEXL    Is 'Download            Excel',
+ AIADMPRF    Is 'Admin               Profile',
+ AIDSPLOR    is 'Display             Order',                                        --BA12
+ AICRTUSR    Is 'Created             By',
+ AICRTTIM    Is 'Created             TimeStamp',
+ AIUPDUSR    Is 'Updated             By',
+ AIUPDTIM    Is 'Updated             TimeStamp');
+
+Label On Column Authority_Control(
+ AIUSER      Text Is 'User Profile',
+ AIFUNNAM    Text Is 'Function Name',
+ AIFUNACC    Text Is 'Function Access',
+ AIDWNSRC    Text Is 'Download Source',
+ AIDWNEXL    Text Is 'Download Excel',
+ AIADMPRF    Text Is 'Admin Profile',
+ AIDSPLOR    TEXT is 'Display Order',                                              --BA12
+ AICRTUSR    Text Is 'Created By',
+ AICRTTIM    Text Is 'Created TimeStamp',
+ AIUPDUSR    Text Is 'Updated By',
+ AIUPDTIM    Text Is 'Updated TimeStamp');

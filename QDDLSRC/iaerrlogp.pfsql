@@ -1,0 +1,142 @@
+ -- --------------------------------------------------------------------------//
+ -- CREATED BY.......: Programmers.io @ 2022                                  //
+ -- CREATE DATE......: 2022/01/18                                             //
+ -- DEVELOPER........: Devendra Tomar                                         //
+ -- DESCRIPTION......: IA PSSR Log Table                                      //
+ -- --------------------------------------------------------------------------//
+ -- Modification Log                                                          //
+ -- --------------------------------------------------------------------------//
+ -- Date     Mod_ID      Developer   Case and Description                     //
+ -- YY/MM/DD ----------  ----------  -----------------------------------------//
+ -- 22/04/13 SK01        SANTHOSH    TO CAPTURE QUERY NAME                    //
+ -- 23/10/05 0002        G.Jayasimha Renamed AIERRLOGP to IAERRLOGP           //
+ --                                  GitHub Task 247.                         //
+ -- --------------------------------------------------------------------------//
+ -- Compilation Instruction
+ -- -----------------------------------------------------------------------------
+ -- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAERRLOGP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  -- 0002
+ -- -----------------------------------------------------------------------------
+
+Create Or Replace Table Exception_Log(
+
+ Procedure_Name   For Column AiProcNam   Char(10)     Not Null With Default ' ',
+ Status_Code      For Column AiStaCde    Decimal(5,0) Not Null With Default  0,
+ Prv_Status_Code  For Column AiPrvSCde   Decimal(5,0) Not Null With Default  0,
+ Source_Nbr       For Column AiSrcNbr    Char(8)      Not Null With Default ' ',
+ Sub_Routine      For Column AiSubRtn    Char(8)      Not Null With Default ' ',
+ Nbr_Params       For Column AiNbrPrms   Decimal(3,0) Not Null With Default  0,
+ Exception_Type   For Column AiExcpTyp   Char(3)      Not Null With Default ' ',
+ Exception_Nbr    For Column AiExcpNbr   Char(4)      Not Null With Default ' ',
+ Reservd_Fix      For Column AiReservd   Char(4)      Not Null With Default ' ',
+ MsgWar_Area      For Column AiMsgWarA   Char(30)     Not Null With Default ' ',
+ Pgm_lib          For Column AiPgmLib    Char(10)     Not Null With Default ' ',
+ Except_Data      For Column AiExcptDta  Char(80)     Not Null With Default ' ',
+ Rx9001_Exp       For Column AiRx9001Ex  Char(4)      Not Null With Default ' ',
+ Last_File        For Column AiLastFil   Char(10)     Not Null With Default ' ',
+ UnUsed_1         For Column AiUnUsed1   Char(6)      Not Null With Default ' ',
+ Job_Entered_date For Column AiDatEntr   Char(8)      Not Null With Default ' ',
+ Job_Start_Year   For Column AiJobStrt   Decimal(2,0) Not Null With Default  0,
+ Last_File2       For Column AiLstFil2   Char(8)      Not Null With Default ' ',
+ Last_FileSts     For Column AiLstFSts   Char(35)     Not Null With Default ' ',
+ Job_Name         For Column AiJobName   Char(10)     Not Null With Default ' ',
+ Job_User         For Column AiJobUsr    Char(10)     Not Null With Default ' ',
+ Job_Number       For Column AiJobNbr    Decimal(6,0) Not Null With Default  0,
+ Job_Date         For Column AiJobSDat   Decimal(6,0) Not Null With Default  0,
+ Pgm_Date         For Column AiPgmDate   Decimal(6,0) Not Null With Default  0,
+ Pgm_Time         For Column AiPgmTime   Decimal(6,0) Not Null With Default  0,
+ Pgm_Compiled_Dat For Column AiCrtDate   Char(6)      Not Null With Default ' ',
+ Pgm_Compiled_Tim For Column AiCrtTime   Char(6)      Not Null With Default ' ',
+ Compiler_Level   For Column AiCrtLvl    Char(4)      Not Null With Default ' ',
+ Src_File_Name    For Column AiSrcFil    Char(10)     Not Null With Default ' ',
+ Src_Library      For Column AiSrcLib    Char(10)     Not Null With Default ' ',
+ Src_Member       For Column AiSrcMbr    Char(10)     Not Null With Default ' ',
+ Proc_Pgm         For Column AiPrcPgm    Char(10)     Not Null With Default ' ',
+ Proc_Module      For Column AiPrcMod    Char(10)     Not Null With Default ' ',
+ User_Name        For Column AiUsrNam    Char(10)     Not Null With Default ' ',
+ External_Error   For Column AiExtError  Numeric(10,0) Not Null With Default  0,
+ Element_Set      For Column AiToElmnt   Numeric(20,0) Not Null With Default  0,
+ Query_Name       For Column AiQryName   Char(30)     NOT NULL WITH DEFAULT ' ')         -- SK01
+RcdFmt IaErrLogPR;                                                                       -- 0002
+
+Rename table Exception_Log to System Name IAERRLOGP;                                     -- 0002
+
+Label On Table Exception_Log Is 'IA Exception/Error Log Table';
+
+Label On Column Exception_Log(
+ AiProcNam   Is 'Procedure           Name',
+ AiStaCde    Is 'Status              Code',
+ AiPrvSCde   Is 'Previous            Status',
+ AiSrcNbr    Is 'Source              Number',
+ AiSubRtn    Is 'Routine             Name',
+ AiNbrPrms   Is 'Parms               Number',
+ AiExcpTyp   Is 'Exception           Type',
+ AiExcpNbr   Is 'Exception           Number',
+ AiReservd   Is 'Reserved',
+ AiMsgWarA   Is 'Message             Area',
+ AiPgmLib    Is 'Program             Library',
+ AiExcptDta  Is 'Retreived           Exception           Data',
+ AiRx9001Ex  Is 'Exception           Id',
+ AiLastFil   Is 'LastFile            Operation',
+ AiUnUsed1   Is 'UnUsed',
+ AiDatEntr   Is 'Job                 Entered         Date',
+ AiJobStrt   Is 'Job                 Entered         Year',
+ AiLstFil2   Is 'LastFile2           Operation',
+ AiLstFSts   Is 'LastFile            Status',
+ AiJobName   Is 'Job                 Name',
+ AiJobUsr    Is 'Job                 User',
+ AiJobNbr    Is 'Job                 Number',
+ AiJobSDat   Is 'Job                 Started         Date',
+ AiPgmDate   Is 'Program             Date',
+ AiPgmTime   Is 'Program             Time',
+ AiCrtDate   Is 'Program             Created         Date',
+ AiCrtTime   Is 'Program             Created         Time',
+ AiCrtLvl    Is 'Compilers           Level',
+ AiSrcFil    Is 'SourceFile          Name',
+ AiSrcLib    Is 'SourceLib           Name',
+ AiSrcMbr    Is 'SourceMbr           Name',
+ AiPrcPgm    Is 'Program             Procedure',
+ AiPrcMod    Is 'Module              Procedure',
+ AiUsrNam    Is 'Current             User',
+ AiExtError  Is 'External            Error',
+ AiToElmnt   Is 'Elements            Set',
+ AiQryName   Is 'Query               Name');                                             -- SK01
+
+ Label On Column Exception_Log(
+ AiProcNam   Text Is 'Procedure Name',
+ AiStaCde    Text Is 'Status Code',
+ AiPrvSCde   Text Is 'Previous Status',
+ AiSrcNbr    Text Is 'Source Number',
+ AiSubRtn    Text Is 'Routine Name',
+ AiNbrPrms   Text Is 'Parms Number',
+ AiExcpTyp   Text Is 'Exception Type',
+ AiExcpNbr   Text Is 'Exception Number',
+ AiReservd   Text Is 'Reserved',
+ AiMsgWarA   Text Is 'Message Area',
+ AiPgmLib    Text Is 'Program Library',
+ AiExcptDta  Text Is 'Exception Data',
+ AiRx9001Ex  Text Is 'Exception Id',
+ AiLastFil   Text Is 'LastFile Operation',
+ AiUnUsed1   Text Is 'UnUsed',
+ AiDatEntr   Text Is 'Job Entered Date',
+ AiJobStrt   Text Is 'Job Entered Year',
+ AiLstFil2   Text Is 'LastFile2 Operation',
+ AiLstFSts   Text Is 'LastFile Status',
+ AiJobName   Text Is 'Job Name',
+ AiJobUsr    Text Is 'Job User',
+ AiJobNbr    Text Is 'Job Number',
+ AiJobSDat   Text Is 'Job Date',
+ AiPgmDate   Text Is 'Program Date',
+ AiPgmTime   Text Is 'Program Time',
+ AiCrtDate   Text Is 'Created Date',
+ AiCrtTime   Text Is 'Created Time',
+ AiCrtLvl    Text Is 'Compilers Level',
+ AiSrcFil    Text Is 'SourceFile Name',
+ AiSrcLib    Text Is 'SourceLib Name',
+ AiSrcMbr    Text Is 'SourceMbr Name',
+ AiPrcPgm    Text Is 'Program Procedure',
+ AiPrcMod    Text Is 'Module Procedure',
+ AiUsrNam    Text Is 'Current User',
+ AiExtError  Text Is 'External Error',
+ AiToElmnt   Text Is 'Elements Set',
+ AiQryName   Text Is 'Query Name');                                                      -- SK01
+

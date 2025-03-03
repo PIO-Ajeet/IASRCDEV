@@ -1,0 +1,68 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2020                                              //
+--Created Date.....: 2024/01/04                                                         //
+--Developer........: Manav Tripathi                                                     //
+--Description......: Repo Configuration Table                                           //
+--------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAREPOCNFG)  COMMIT(*NONE) DFTRDBCOL(#IADTA) //
+--------------------------------------------------------------------------------------- //
+
+Create or replace table REPO_Configuration(
+
+ Key_Name1         for column iAKeyName1  char(15)  not null with default ' ',
+ Key_Name2         for column iAKeyName2  char(15)  not null with default ' ',
+ Key_Value1        for column iAKeyVal1   char(30) not null with default ' ',
+ Val1_Description  for column iAVal1Des   char(50) not null with default ' ',
+ Key_Value2        for column iAKeyVal2   char(30)  not null with default ' ',
+ Val2_Description  for column iAVal2Des   char(50) not null with default ' ',
+ Key_Value3        for column iAKeyVal3   Decimal(9,2) Not Null With Default  0,
+ Val3_Description  for column iAVal3Des   char(50) not null with default ' ',
+ Crt_Usr_Name      for column iACrtUser   char(10)  not null with default ' ',
+ Crt_Timestamp     for column iACrtDTtm   timestamp not null default
+                                          current timestamp,
+ Upd_Usr_Name      for column iAUpdUser   CHAR(10)  not null default '',
+
+ Upd_Timestamp     for column iAUpdDTtm   timestamp not null for each row
+                                          on update as row change timestamp,
+Primary Key (iAKeyName1,iAKeyName2))
+rcdfmt IAREPOCNFR;
+
+Rename table REPO_Configuration to System Name IAREPOCNFG;
+
+Label on table REPO_Configuration is 'Repo Configuration Table';
+
+Label on column REPO_Configuration(
+ iAKeyName1  IS 'Key                 Name1',
+ iAKeyName2  IS 'Key                 Name2',
+ iAKeyVal1   IS 'Key                 Value1',
+ iAVal1Des   IS 'Key                 Value1              Description',
+ iAKeyVal2   IS 'Key                 Value2',
+ iAVal2Des   IS 'Key                 Value2              Description',
+ iAKeyVal3   IS 'Key                 Value3',
+ iAVal3Des   IS 'Key                 Value3              Description',
+ iACrtUser   IS 'Create              User                Name',
+ iACrtDTtm   IS 'Create              Timestamp',
+ iAUpdUser   IS 'Update              User                Name',
+ iAUpdDTtm   IS 'Update              Timestamp');
+
+Label On column REPO_Configuration(
+ iAKeyName1  Text is 'Key Name1',
+ iAKeyName2  Text is 'Key Name2',
+ iAKeyVal1   Text is 'Key Value1',
+ iAVal1Des   Text is 'Key Value1 Description',
+ iAKeyVal2   Text is 'Key Value2',
+ iAVal2Des   Text is 'Key Value2 Description',
+ iAKeyVal3   Text is 'Key Value3',
+ iAVal3Des   Text is 'Key Value3 Description',
+ iACrtUser   Text is 'Create User Name',
+ iACrtDTtm   Text is 'Create Timestamp',
+ iAUpdUser   Text is 'Update User Name',
+ iAUpdDTtm   Text is 'Update Timestamp');

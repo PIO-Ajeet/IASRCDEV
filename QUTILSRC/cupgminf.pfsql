@@ -1,0 +1,79 @@
+----------------------------------------------------------------------------//
+--CREATED BY.......: Programmers.io @ 2020                                  //
+--CREATE DATE......: 2021/12/09                                             //
+--DEVELOPER........: Rohini Alagarsamy                                      //
+--DESCRIPTION......: Program/Service Program Description                    //
+----------------------------------------------------------------------------//
+--Modification Log                                                          //
+----------------------------------------------------------------------------//
+--Date     Mod_ID      Developer   Case and Description                     //
+--YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                          //
+----------------------------------------------------------------------------//
+--Compilation Instruction
+-------------------------------------------------------------------------------
+--RUNSQLSTM SRCFILE(AK01/QDDLSRC) SRCMBR(CUPGMINF) COMMIT(*NONE)
+-------------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE CUPGMINF(
+ PGM_NAME         FOR COLUMN PGM        CHAR(10) NOT NULL WITH DEFAULT ' ',
+ PGM_LIB          FOR COLUMN PGMLIB     CHAR(10) NOT NULL WITH DEFAULT ' ',
+ PGM_TYP          FOR COLUMN PGMTYP     CHAR(10) NOT NULL WITH DEFAULT ' ',
+ MOD_NAME         FOR COLUMN MOD        CHAR(10) NOT NULL WITH DEFAULT ' ',
+ MOD_LIB          FOR COLUMN MODLIB     CHAR(10) NOT NULL WITH DEFAULT ' ',
+ MOD_TYP          FOR COLUMN MODTYP     CHAR(10) NOT NULL WITH DEFAULT ' ',
+ SRC_FILE         FOR COLUMN SRCF       CHAR(10) NOT NULL WITH DEFAULT ' ',
+ SRC_LIB          FOR COLUMN SRCLIB     CHAR(10) NOT NULL WITH DEFAULT ' ',
+ SRC_MBR          FOR COLUMN SRCMBR     CHAR(10) NOT NULL WITH DEFAULT ' ',
+ MOD_ATTRIB       FOR COLUMN MODATTRIB  CHAR(10) NOT NULL WITH DEFAULT ' ',
+ MOD_CRTDATE      FOR COLUMN MODCRTDATE CHAR( 6) NOT NULL WITH DEFAULT ' ',
+ MOD_CRTTIME      FOR COLUMN MODCRTTIME CHAR( 6) NOT NULL WITH DEFAULT ' ',
+ SRC_UPDDATE      FOR COLUMN SRCUPDDATE CHAR( 6) NOT NULL WITH DEFAULT ' ',
+ SRC_UPDTIME      FOR COLUMN SRCUPDTIME CHAR( 6) NOT NULL WITH DEFAULT ' ',
+ PGM_ENTPROC      FOR COLUMN PEP        CHAR( 1) NOT NULL WITH DEFAULT ' ',
+ TGT_RLS          FOR COLUMN TGTRLS     CHAR( 6) NOT NULL WITH DEFAULT ' ',
+ OBSERV           FOR COLUMN OBSRV      CHAR( 1) NOT NULL WITH DEFAULT ' ',
+
+
+PRIMARY KEY (MOD,MODLIB,MODTYP,PGM,PGMLIB,PGMTYP))
+RCDFMT CUPGMINFR;
+
+LABEL ON TABLE CUPGMINF IS 'IA PGM OR SRVPGM DESCRIPTION' ;
+
+LABEL ON COLUMN CUPGMINF(
+ PGM         IS 'PGM/SRVPGM          NAME',
+ PGMLIB      IS 'PGM/SRVPGM          LIBRARY',
+ PGMTYP      IS 'PGM TYPE            *PGM/*SRVPGM',
+ MOD         IS 'MODULE              NAME',
+ MODLIB      IS 'MODULE              LIBRARY',
+ MODTYP      IS 'MOD TYPE            *MODULE/*SRVPGM',
+ SRCF        IS 'SOURCE              FILE',
+ SRCLIB      IS 'SOURCE              LIBRARY',
+ SRCMBR      IS 'SOURCE              MEMBER',
+ MODATTRIB   IS 'MODULE              ATTRIBUTE',
+ MODCRTDATE  IS 'MODULE              COMPILE DATE',
+ MODCRTTIME  IS 'MODULE              COMPILE TIME',
+ SRCUPDDATE  IS 'SOURCE              UPDATE DATE',
+ SRCUPDTIME  IS 'SOURCE              UPDATE TIME',
+ PEP         IS 'PROGRAM             ENTRY PROC Y/N',
+ TGTRLS      IS 'TARGET              RELEASE',
+ OBSRV       IS 'OBSERVABLE          2=*UNOBS' );
+
+LABEL ON COLUMN CUPGMINF(
+ PGM         TEXT IS 'PGM/SRVPGM NAME',
+ PGMLIB      TEXT IS 'PGM/SRVPGM LIBRARY',
+ PGMTYP      TEXT IS 'PGM TYPE *PGM/*SRVPGM',
+ MOD         TEXT IS 'MODULE NAME',
+ MODLIB      TEXT IS 'MODULE LIBRARY',
+ MODTYP      TEXT IS 'MOD TYPE *MODULE/*SRVPGM',
+ SRCF        TEXT IS 'SOURCE FILE',
+ SRCLIB      TEXT IS 'SOURCE LIBRARY',
+ SRCMBR      TEXT IS 'SOURCE MEMBER',
+ MODATTRIB   TEXT IS 'MODULE ATTRIBUTE',
+ MODCRTDATE  TEXT IS 'MODULE COMPILE DATE',
+ MODCRTTIME  TEXT IS 'MODULE COMPILE TIME',
+ SRCUPDDATE  TEXT IS 'SOURCE UPDATE DATE',
+ SRCUPDTIME  TEXT IS 'SOURCE UPDATE TIME',
+ PEP         TEXT IS 'PROGRAM ENTRY PROC',
+ TGTRLS      TEXT IS 'TARGET RELEASE',
+ OBSRV       TEXT IS 'OBSERVABLE 2=*UNOBS' );

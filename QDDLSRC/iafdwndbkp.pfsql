@@ -1,0 +1,62 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2024/07/06                                                        //
+--Developer........: VK.Sribalaji                                                      //
+--Description......: File Download Request Detail Backup                               //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--        |        |            |                                                      //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAFDWNDBKP) COMMIT(*NONE) DFTRDBCOL(#IADTA) //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table File_Download_Request_Detail_Bkp(
+  Request_Id     For Column iAReqId     BigInt Not Null With Default 0,
+  Lib_Name       For Column iALibName   VarChar(10) Not Null With Default ' ',
+  Source_File    For Column iASrcFile   VarChar(10) Not Null With Default ' ',
+  Member_Name    For Column iAMbrName   VarChar(10) Not Null With Default ' ',
+  Member_Type    For Column iAMbrType   VarChar(10) Not Null With Default ' ',
+  Request_Status For Column iARqStat    VarChar(1) Not Null With Default ' ',
+  Retry_Count    For Column iARetryCnt  Integer Not Null With Default 0 ,
+  Ifs_Doc_Path   For Column iAIfsDocPt  VarChar(250)Not Null With Default ' ',
+  Ifs_Pdf_Path   For Column iAIfsPdfPt  VarChar(250)Not Null With Default ' ',
+  created_timestamp For Column iACrtDtTm timestamp Not Null With Default,
+  Failure_Reason For Column iAFailRsn   VarChar(255) Not Null With Default ' ')
+
+Rcdfmt iAFDwnDBkr;
+
+Rename table File_Download_Request_Detail_Bkp to System Name iAFDwnDBkp;
+
+Label On Table File_Download_Request_Detail_Bkp
+           Is 'File Download Request Detail Backup';
+
+Label On Column File_Download_Request_Detail_Bkp(
+ iAReqId    Is 'Request             Id',
+ iALibName  Is 'Library             Name',
+ iASrcFile  Is 'Source              File',
+ iAMbrName  Is 'Member              Name',
+ iAMbrType  Is 'Member              Type',
+ iARqStat   Is 'Request             Status',
+ iARetryCnt Is 'Retry               Count',
+ iAIfsDocPt Is 'Document            Ifs Path',
+ iAIfsPdfPt Is 'PDF                 Ifs Path',
+ iACrtDtTm  Is 'Created             Timestamp',
+ iAFailRsn  Is 'Failure             Reason');
+
+Label On Column File_Download_Request_Detail_Bkp(
+ iAReqId    Text Is 'Request Id',
+ iALibName  Text Is 'Library Name',
+ iASrcFile  Text Is 'Source File',
+ iAMbrName  Text Is 'Member Name',
+ iAMbrType  Text Is 'Member Type',
+ iARqStat   Text Is 'Request Status',
+ iARetryCnt Text Is 'Retry Count',
+ iAIfsDocPt Text Is 'Document Ifs Path',
+ iAIfsPdfPt Text Is 'PDF Ifs Path',
+ iACrtDtTm  Text Is 'Created Timestamp',
+ iAFailRsn  Text Is 'Failure Reason');

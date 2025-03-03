@@ -1,0 +1,74 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2020                                             //
+--Created Date.....: 2023/09/20                                                        //
+--Developer........: Abhijith Ravindran                                                //
+--Description......: To capture the scheduled job details of Metadata                  //
+-------------------------------------------------------------------------------------- //
+--Modification Log:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--06/11/23| 0001   | Manasa S   | Added new field for Build Mode for Task #338         //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAJOBDTL) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Scheduled_Job_Details (
+ Cross_Repository For Column iAXrefNam   Char(10) Not Null With Default ' ',
+ Job_Name         For Column iAJobName   Char(30) Not Null With Default ' ',
+ Job_Queue        For Column iAJobQueu   Char(10) Not Null With Default ' ',
+ Job_Date         For Column iAJobDate   NUMERIC(6,0) Not Null With Default 0,
+ Job_Time         For Column iAJobTime   NUMERIC(6,0) Not Null With Default 0,
+ Job_Status       For Column iAJobSts    Char(1) Not Null With Default ' ',
+ Build_Mode       For Column iABldMode   Char(7) Not Null With Default ' ',        --0001
+ Called_From      For Column iACaller    Char(10) Not Null With Default ' ',       --0001
+ Crt_ByUser       For Column CrtUser     Char(10) Not Null With Default ' ',
+ Crt_ByPgm        For Column CrtPgm      Char(10) Not Null With Default ' ',
+ Crt_TimeStamp    For Column CrtOnts     TimeStamp Not Null Default
+                                         Current TimeStamp,
+ Chg_ByUser       For Column ChgUser     Char(10) Not Null
+                                         With Default ' ',
+ Chg_ByPgm        For Column ChgPgm      Char(10) Not Null
+                                         With Default ' ',
+ Chg_TimeStamp    For Column ChgOnts     TimeStamp Not Null For Each Row
+                                         On Update As Row Change TimeStamp)
+
+RcdFmt iAJobDtlR;
+
+Rename table Scheduled_Job_Details To System Name iAJobDtl;
+
+LABEL ON TABLE Scheduled_Job_Details IS 'iA Metadata Build Job Details' ;
+
+Label On Column Scheduled_Job_Details(
+ iAXrefNam   Is 'Cross Reference     Name',
+ iAJobName   Is 'Job                 Name',
+ iAJobQueu   Is 'Job                 Queue',
+ iAJobDate   Is 'Job                 Date',
+ iAJobTime   Is 'Job                 Time',
+ iAJobSts    Is 'Job                 Status',
+ iABldMode   Is 'Build               Mode',                                        --0001
+ iACaller    Is 'Called              From',                                        --0001
+ CrtUser     Is 'Created By          User',
+ CrtPgm      Is 'Created By          Program',
+ CrtOnts     Is 'Created On          TimeStamp',
+ ChgUser     Is 'Changed By          User',
+ ChgPgm      Is 'Changed By          Program',
+ ChgOnts     Is 'Changed On          TimeStamp');
+
+Label On Column Scheduled_Job_Details(
+ iAXrefNam Text Is 'Cross Reference Name',
+ iAJobName Text Is 'Job Name',
+ iAJobQueu Text Is 'Job Queue',
+ iAJobDate Text Is 'Job Date',
+ iAJobTime Text Is 'Job Time',
+ iAJobSts  Text Is 'Job Status',
+ iABldMode Text Is 'Build Mode',                                                   --0001
+ iACaller  Text Is 'Called From',                                                  --0001
+ CrtUser   Text Is 'Created By User',
+ CrtPgm    Text Is 'Created By Program',
+ CrtOnts   Text Is 'Created On TimeStamp',
+ ChgUser   Text Is 'Changed By User',
+ ChgPgm    Text Is 'Changed By Program',
+ ChgOnts   Text Is 'Changed On TimeStamp');

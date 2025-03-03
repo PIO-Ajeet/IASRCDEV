@@ -1,0 +1,64 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2024/07/06                                                        //
+--Developer........: VK.Sribalaji                                                      //
+--Description......: Zip File Download Request Detail.                                 //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--        |        |            |                                                      //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAZIPDWNP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Zip_File_Download_Request_Detail(
+  Request_Id     For Column iAReqId     BigInt Not Null With Default 0,
+  Request_User   For Column iAReqUsr    VarChar(10) Not Null With Default ' ',
+  Request_Status For Column iAReqSts    VarChar(1) Not Null With Default ' ',
+  Doc_type       For Column iADocTyp    VarChar(1) Not Null With Default ' ',
+  Retry_Count    For Column iARetryCnt  Integer Not Null With Default 0 ,
+  Ifs_Zip_Path   For Column iAIfsZpth   VarChar(250)Not Null With Default ' ',
+  created_timestamp For Column iACrtDtTm timestamp default current_timestamp
+                                         not null,
+  Failure_Reason For Column iAFailRsn   VarChar(255) Not Null With Default ' ',
+  Notification   For Column iANotify    VarChar(255) Not Null With Default ' ',
+  Notification_Status For Column iANotStat VarChar(1) Not Null With Default ' ',
+  Notification_TimeStamp For Column iANotDtTm timestamp default
+                                            current_timestamp not null)
+
+Rcdfmt iAZipDwnR;
+
+Rename table Zip_File_Download_Request_Detail to System Name iAZipDwnP;
+
+Label On Table Zip_File_Download_Request_Detail
+           Is 'Zip File Download Request Detail';
+
+Label On Column Zip_File_Download_Request_Detail(
+ iAReqId    Is 'Request             Id',
+ iAReqUsr   Is 'Request             User',
+ iAReqSts   Is 'Request             Status',
+ iADocTyp   Is 'Document            Type',
+ iARetryCnt Is 'Retry               Count',
+ iAIfsZpth  Is 'Zip                 Ifs Path',
+ iACrtDtTm  Is 'Created             Timestamp',
+ iAFailRsn  Is 'Failure             Reason',
+ iANotify   Is 'Notification',
+ iANotStat  Is 'Notification        Status',
+ iANotDtTm  Is 'Notification        Timestamp');
+
+Label On Column Zip_File_Download_Request_Detail(
+ iAReqId    Text Is 'Request Id',
+ iAReqUsr   Text Is 'Request User',
+ iAReqSts   Text Is 'Request Status',
+ iADocTyp   Text Is 'Document Type',
+ iARetryCnt Text Is 'Retry Count',
+ iAIfsZpth  Text Is 'Zip Ifs Path',
+ iACrtDtTm  Text Is 'Created Timestamp',
+ iAFailRsn  Text Is 'Failure Reason',
+ iANotify   Text Is 'Notification',
+ iANotStat  Text Is 'Notification Status',
+ iANotDtTm  Text Is 'Notification Timestamp');

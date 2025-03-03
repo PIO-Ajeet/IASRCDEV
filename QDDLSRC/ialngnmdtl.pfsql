@@ -1,0 +1,71 @@
+ -- --------------------------------------------------------------------------//
+ -- CREATED BY.......: PROGRAMMERS.IO @ 2022                                  //
+ -- CREATE DATE......: 2022/05/17                                             //
+ -- DEVELOPER........: BRAJKISHOR PAL                                         //
+ -- DESCRIPTION......: IA LONG & SHORT NAME MAPPING TABLE                     //
+ -------------------------------------------------------------------------------
+ --MODIFICATION LOG:
+ -------------------------------------------------------------------------------
+ --DATE    | MOD_ID | DEVELOPER  | CASE AND DESCRIPTION
+ ----------|--------|------------|----------------------------------------------
+ --10/08/22|  PJ01  |Pranav Joshi| Changed Text on the file.
+ --04/10/23|  0001  |SUMER P     | RENAME THE FILE AILNGNMDTL FROM IALNGNMDTL(Task#246)
+ -------------------------------------------------------------------------------
+ -- COMPILATION INSTRUCTION
+ -- -----------------------------------------------------------------------------
+ -- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IALNGNMDTL) COMMIT(*NONE)                0001
+ -- DFTRDBCOL(#IADTA)
+ -- -----------------------------------------------------------------------------
+ CREATE OR REPLACE TABLE IA_LONG_SHORT_NAME(                                          0001
+  SOURCE_MEMBER     FOR COLUMN AISRCMBR    CHAR(0010) NOT NULL WITH DEFAULT ' ',
+  SOURCE_LIBRARY    FOR COLUMN AISRCLIB    CHAR(0010) NOT NULL WITH DEFAULT ' ',
+  SOURCE_FILE       FOR COLUMN AISRCFIL    CHAR(0010) NOT NULL WITH DEFAULT ' ',
+  SPECIFIC_LIBRARY  FOR COLUMN AISPCLIB    CHAR(0010) NOT NULL WITH DEFAULT ' ',
+  SPECIFIC_NAME     FOR COLUMN AISPCNAM VARCHAR(0128) NOT NULL WITH DEFAULT ' ',
+  ROUTINE_LIBRARY   FOR COLUMN AIRTNLIB    CHAR(0010) NOT NULL WITH DEFAULT ' ',
+  ROUTINE_NAME      FOR COLUMN AIRTNNAM VARCHAR(0128) NOT NULL WITH DEFAULT ' ',
+  ROUTINE_TYPE      FOR COLUMN AIRTNTYP    CHAR(0009) NOT NULL WITH DEFAULT ' ',
+  ROUTINE_BODY      FOR COLUMN AIRTNBDY    CHAR(0008) NOT NULL WITH DEFAULT ' ',
+  EXTERNAL_LIBRARY  FOR COLUMN AIEXTLIB    CHAR(0010) NOT NULL WITH DEFAULT ' ',
+  EXTERNAL_NAME     FOR COLUMN AIEXTNAM VARCHAR(0128) NOT NULL WITH DEFAULT ' ',
+  LANGUAGE          FOR COLUMN AILANG      CHAR(0008) NOT NULL WITH DEFAULT ' ',
+  IS_DETERMINISTIC  FOR COLUMN DETERMIN    CHAR(0003) NOT NULL WITH DEFAULT ' ')
+
+  RCDFMT IALNGNMDTR;                                                                        --0001
+
+  RENAME TABLE IA_LONG_SHORT_NAME TO SYSTEM NAME IALNGNMDTL;                                --0001
+
+  LABEL ON TABLE IALNGNMDTL IS                                                              --0001
+ --   'CREATE OR REPLACE TABLE IA_LONG_SHORT_NAME_MAPPING';                                 --0001
+      'AI Long Short Name Mapping';                                                         --PJ01
+
+  LABEL ON COLUMN IALNGNMDTL(                                                               --0001
+    AISRCMBR    IS 'SOURCE              MEMBER',
+    AISRCLIB    IS 'SOURCE              LIBRARY',
+    AISRCFIL    IS 'SOURCE              FILE NAME',
+    AISPCLIB    IS 'SPECIFIC            LIBRARY',
+    AISPCNAM    IS 'SPECIFIC            NAME (LONG)',
+    AIRTNLIB    IS 'ROUTINE             LIBRARY',
+    AIRTNNAM    IS 'ROUTINE             NAME',
+    AIRTNTYP    IS 'ROUTINE             TYPE',
+    AIRTNBDY    IS 'ROUTINE             BODY',
+    AIEXTLIB    IS 'EXTERNAL            LIBRARY',
+    AIEXTNAM    IS 'EXTERNAL            NAME',
+    AILANG      IS 'LANGUAGE',
+    DETERMIN    IS 'IS                  DETERMINISTIC' ) ;
+
+  LABEL ON COLUMN IALNGNMDTL(                                                               --0001
+     AISRCMBR    TEXT IS 'SOURCE MEMBER',
+     AISRCLIB    TEXT IS 'SOURCE LIBRARY',
+     AISRCFIL    TEXT IS 'SOURCE FILE',
+     AISPCLIB    TEXT IS 'SPECIFIC LIBRARY',
+     AISPCNAM    TEXT IS 'SPECIFIC NAME',
+     AIRTNLIB    TEXT IS 'ROUTINE LIBRARY',
+     AIRTNNAM    TEXT IS 'ROUTINE NAME',
+     AIRTNTYP    TEXT IS 'ROUTINE TYPE',
+     AIRTNBDY    TEXT IS 'ROUTINE BODY',
+     AIEXTLIB    TEXT IS 'EXTERNAL LIBRARY',
+     AIEXTNAM    TEXT IS 'EXTERNAL NAME',
+     AILANG      TEXT IS 'LANGUAGE',
+     DETERMIN    TEXT IS 'IS DETERMINISTIC' );
+

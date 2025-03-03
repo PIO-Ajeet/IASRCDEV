@@ -1,0 +1,58 @@
+ -- --------------------------------------------------------------------------//
+ -- CREATED BY.......: Programmers.io @ 2020                                  //
+ -- CREATE DATE......: 2022/08/23                                             //
+ -- DEVELOPER........: Pranav Joshi                                           //
+ -- DESCRIPTION......: AI Object Exclusion table.                             //
+ -- --------------------------------------------------------------------------//
+ -- Modification Log                                                          //
+ -- --------------------------------------------------------------------------//
+ -- Date     Mod_ID      Developer   Case and Description                     //
+ -- YY/MM/DD ----------  ----------  -----------------------------------------//
+ --24/03/07  0001         Vamsi     Added Sequence Number and changed        //
+ --                      Krishna2   Primary Key to Sequence Number(Task#598) //
+ --23/10/04  0002        KHUSHI W   Rename AIEXCOBJS to IAEXCOBJS (Task#252) //
+ --                                                                           //
+ -- --------------------------------------------------------------------------//
+ -- Compilation Instruction
+ -- -----------------------------------------------------------------------------
+ -- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAEXCOBJS) COMMIT(*NONE)                    --0002
+ -- -----------------------------------------------------------------------------
+
+create or replace table IAEXCOBJS(                                                       --0002
+ Sequence_Number   For column IASQNO      Smallint not null Generated always as          --0001
+                                          Identity (Start with 1 increment               --0001
+                                          By 1),                                         --0001
+ Library_Name      For column IAOOBJLIB   char(10)  not null with default ' ',
+ Object_Name       For column IAOOBJNAM   char(10)  not null with default ' ',
+ Object_Type       For column IAOOBJTYP   char(10)  not null with default ' ',
+ Object_Attr       For column IAOOBJATR   char(10)  not null with default ' ',
+ Object_Text       For column IAOOBJTXT   char(50)  not null with default ' ',
+ Crt_Usr_Name      For column IACRTUSRN   char(18)  not null default user,
+ Crt_Timestamp     For column IACRTTIMS   timestamp not null default
+                                          current timestamp,
+
+Primary Key (IASQNO))                                                                    --0001
+--PRIMARY KEY (IAOOBJLIB,IAOOBJNAM, IAOOBJTYP,IAOOBJATR))                                --0001
+Rcdfmt IAEXCOBJSR ;                                                                      --0002
+
+Label on table IAEXCOBJS IS 'IA Object Exclusion table';                                 --0002
+
+Label on column IAEXCOBJS(                                                               --0002
+ IASQNO      is 'Sequence            Number',                                            --0001
+ IAOOBJLIB   is 'Library             Name',
+ IAOOBJNAM   is 'Object              Name',
+ IAOOBJTYP   is 'Object              Type',
+ IAOOBJATR   is 'Object              Attribute',
+ IAOOBJTXT   is 'Object              Text',
+ IACRTUSRN   is 'Create              User                Name',
+ IACRTTIMS   is 'Create              Timestamp') ;
+
+Label on column IAEXCOBJS(                                                               --0002
+ IASQNO      text is 'Sequence Number',                                                  --0001
+ IAOOBJLIB   text is 'Library Name',
+ IAOOBJNAM   text is 'Object Name',
+ IAOOBJTYP   text is 'Object Type',
+ IAOOBJATR   text is 'Object Attribute',
+ IAOOBJTXT   text is 'Object Text',
+ IACRTUSRN   text is 'Create User Name',
+ IACRTTIMS   text is 'Create Timestamp') ;

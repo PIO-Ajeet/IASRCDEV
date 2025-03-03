@@ -1,0 +1,88 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/16/08                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: IA - DDS To DDL Dependent Program Details File                     //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction:                                                              //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IADDSDDLPP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table DDStoDDL_Dependent_Program_Details(
+ Request_Id         For Column iAReqId    BigInt    Not Null With Default 0,
+ Pgm_Object_Lib     For Column iAPgmObjLb Char(10)  Not Null With Default ' ',
+ Pgm_Object_Name    For Column iAPgmObjNm Char(10)  Not Null With Default ' ',
+ Pgm_Object_Attr    For Column iAPgmObjAt Char(10)  Not Null With Default ' ',
+ Pgm_Object_Type    For Column iAPgmObjTy Char(10)  Not Null With Default ' ',
+ Pgm_Source_Lib     For Column iAPgmSrcLb Char(10)  Not Null With Default ' ',
+ Pgm_Source_File    For Column iAPgmSrcFl Char(10)  Not Null With Default ' ',
+ Pgm_Source_Mbr     For Column iAPgmSrcMb Char(10)  Not Null With Default ' ',
+ Pgm_Source_Attr    For Column iAPgmSrcAt Char(10)  Not Null With Default ' ',
+ Dep_Object_Name    For Column iADepObjNm Char(10)  Not Null With Default ' ',
+ Dep_Object_Attr    For Column iADepObjAt Char(10)  Not Null With Default ' ',
+ Dep_Pgm_Chg_Flag   For Column iAPgmChgF  Char(1)   Not Null With Default ' ',
+ Obj_Compile_Status For Column iACmplSts  Char(1)   Not Null With Default ' ',
+ Obj_Compile_Msg    For Column iACmplMsg  Char(80)  Not Null With Default ' ',
+ Created_PgmName    For Column iACrtPgm   Char(10)  Not Null With Default ' ',
+ Created_UserName   For Column iACrtUser  Char(10)  Not Null With Default ' ',
+ Created_TimeStamp  For Column iACrtTime  TimeStamp Not Null Default
+                                          Current   TimeStamp,
+ Updated_PgmName    For Column iAUpdPgm   Char(10)  Not Null With Default ' ',
+ Updated_UserName   For Column iAUpdUser  Char(10)  Not Null With Default ' ',
+ Updated_TimeStamp  For Column iAUpdTime  TimeStamp Not Null For Each Row
+                                          On Update As Row Change TimeStamp)
+RcdFmt iADdsDdlPR;
+
+Rename Table DDStoDDL_Dependent_Program_Details to System Name iAddSDdlPP;
+
+Label On Table iAddSDdlPP Is 'IA - DDS To DDL Dependent Program Details File';
+
+Label On Column iAddSDdlPP(
+ iAReqId     Is 'Request             ID',
+ iAPgmObjLb  Is 'Program             Object              Library',
+ iAPgmObjNm  Is 'Program             Object              Name',
+ iAPgmObjAt  Is 'Program             Object              Attribute',
+ iAPgmObjTy  Is 'Program             Object              Type',
+ iAPgmSrcLb  Is 'Program             Source              Library',
+ iAPgmSrcFl  Is 'Program             Source              File',
+ iAPgmSrcMb  Is 'Program             Source              Member',
+ iAPgmSrcAt  Is 'Program             Source              Attribute ',
+ iADepObjNm  Is 'Based               On File             Object',
+ iADepObjAt  Is 'File                Object              Attribute',
+ iAPgmChgF   Is 'Program             Change              Flag',
+ iACmplSts   Is 'Program             Compile             Status',
+ iACmplMsg   Is 'Program             Compile             Message',
+ iACrtPgm    Is 'Created             Program             Name',
+ iACrtUser   Is 'Created             User                Name',
+ iACrtTime   Is 'Created             TimeStamp',
+ iAUpdPgm    Is 'Updated             Program             Name',
+ iAUpdUser   Is 'Updated             User                Name',
+ iAUpdTime   Is 'Updated             TimeStamp');
+
+Label On Column iAddSDdlPP(
+ iAReqId    Text Is 'Request ID',
+ iAPgmObjLb Text Is 'Program Object Library',
+ iAPgmObjNm Text Is 'Program Object Name',
+ iAPgmObjAt Text Is 'Program Object Attribute',
+ iAPgmObjTy Text Is 'Program Object Type',
+ iAPgmSrcLb Text Is 'Program Source Library',
+ iAPgmSrcFl Text Is 'Program Source File',
+ iAPgmSrcMb Text Is 'Program Source Member',
+ iAPgmSrcAt Text Is 'Program Source Attribute ',
+ iADepObjNm Text Is 'Based On File Object',
+ iADepObjAt Text Is 'File Object Attribute',
+ iAPgmChgF  Text Is 'Program Change Flag',
+ iACmplSts  Text Is 'Object Compile Status',
+ iACmplMsg  Text Is 'Object Compile Message',
+ iACrtPgm   Text Is 'Created Program Name',
+ iACrtUser  Text Is 'Created User Name',
+ iACrtTime  Text Is 'Created TimeStamp',
+ iAUpdPgm   Text Is 'Updated Program Name',
+ iAUpdUser  Text Is 'Updated User Name',
+ iAUpdTime  Text Is 'Updated TimeStamp');

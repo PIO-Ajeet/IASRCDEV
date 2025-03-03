@@ -1,0 +1,174 @@
+      /*%METADATA                                                     */
+      /* %TEXT CU Pre-compilation CL                                  */
+      /*%EMETADATA                                                    */
+/*---------------------------------------------------------------------------*/
+/*Copyright © Programmers.Io, All rights reserved.                           */
+/*---------------------------------------------------------------------------*/
+/*Program    : Pre-compilation utility section                               */
+/*Developer  : Ashwani Kumar                                                 */
+/*Description: iA Tool requires compiling of all sources of #IASRC library.  */
+/*             This program act pre-compilation section. It does the follow- */
+/*             list.  OLD backup library, if exist. Then, lists out all      */
+/*             in activities:                                                */
+/*             1. Sets up library list.                                      */
+/*             2. Deletes old library and object library, if exists.         */
+/*             3. Deletes previous spool file, if exists.                    */
+/*             4. Sends all work station users to come out.                  */
+/*             5. Gets list of job which are locking #IASRC/DTA/OBJ.         */
+/*             6. Delete all jobs.                                           */
+/*---------------------------------------------------------------------------*/
+/*Modification Log:                                                          */
+/*---------------------------------------------------------------------------*/
+             PGM
+
+             /*Copyright Section */
+             COPYRIGHT  TEXT('Copyright © Programmers.Io, 2022 All +
+                        rights reserved.')
+
+             /*Declaration Section */
+             DCL        VAR(&SRCLIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DTALIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DTALIB_OLD) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJLIB)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJLIB_OLD) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OWNER)      TYPE(*CHAR) LEN(10)
+             DCL        VAR(&ERROR)      TYPE(*CHAR) LEN(01)
+
+             /*Retrieving SOURCE, DATA and OBJECT library name */
+             RTVDTAARA  DTAARA(AICTLDTA (1 10))  RTNVAR(&SRCLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (11 10)) RTNVAR(&DTALIB)
+             RTVDTAARA  DTAARA(AICTLDTA (21 10)) RTNVAR(&OBJLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (71 10)) RTNVAR(&OWNER)
+
+             /*Adding QTEMP library at last */
+             ADDLIBLE   LIB(QTEMP) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Adding SOURCE library at last */
+             ADDLIBLE   LIB(&SRCLIB) POSITION(*LAST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Adding DATA library at last */
+             ADDLIBLE   LIB(&DTALIB) POSITION(*LAST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Adding OBJECT library at last */
+             ADDLIBLE   LIB(&OBJLIB) POSITION(*LAST)
+             MONMSG     MSGID(CPF0000)
+
+STMT01:
+             /*Removing OLD DATA library, if exists  */
+             CHGVAR     VAR(&DTALIB_OLD) VALUE(&DTALIB *TCAT 'OLD')
+             CLRLIB     LIB(&DTALIB_OLD)
+             MONMSG     MSGID(CPF2113) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&DTALIB_OLD) || 'is in use, +
+                        unable to clear library. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(STMT02))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(STMT01))
+             ENDDO
+             MONMSG     MSGID(CPF2110)
+             DLTLIB     LIB(&DTALIB_OLD)
+             MONMSG     MSGID(CPF2110)
+
+STMT02:
+             /*Removing OLD OBJ library, if exists  */
+             CHGVAR     VAR(&OBJLIB_OLD) VALUE(&OBJLIB *TCAT 'OLD')
+             CLRLIB     LIB(&OBJLIB_OLD)
+             MONMSG     MSGID(CPF2113) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&OBJLIB_OLD) || 'is in use, +
+                        unable to clear library. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(STMT03))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(STMT02))
+             ENDDO
+             MONMSG     MSGID(CPF2110)
+             DLTLIB     LIB(&OBJLIB_OLD)
+             MONMSG     MSGID(CPF2110)
+
+STMT03:
+             /*Delete previous existing spool files, if exists  */
+             DLTSPLF    FILE(*SELECT)
+             MONMSG     MSGID(CPF0000)
+
+             /*Send break message to all workstation */
+             SNDBRKMSG  MSG('Metadata build process starts soon. +
+                        Please sign off as this job will be +
+                        ended.') TOMSGQ(*ALLWS)
+
+             /*Delay Job for 02 seconds */
+             DLYJOB     DLY(02)
+
+             /*Delete locking jobs */
+             CALL       PGM(CUDLTLKJBR)
+
+             /*Delay Job for 05 seconds */
+             DLYJOB     DLY(02)
+
+             /*Fill CUPGMINF files */
+             DLTF       FILE(QTEMP/CUPGMINF)
+             MONMSG     MSGID(CPF0000)
+
+             CRTDUPOBJ  OBJ(CUPGMINF) FROMLIB(*LIBL) OBJTYPE(*FILE) +
+                        TOLIB(QTEMP) NEWOBJ(CUPGMINF) CST(*YES) +
+                        TRG(*YES) FILEID(*YES)
+
+             DLTF       FILE(QTEMP/IDSPOBJD)
+             MONMSG     MSGID(CPF0000)
+
+             DSPOBJD    OBJ(&OBJLIB/*ALL) OBJTYPE(*ALL) +
+                        OUTPUT(*OUTFILE) OUTFILE(QTEMP/IDSPOBJD)
+
+             CALL       PGM(CUWRTPGMD)
+
+             /*Taking backup of DATA library  */
+             CPYLIB     FROMLIB(&DTALIB) TOLIB(&DTALIB_OLD) +
+                        CRTLIB(*YES) DATA(*YES) CST(*YES) TRG(*YES)
+
+             GRTOBJAUT  OBJ(&DTALIB_OLD) OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&DTALIB_OLD) OBJTYPE(*LIB) NEWOWN(&OWNER)
+
+STMT04:
+             /*Clear DATA library  */
+             CLRLIB     LIB(&DTALIB)
+             MONMSG     MSGID(CPF2113) EXEC(DO)
+             SNDUSRMSG  MSG(%TRIM(&OBJLIB) || 'is in use, +
+                        unable to clear library. +
+                        (C I R)') VALUES('C' 'R' 'I') MSGRPY(&ERROR)
+             IF         COND(&ERROR *EQ 'C' *OR &ERROR *EQ 'c') +
+                        THEN(GOTO CMDLBL(END))
+             IF         COND(&ERROR *EQ 'I' *OR &ERROR *EQ 'i') +
+                        THEN(GOTO CMDLBL(STMT05))
+             IF         COND(&ERROR *EQ 'R' *OR &ERROR *EQ 'r') +
+                        THEN(GOTO CMDLBL(STMT04))
+             ENDDO
+
+STMT05:
+             /*Taking backup of OBJECT library  */
+             CHKOBJ     OBJ(&OBJLIB_OLD) OBJTYPE(*LIB)
+             MONMSG     MSGID(CPF9801) EXEC(DO)
+             RNMOBJ     OBJ(&OBJLIB) OBJTYPE(*LIB) NEWOBJ(&OBJLIB_OLD)
+             CRTLIB     LIB(&OBJLIB)
+             MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&OBJLIB) OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(&OBJLIB) OBJTYPE(*LIB) NEWOWN(&OWNER)
+
+             RMVLIBLE   LIB(&OBJLIB_OLD)
+             MONMSG     MSGID(CPF0000)
+             ADDLIBLE   LIB(&OBJLIB) POSITION(*LAST)
+             MONMSG     MSGID(CPF0000)
+             ENDDO
+
+END:
+             /*The End! */
+             RCLRSC
+             ENDPGM

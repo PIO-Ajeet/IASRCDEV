@@ -1,0 +1,41 @@
+------------------------------------------------------------------------------------------ //
+--Created By.......: Programmers.io @ 2024                                                 //
+--Created Date.....: 2024/08/12                                                            //
+--Developer........: Saumya Arora                                                          //
+--Description......: Notifications Details Table                                           //
+------------------------------------------------------------------------------------------ //
+--MODIFICATION LOG:                                                                        //
+------------------------------------------------------------------------------------------ //
+--Date    | Mod_ID | Developer  | Case and Description                                     //
+----------|--------|------------|--------------------------------------------------------- //
+------------------------------------------------------------------------------------------ //
+--Compilation Instruction                                                                  //
+------------------------------------------------------------------------------------------ //
+--RUNSQLSTM SRCFILE(IASRCDEV/QDDLSRC) SRCMBR(IANOTIFDTP) COMMIT(*NONE) DFTRDBCOL(IADTADEV) //
+------------------------------------------------------------------------------------------ //
+
+Create table NotificationsDetails(
+  Notification_ID        For Column iANotfId   BigInt Default 0 Not Null,
+  Created_Timestamp      For Column iACrtTims  Timestamp Default
+                                               Current_Timestamp Not Null,
+  Failure_Reason         For Column iAFailRsn  Varchar(500) Default ' '
+                                               Not Null,
+  Request_Id             For Column iAReqID    BigInt Default 0 Not Null)
+
+Rcdfmt iANotfDtlR;
+
+Rename table NotificationsDetails to System Name IANOTIFDTP;
+
+Label On Table NotificationsDetails Is 'Notifications Details ';
+
+Label On Column NotificationsDetails(
+ iANotfId   Is 'Notification          Id',
+ iACrtTims  Is 'Created        Timestamp',
+ iAFailRsn  Is 'Failure           Reason',
+ iAReqID    Is 'Request               Id');
+
+Label On Column NotificationsDetails(
+ iANotfId   Text Is 'Notification Id',
+ iACrtTims  Text Is 'Created Timestamp',
+ iAFailRsn  Text Is 'Failure Reason',
+ iAReqID    Text Is 'Request Id');

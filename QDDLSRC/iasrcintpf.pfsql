@@ -1,0 +1,81 @@
+-- ---------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2021                                   //
+-- CREATE DATE......: 2021/12/14                                              //
+-- DEVELOPER........: Ashwani kumar                                           //
+-- DESCRIPTION......: PFSQL for source intermediate file table                //
+-- ---------------------------------------------------------------------------//
+-- Modification Log                                                           //
+-- ---------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                      //
+-- YY/MM/DD ----------  ----------  ------------------------------------------//
+-- 22/08/10 BR01        BPAL        Increasing the IAREFOBJ length, due to    //
+--                                  Store procedure long name length.         //
+-- 23/11/02 AC01        ABHIJIT C   Need to change the usage filed to literal //
+--                      TASK#312    value instead of decimal                  //
+-- 24/07/31 0001        Sabarish    IFS Member Parsing Feature                //
+-- ---------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IASRCINTPF) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IASRCINTPF(
+   MEMBER_LIB_NAME   FOR COLUMN IAMBRLIB    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+   MEMBER_SRC_NAME   FOR COLUMN IAMBRSRC    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+   MEMBER_IFS_LOC    FOR COLUMN IAMIFSLC    CHAR(100) NOT NULL WITH DEFAULT ' ',             --0001
+   MEMBER_NAME       FOR COLUMN IAMBRNAM    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+   MEMBER_TYPE       FOR COLUMN IAMBRTYP    CHAR(10)  NOT NULL WITH DEFAULT ' ',
+   REFERENCED_OBJ    FOR COLUMN IAREFOBJ    CHAR(80)  NOT NULL WITH DEFAULT ' ',             //BR01
+-- REFERENCED_OBJ    FOR COLUMN IAREFOBJ    CHAR(11)  NOT NULL WITH DEFAULT ' ',             //BR01
+   REFERENCED_OBJTYP FOR COLUMN IAREFOTYP   CHAR(11)  NOT NULL WITH DEFAULT ' ',
+   REFERENCED_OBJLIB FOR COLUMN IAREFOLIB   CHAR(11)  NOT NULL WITH DEFAULT ' ',
+-- REFERENCED_OBJUSG FOR COLUMN IAREFOUSG   DECIMAL(10,0),                               //AC01
+   REFERENCED_OBJUSG FOR COLUMN IAREFOUSG   CHAR(10)  NOT NULL WITH DEFAULT ' ',         //AC01
+   FILE_USAGES       FOR COLUMN IARFILEUSG  CHAR(10)  NOT NULL WITH DEFAULT ' ')
+-- CRT_PGM_NAME      FOR COLUMN IACRTPGMN   CHAR(10)       NOT NULL WITH DEFAULT ' ',
+-- CRT_USR_NAME      FOR COLUMN IACRTUSRN   CHAR(10)       NOT NULL WITH DEFAULT ' ',
+-- CRT_TIMESTAMP     FOR COLUMN IACRTTIMS   TIMESTAMP NOT NULL DEFAULT
+--                                          CURRENT TIMESTAMP,
+-- UPD_PGM_NAME      FOR COLUMN IAUPDPGMN   CHAR(10)  NOT NULL WITH DEFAULT ' ',
+-- UPD_USR_NAME      FOR COLUMN IAUPDUSRN   CHAR(10)  NOT NULL DEFAULT ' ',
+-- UPD_TIMESTAMP     FOR COLUMN IAUPDTIMS   TIMESTAMP NOT NULL FOR EACH ROW
+--                                          ON UPDATE AS ROW CHANGE TIMESTAMP)
+RCDFMT IASRCINTPR;
+
+LABEL ON TABLE IASRCINTPF IS 'IA SOURCE INTERMEDIATE FILE';
+
+LABEL ON COLUMN IASRCINTPF(
+   IAMBRLIB    IS 'MEMBER              LIBRARY             NAME',
+   IAMIFSLC    IS 'MEMBER              IFS                 LOCATION',           --0001
+   IAMBRNAM    IS 'MEMBER              NAME',
+   IAMBRTYP    IS 'MEMBER              TYPE',
+   IAMBRSRC    IS 'MEMBER              SOURCE',
+   IAREFOBJ    IS 'REFERENCED          OBJECT',
+   IAREFOTYP   IS 'REFERENCED          OBJECT              TYPE',
+   IAREFOLIB   IS 'REFERENCED          OBJECT              LIBRARY',
+   IAREFOUSG   IS 'REFERENCED          OBJECT              USAGES',
+   IARFILEUSG  IS 'FILE                USAGES');
+-- IACRTPGMN   IS 'CREATE              PROGRAM             NAME',
+-- IACRTUSRN   IS 'CREATE              USER                NAME',
+-- IACRTTIMS   IS 'CREATE              TIMESTAMP',
+-- IAUPDPGMN   IS 'UPDATE              PROGRAM             NAME',
+-- IAUPDUSRN   IS 'UPDATE              USER                NAME',
+-- IAUPDTIMS   IS 'UPDATE              TIMESTAMP');
+
+LABEL ON COLUMN IASRCINTPF(
+   IAMBRLIB    TEXT IS 'MEMEBR LIBRARY NAME',
+   IAMIFSLC    TEXT IS 'MEMBER IFS LOCATION',                                   --0001
+   IAMBRNAM    TEXT IS 'MEMBER NAME',
+   IAMBRTYP    TEXT IS 'MEMBER TYPE',
+   IAMBRSRC    TEXT IS 'MEMBER SOURCE',
+   IAREFOBJ    TEXT IS 'REFERENCED OBJECT',
+   IAREFOTYP   TEXT IS 'REFERENCED OBJECT TYPE',
+   IAREFOLIB   TEXT IS 'REFERENCED OBJECT LIBRARY',
+   IAREFOUSG   TEXT IS 'REFERENCED OBJECT USAGES',
+   IARFILEUSG  TEXT IS 'FILE USAGES');
+-- IACRTPGMN   TEXT IS 'CREATE PROGRAM NAME',
+-- IACRTUSRN   TEXT IS 'CREATE USER NAME',
+-- IACRTTIMS   TEXT IS 'CREATE TIMESTAMP',
+-- IAUPDPGMN   TEXT IS 'UPDATE PROGRAM NAME',
+-- IAUPDUSRN   TEXT IS 'UPDATE USER NAME',
+-- IAUPDTIMS   TEXT IS 'UPDATE TIMESTAMP');

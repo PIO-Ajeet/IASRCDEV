@@ -1,0 +1,99 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 2024/01/01                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: DDS to DDL conversion mapping file                                 //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IASRCMAP) COMMIT(*NONE) DFTRDBCOL(#IADTA)    //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table DDStoDDL_Mapping_Details (
+ SrcMbr_Type     For Column MSrcMTyp  Char(10)     Not Null With Default ' ',
+ SrcLin_Type     For Column MSrcLTyp  Char(5)      Not Null With Default ' ',
+ Source_Spec     For Column MSrcSpec  Char(1)      Not Null With Default ' ',
+ SrcLin_Cntn     For Column MSrcLNct  Char(1)      Not Null With Default ' ',
+ Seq_No          For Column MSeqNo    Decimal(2,0) Not Null With Default 0,
+ KeyField_1      For Column MKeyFld1  Char(10)     Not Null With Default ' ',
+ KeyField_2      For Column MKeyFld2  Char(10)     Not Null With Default ' ',
+ KeyField_3      For Column MKeyFld3  Char(10)     Not Null With Default ' ',
+ KeyField_4      For Column MKeyFld4  Char(10)     Not Null With Default ' ',
+ Indent_Type     For Column MIndntTy  Char(10)     Not Null With Default ' ',
+ Subst_Char      For Column MSubsChr  Char(10)     Not Null With Default ' ',
+ Action_Type     For Column MActType  Char(10)     Not Null With Default ' ',
+ Src_Mapping     For Column MSrcMap   VarChar(200) Not Null With Default ' ',
+ Search_Fld1     For Column MSrhFld1  Char(10)     Not Null With Default ' ',
+ Search_Fld2     For Column MSrhFld2  Char(10)     Not Null With Default ' ',
+ Search_Fld3     For Column MSrhFld3  Char(10)     Not Null With Default ' ',
+ Search_Fld4     For Column MSrhFld4  Char(10)     Not Null With Default ' ',
+ Comment_Desc    For Column MCmtDesc  Char(100)    Not Null With Default ' ',
+ Created_By_User For Column CrtJobId  Char(10)     Not Null
+                                                    With Default 'USER ID',
+ Crt_TimeStam    For Column CrtOnts   TimeStamp    Not Null Default
+                                                    Current TimeStamp,
+ Changed_By_User For Column ChgJobId  Char(10)     Not Null
+                                                    With Default 'USER ID',
+ Chg_TimeStam    For Column ChgOnts   TimeStamp    Not Null For Each Row
+                                                    On Update As Row Change
+                                                    TimeStamp)
+RcdFmt iASrcMapr ;
+
+Rename Table DDStoDDL_Mapping_Details To System Name iASrcMap;
+
+Label On Table iASrcMap Is 'DDS to DDL Mapping File';
+
+Label On Column iASrcMap (
+ MSrcMTyp    Is 'Source Member       Type',
+ MSrcLTyp    Is 'Source Line         Type',
+ MSrcSpec    Is 'Source              Spec',
+ MSrcLNct    Is 'Source Line         Cont',
+ MSeqNo      Is 'Sequence            No',
+ MKeyFld1    Is 'KeyField            1',
+ MKeyFld2    Is 'KeyField            2',
+ MKeyFld3    Is 'KeyField            3',
+ MKeyFld4    Is 'KeyField            4',
+ MIndntTy    Is 'Indentation Type    (Add/Remove)',
+ MSubsChr    Is 'Substring           Character',
+ MActType    Is 'Action              Type',
+ MSrcMap     Is 'Source              Mapping',
+ MSrhFld1    Is 'Search              Field 1',
+ MSrhFld2    Is 'Search              Field 2',
+ MSrhFld3    Is 'Search              Field 3',
+ MSrhFld4    Is 'Search              Field 4',
+ MCmtDesc    Is 'Comment             Description',
+ CrtJobId    Is 'Create  Job         Id',
+ CrtOnts     Is 'Created On          TimeStamp',
+ ChgJobId    Is 'Change  Job         Id',
+ ChgOnts     Is 'Changed On          TimeStamp');
+
+Label On Column iASrcMap (
+ MSrcMTyp   Text Is 'Source Member Type',
+ MSrcLTyp   Text Is 'Source Line Type',
+ MSrcSpec   Text Is 'Source Specification',
+ MSrcLNct   Text Is 'Line Continuation',
+ MSeqNo     Text Is 'Sequence No',
+ MKeyFld1   Text Is 'Key Field 1',
+ MKeyFld2   Text Is 'Key Field 2',
+ MKeyFld3   Text Is 'Key Field 3',
+ MKeyFld4   Text Is 'Key Field 4',
+ MIndntTy   Text Is 'Indentation Type (Add/Remove)',
+ MSubsChr   Text Is 'Substring Character',
+ MActType   Text Is 'Action Type',
+ MSrcMap    Text Is 'Source Mapping',
+ MSrhFld1   Text Is 'Search Field 1',
+ MSrhFld2   Text Is 'Search Field 2',
+ MSrhFld3   Text Is 'Search Field 3',
+ MSrhFld4   Text Is 'Search Field 4',
+ MCmtDesc   Text Is 'Comment Description',
+ CrtJobId   Text Is 'Create Job ID',
+ CrtOnts    Text Is 'Created On TimeStamp',
+ ChgJobId   Text Is 'Change Job ID',
+ ChgOnts    Text Is 'Changed On TimeStamp');
+

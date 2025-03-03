@@ -1,0 +1,88 @@
+      /*%METADATA                                                     */
+      /* %TEXT iA Tool Driver Program                                 */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------ */
+/*CREATED BY.......: Programmers.io @ 2020                                             */
+/*CREATE DATE......: 2020/01/01                                                        */
+/*DEVELOPER........: Kaushal kumar                                                     */
+/*DESCRIPTION......: iA Tool Driver Program                                            */
+/*                                                                                     */
+/*PROCEDURE LOG:                                                                       */
+/*------------------------------------------------------------------------------------ */
+/*Procedure Name           | Procedure Description                                     */
+/*-------------------------|---------------------------------------------------------- */
+/*                         |                                                           */
+/*                         |                                                           */
+/*------------------------------------------------------------------------------------ */
+/*                                                                                     */
+/*MODIFICATION LOG:                                                                    */
+/*------------------------------------------------------------------------------------ */
+/*Date    | Mod_ID | Developer  | Case and Description                                 */
+/*--------|--------|------------|----------------------------------------------------- */
+/*22/08/30| PJ01   | Pranav J   | Keep QTEMP after product libraries.                  */
+/*        |        |            |                                                      */
+/*------------------------------------------------------------------------------------ */
+
+             PGM
+
+             DCL        VAR(&FLAG)    TYPE(*CHAR) LEN(1)
+             DCL        VAR(&CCSID)   TYPE(*DEC)  LEN(5 0)
+             DCL        VAR(&USRLIBL) TYPE(*CHAR) LEN(2750)
+             DCL        VAR(&CURLIB)  TYPE(*CHAR) LEN(10)
+             DCL        VAR(&CMD)     TYPE(*CHAR) LEN(2800)
+             DCL        VAR(&DATA)    TYPE(*CHAR) LEN(80)
+             DCL        VAR(&PGMLIB) TYPE(*CHAR) LEN(10) VALUE(' ')
+
+             CHGVAR     VAR(%BIN(&DATA 1 4))  VALUE(80)
+             CHGVAR     VAR(%BIN(&DATA 5 4))  VALUE(80)
+             CHGVAR     VAR(%BIN(&DATA 9 4))  VALUE(0)
+             CHGVAR     VAR(%BIN(&DATA 13 4)) VALUE(0)
+
+             CALLPRC    PRC('_MATPGMNM') PARM((&DATA))
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             CHGVAR     VAR(&PGMLIB) VALUE('#IAOBJ')
+             ENDDO
+
+             IF         COND(&PGMLIB = ' ') THEN(DO)
+             CHGVAR     VAR(&PGMLIB) VALUE(%SST(&DATA 19 10))
+             ENDDO
+
+             RTVJOBA    USRLIBL(&USRLIBL) CCSID(&CCSID) CURLIB(&CURLIB)
+             IF         COND(&CURLIB = ('*NONE'))  +
+                           THEN(CHGVAR VAR(&CURLIB) VALUE('*CRTDFT  '))
+             CHGJOB     CCSID(37)
+
+             IF         COND(&PGMLIB *EQ '#IAOBJ') THEN(DO)
+             CHGLIBL    LIBL(#IADTA #IAOBJ QGPL QTEMP)
+             MONMSG     MSGID(CPF0000)
+             ENDDO
+             ELSE       CMD(DO)
+             CHGLIBL    LIBL(IAEMGDEV IADTADEV IAOBJDEV QGPL QTEMP)
+             MONMSG     MSGID(CPF0000)
+             ENDDO
+
+             CHKOBJ     OBJ(*LIBL/IAMENUR) OBJTYPE(*PGM)
+             MONMSG     MSGID(CPF9801) EXEC(GOTO CMDLBL(END1))
+
+             CHGVAR     VAR(&FLAG) VALUE('Y')
+             IF         COND(&FLAG = 'Y') THEN(DO)
+                CALL       PGM(IAMENUR)
+             ENDDO
+
+             GOTO       CMDLBL(END2)
+
+ END1:       SNDPGMMSG  MSG('INCOMPLETE SETUP!')
+
+ END2:
+             CHGJOB     CCSID(&CCSID)
+
+             CHGVAR     VAR(&CMD) VALUE('CHGLIBL LIBL(' *CAT +
+                          &USRLIBL *CAT ')  CURLIB(' *CAT &CURLIB +
+                          *TCAT ' )')
+             CALL       PGM(QCMDEXC) PARM(&CMD 2800)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+                CHGLIBL    LIBL(QTEMP QGPL)
+                MONMSG     MSGID(CPF0000)
+             ENDDO
+
+             ENDPGM

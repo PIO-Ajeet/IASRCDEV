@@ -1,0 +1,78 @@
+----------------------------------------------------------------------------//
+--Created By.......: Programmers.io @ 2022                                  //
+--Creation Date....: 2022/08/24                                             //
+--Developer........: Shobhit Gupta                                          //
+--Description......: Procedure Reference Detail                             //
+----------------------------------------------------------------------------//
+--Modification Log                                                          //
+----------------------------------------------------------------------------//
+--Date     Mod_ID      Developer   Case and Description                     //
+--YY/MM/DD ----------  ----------  -----------------------------------------//
+--24/07/02 0001        Akhil K.    Changed AIPROCREF to IAPROCREF           //
+----------------------------------------------------------------------------//
+--Compilation Instruction
+-------------------------------------------------------------------------------
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPROCREF) COMMIT(*NONE)
+-------------------------------------------------------------------------------
+
+create or replace table Procedure_Reference_Detail(
+
+ object_name       for column aiobjnam    Char(10)  not null with default ' ',
+ object_library    for column aiobjlib    Char(10)  not null with default ' ',
+ object_type       for column aiobjtyp    Char(10)  not null with default ' ',
+ object_attribute  for column aiobjattr   Char(10)  not null with default ' ',
+ procedure_name    for column aiprcnam    Char(80)  not null with default ' ',
+ referenced_object_name
+                   for column airobjnam   Char(10)  not null with default ' ',
+ referenced_object_library
+                   for column airobjlib   Char(10)  not null with default ' ',
+ referenced_object_type
+                   for column airobjtyp   Char(10)  not null with default ' ',
+ referenced_object_attribute
+                   for column airobjatt   Char(10) not null with default ' ',
+ referenced_procedure_name
+                   for column airprcnam   Char(80)  not null with default ' ',
+ created_by        for column aicrtusr    Char(10) not null with default ' ',
+ created_timeStamp for column aicrttim    Timestamp Not Null Default
+                                          Current Timestamp,
+ updated_by        for column aiupdusr    Char(10) not null with default ' ',
+ updated_timeSatmp for column aiupdtim    Timestamp Not Null For Each Row
+                                          On Update As Row Change Timestamp)
+
+rcdfmt iaprocrefr;                                                                       --0001
+
+rename table Procedure_Reference_Detail to system name iaprocref;                        --0001
+
+label on table iaprocref is 'Procedure Reference Details Table';                         --0001
+
+label on column iaprocref(                                                               --0001
+ aiobjnam    is 'Object              Name',
+ aiobjlib    is 'Object              Library',
+ aiobjtyp    is 'Object              Type',
+ aiobjattr   is 'Object              Attribute',
+ aiprcnam    is 'Procedure           Name',
+ airobjnam   is 'Referenced          Object Name',
+ airobjlib   is 'Referenced          Object Library',
+ airobjtyp   is 'Referenced          Object Type',
+ airobjatt   is 'Referenced          Object Attribute',
+ airprcnam   is 'Referenced          Procedure Name',
+ aicrtusr    is 'Created             By',
+ aicrttim    is 'Created             TimeStamp',
+ aiupdusr    is 'Updated             By',
+ aiupdtim    is 'Updated             TimeStamp');
+
+ label on column iaprocref(                                                              --0001
+  aiobjnam    text is 'Object Name',
+  aiobjlib    text is 'Object Library',
+  aiobjtyp    text is 'Object Type',
+  aiobjattr   text is 'Object Attribute',
+  aiprcnam    text is 'Procedure Name',
+  airobjnam   text is 'Referenced Object Name',
+  airobjlib   text is 'Referenced Object Library',
+  airobjtyp   text is 'Referenced Object Type',
+  airobjatt   text is 'Referenced Object Attribute',
+  airprcnam   text is 'Referenced Procedure Name',
+  aicrtusr    text is 'Created By',
+  aicrttim    text is 'Created TimeStamp',
+  aiupdusr    text is 'Updated By',
+  aiupdtim    text is 'Updated TimeStamp');

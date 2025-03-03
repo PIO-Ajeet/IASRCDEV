@@ -1,0 +1,42 @@
+--------------------------------------------------------------------------------------- //
+--Created By........: Programmers.io @ 2022                                             //
+--Created Date......: 18/01/2022                                                        //
+--Developer.........: Devendra Tomar                                                    //
+--Description.......: IA License Key Table                                              //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date      Mod_ID      Developer   Case and Description                                //
+--YY/MM/DD  ----------  ----------  --------------------------------------------------- //
+--23/10/04  0001        Aakash      Rename AILICKEYP to IALICKEYP. [Task #267]          //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IALICKEYP) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Licensce_Key_Table(
+ Licensce_Key     For Column AiLicKey    Char(100)    Not Null With Default ' ',
+ Key_Generator    For Column AiKeyGen    Decimal(8,0) Not Null With Default  0,
+ Port_Number      For Column AiPortNo    Decimal(10,0) Not Null With Default  0,
+ Version_Number   For column AiVerNo     Char(6) Not Null With Default ' ',
+
+PRIMARY KEY (AILICKEY))
+RcdFmt IaLicKeyPr;                                                                       --0001
+
+Rename table Licensce_Key_Table to System Name IALICKEYP;                                --0001
+
+Label On Table Licensce_Key_Table Is 'IA Licensce Key Table';
+
+Label On Column Licensce_Key_Table(
+ AiLicKey    Is 'Licensce            Key',
+ AiKeyGen    Is 'Generator',
+ AiPortNo    Is 'Port                Number',
+ AiVerNo     Is 'Product             Version');
+
+Label On Column Licensce_Key_Table(
+ AiLicKey    Text Is 'Licensce Key',
+ AiKeyGen    Text Is 'Generator',
+ AiPortNo    Text Is 'Port Number',
+ AiVerNo     Text Is 'Product Version');
+

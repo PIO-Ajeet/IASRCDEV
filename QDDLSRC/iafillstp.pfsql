@@ -1,0 +1,23 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAFILLSTP) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAFILLSTP(
+
+ FILENAME          FOR COLUMN FILNAME     CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ COMMENT           FOR COLUMN CMNT        CHAR(10)  NOT NULL WITH DEFAULT ' ')
+RCDFMT IAFILLSTPR;
+

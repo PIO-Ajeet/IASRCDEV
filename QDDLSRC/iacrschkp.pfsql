@@ -1,0 +1,29 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......: Program to build Meta Data                             //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IACRSCHKP) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IACRSCHKP(
+
+ CHECK_FILE        FOR COLUMN CHKNAME     CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ BEFORE_REPO       FOR COLUMN BFREPO      CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ AFTER_REPO        FOR COLUMN AFREPO      CHAR(10)  NOT NULL WITH DEFAULT ' ',
+ BEFORE_CNT        FOR COLUMN BFCNT     DECIMAL(6,0)  NOT NULL WITH DEFAULT 0 ,
+ AFTERCNT          FOR COLUMN AFCNT     DECIMAL(6,0)  NOT NULL WITH DEFAULT 0 ,
+ DIFFERNCE_CNT     FOR COLUMN DIFFCNT   DECIMAL(6,0)  NOT NULL WITH DEFAULT 0 ,
+ UPD_TIME          FOR COLUMN UPDTIME   TIMESTAMP NOT NULL DEFAULT
+                                                    CURRENT TIMESTAMP)
+RCDFMT IACRSCHKPR;
+

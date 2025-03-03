@@ -1,0 +1,56 @@
+--------------------------------------------------------------------------------------- //
+--Created By........: Programmers.io @ 2022                                             //
+--Created Date......: 2023/08/23                                                        //
+--Developer.........:                                                                   //
+--Description.......: Capture the newly added/modified member and object details for    //
+--                    refresh process.                                                  //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date      Mod_ID      Developer   Case and Description                                //
+--YY/MM/DD  ----------  ----------  --------------------------------------------------- //
+--xx/xx/xx                                                                              //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAREFOBJF) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Refresh_Object_Member_Details(
+ Object_Name          For Column IaObjName Char(10) Not Null With Default ' ',
+ Object_Library       For Column IaObjLib  Char(10) Not Null With Default ' ',
+ Object_Type          For Column IaObjType Char(7)  Not Null With Default ' ',
+ Object_Attr          For Column IaObjAttr Char(10) Not Null With Default ' ',
+ Member_Name          For Column IaMemName Char(10) Not Null With Default ' ',
+ Member_Library       For Column IaMemLib  Char(10) Not Null With Default ' ',
+ Source_Physical_file For Column IaSrcPf   Char(10) Not Null With Default ' ',
+ Nember_Type          For Column IaMemType Char(10) Not Null With Default ' ',
+ Status               For Column IaStatus  Char(1)  Not Null With Default ' ' )
+
+RcdFmt IaRefObjFr;
+
+Rename Table Refresh_Object_Member_Details To System Name IaRefObjF;
+
+Label On Table Refresh_Object_Member_Details Is 'IA Refresh Object/Member ';
+
+Label On Column Refresh_Object_Member_Details(
+ IaObjName   Is 'Object              Name',
+ IaObjLib    Is 'Object              Library',
+ IaObjType   Is 'Object              Type',
+ IaObjAttr   Is 'Object              Attr',
+ IaMemName   Is 'Member              Name',
+ IaMemLib    Is 'Member              Library',
+ IaSrcPf     Is 'Source              Physical File',
+ IaMemType   Is 'Member              Type',
+ IaStatus    Is 'Status'                   );
+
+Label On Column Refresh_Object_Member_Details(
+ IaObjName  Text Is 'Object Name',
+ IaObjLib   Text Is 'Object Library',
+ IaObjType  Text Is 'Object Type',
+ IaObjAttr  Text Is 'Object Attr',
+ IaMemName  Text Is 'Member Name',
+ IaMemLib   Text Is 'Member Library',
+ IaSrcPf    Text Is 'Source Physical File',
+ IaMemType  Text Is 'Member Type',
+ IaStatus   Text Is 'Status');

@@ -1,0 +1,11 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT IA - DDStoDDL Prototype Definition                      *
+      //%EMETADATA                                                     *
+
+Dcl-Pr iAGetSrcMbrInfo Char(40);
+   *N Char(10);
+   *N Char(10);
+   *N Char(10);
+   *N Char(10);
+End-Pr;

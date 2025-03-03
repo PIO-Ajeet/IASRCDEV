@@ -1,0 +1,35 @@
+      /*%METADATA                                                     */
+      /* %TEXT 03 Service Program Prototypes                          */
+      /*%EMETADATA                                                    */
+             STRPGMEXP  SIGNATURE('IATOOL_SRVPGM_03')
+
+                EXPORT     SYMBOL('IAPSRCHARFR')
+                EXPORT     SYMBOL('IAPSRTRM')
+                EXPORT     SYMBOL('IAPSREDITC')
+                EXPORT     SYMBOL('IAPSREDITW')
+                EXPORT     SYMBOL('IAPSRDAT')
+                EXPORT     SYMBOL('IADIVBIF')
+                EXPORT     SYMBOL('IAPSRCFREE')
+                EXPORT     SYMBOL('IALOOKUPBIF')
+                EXPORT     SYMBOL('IAREPLACE')
+                EXPORT     SYMBOL('IAPSRXFFR')
+                EXPORT     SYMBOL('IAPSRCEVFX')
+                EXPORT     SYMBOL('IAPSRSCN')
+                EXPORT     SYMBOL('IAPSRLEN')
+                EXPORT     SYMBOL('IAPSRCHK')
+                EXPORT     SYMBOL('IATIMEBIF')
+                EXPORT     SYMBOL('IAXLTBIF')
+                EXPORT     SYMBOL('IAPSRIOFR')
+                EXPORT     SYMBOL('IAINTBIF')
+                EXPORT     SYMBOL('IADAYS')
+                EXPORT     SYMBOL('IAREMBIF')
+                EXPORT     SYMBOL('IASUBSTTBIF')
+                EXPORT     SYMBOL('IADECBIF')
+                EXPORT     SYMBOL('CALLBIF')
+                EXPORT     SYMBOL('SPLIT_COMPONENT_5')
+                EXPORT     SYMBOL('SPLIT_COMPONENT_6')
+                EXPORT     SYMBOL('IAPSRCFIX')
+                EXPORT     SYMBOL('ASSIGNMENT_OPER')
+                EXPORT     SYMBOL('PROCADDSUB')
+
+             ENDPGMEXP

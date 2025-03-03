@@ -1,0 +1,44 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT PSSR subroutine of Exception/Error log                  *
+      //%EMETADATA                                                     *
+//--------------------------------------------------------------------------------------//
+//Copybook AICERRLOG: Exception/Error log definitions                                   //
+//--------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------//
+//Modification Log                                                                      //
+//--------------------------------------------------------------------------------------//
+//Date     Mod_ID      Developer   Case and Description                                 //
+//23/10/04  0001       Himanshu    Change the file name from AIDUMPDTLP                 //
+//                     Gehlot      to IADUMPDTLP file. Task #251                        //
+//          0002                   Rename AIERRLOGSV to IAERRLOGSV                      //
+//                                 Task #260                                            //
+//--------------------------------------------------------------------------------------//
+begsr *PSSR;
+
+   monitor;
+      Eval-corr uDpsds = wkuDpsds;                                             //SK01
+      iAPssrErrorLog(uDpsds);                     //0002
+      dump(a);
+
+  //  uwCommand = 'CPYSPLF FILE(QPPGMDMP) TOFILE(*LIBL/AIDUMPDTLP) JOB(' +         //0001
+      uwCommand = 'CPYSPLF FILE(QPPGMDMP) TOFILE(*LIBL/IADUMPDTLP) JOB(' +         //0001
+                  %editc(uDpsds.JobNmbr:'X') + '/' + %trim(uDpsds.JobUser) +
+                  '/' + %trim(uDpsds.JobNme) + ') SPLNBR(*LAST) MBROPT(*ADD)';
+
+      iAExcCommand(uwCommand:%len(uwCommand));    //0002
+
+      clear uwCommand;
+      uwCommand = 'DLTSPLF FILE(QPPGMDMP) JOB(' + %editc(uDpsds.JobNmbr:'X') +
+                  '/' + %trim(uDpsds.JobUser) + '/' + %trim(uDpsds.JobNme) +
+                  ') SPLNBR(*LAST)';
+
+
+      iAExcCommand(uwCommand:%len(uwCommand));     //0002
+   on-error;
+   endmon;
+
+   *inlr = *on;
+   return;
+
+endsr;

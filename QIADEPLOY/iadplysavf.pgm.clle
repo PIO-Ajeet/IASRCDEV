@@ -1,0 +1,141 @@
+      /*%METADATA                                                     */
+      /* %TEXT Create Save File for iA Tool                           */
+      /*%EMETADATA                                                    */
+             PGM        PARM(&LIB &FTP)
+             DCL        VAR(&LIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FTP) TYPE(*CHAR) LEN(1)
+
+             IF         COND(&LIB = '#IAOBJ' *OR &LIB = '#IASRC' *OR +
+                          &LIB = '#IADTA' *OR &LIB = '#IACOMPILE' +
+                          *OR &LIB = '#IAEMG') THEN(DO)
+             SNDPGMMSG  MSG('THIS IS A TOOL LIBRARY. CHOOSE ANOTHER +
+                          LIBRARY')
+             GOTO       CMDLBL(END)
+             ENDDO
+             ELSE       CMD(DO)
+             CRTLIB     LIB(&LIB) TYPE(*TEST)
+             MONMSG     MSGID(CPF0000)
+
+             CLRLIB     LIB(&LIB)
+
+             CALLSUBR   SUBR(CRTSAVFILE)
+
+             CALLSUBR    SUBR(SAVSAFLIB)
+
+             SAVOBJ     OBJ(IADTASAVF IAOBJSAVF IASRCSAVF IAEMGSAVF +
+                          IACMPSAVF) LIB(&LIB) DEV(*SAVF) +
+                          SAVF(&LIB/IATOOL)
+             ENDDO
+
+ FTPSTART:   IF         COND(&FTP = 'Y') THEN(DO)
+
+             IF         COND(&LIB *NE 'BACKUP') THEN(DO)
+             CRTLIB     LIB(BACKUP)
+             MONMSG     MSGID(CPF0000)
+
+             CLRLIB     LIB(BACKUP)
+
+             CRTDUPOBJ  OBJ(IATOOL) FROMLIB(&LIB) OBJTYPE(*FILE) +
+                          TOLIB(BACKUP) DATA(*YES) CST(*NO) +
+                          TRG(*NO) FILEID(*YES)
+             ENDDO
+
+             OVRDBF     FILE(INPUT) TOFILE(#IASRC/QIADEPLOY) +
+                          MBR(IAFTPCMD)
+             OVRDBF     FILE(OUTPUT) TOFILE(#IASRC/QIADEPLOY) +
+                          MBR(IAFTPLOG)
+             FTP        RMTSYS('148.66.157.230')
+
+             SNDPGMMSG  MSG('FTP PROCESSED.')
+
+ FTPEND:     ENDDO
+
+             SUBR       SUBR(SAVSAFLIB)
+                SAVLIB     LIB(#IADTA) DEV(*SAVF) SAVF(&LIB/IADTASAVF)
+
+                SAVLIB     LIB(#IAOBJ) DEV(*SAVF) SAVF(&LIB/IAOBJSAVF)
+
+                SAVLIB     LIB(#IASRC) DEV(*SAVF) SAVF(&LIB/IASRCSAVF)
+
+                SAVLIB     LIB(#IAEMG) DEV(*SAVF) SAVF(&LIB/IAEMGSAVF)
+
+                SAVLIB     LIB(#IACOMPILE) DEV(*SAVF) SAVF(&LIB/IACMPSAVF)
+             ENDSUBR
+
+             SUBR       SUBR(CRTSAVFILE)
+               CRTSAVF    FILE(&LIB/IASRCSAVF)
+               MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&LIB/IASRCSAVF) OBJTYPE(*FILE) +
+                          USER(*PUBLIC) AUT(*ALL)
+               MONMSG     MSGID(CPF0000)
+             CHGOBJOWN  OBJ(&LIB/IASRCSAVF) OBJTYPE(*FILE) +
+                          NEWOWN(QPGMR)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IADTASAVF)
+               MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&LIB/IADTASAVF) OBJTYPE(*FILE) +
+                          USER(*PUBLIC) AUT(*ALL)
+               MONMSG     MSGID(CPF0000)
+             CHGOBJOWN  OBJ(&LIB/IADTASAVF) OBJTYPE(*FILE) +
+                          NEWOWN(QPGMR)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IAOBJSAVF)
+               MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&LIB/IAOBJSAVF) OBJTYPE(*FILE) +
+                          USER(*PUBLIC) AUT(*ALL)
+               MONMSG     MSGID(CPF0000)
+             CHGOBJOWN  OBJ(&LIB/IAOBJSAVF) OBJTYPE(*FILE) +
+                          NEWOWN(QPGMR)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IATOOL)
+               MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&LIB/IATOOL) OBJTYPE(*FILE) +
+                          USER(*PUBLIC) AUT(*ALL)
+               MONMSG     MSGID(CPF0000)
+             CHGOBJOWN  OBJ(&LIB/IATOOL) OBJTYPE(*FILE) +
+                          NEWOWN(QPGMR)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IAEMGSAVF)
+               MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&LIB/IAEMGSAVF) OBJTYPE(*FILE) +
+                          USER(*PUBLIC) AUT(*ALL)
+               MONMSG     MSGID(CPF0000)
+             CHGOBJOWN  OBJ(&LIB/IAEMGSAVF) OBJTYPE(*FILE) +
+                          NEWOWN(QPGMR)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IACMPSAVF)
+               MONMSG     MSGID(CPF0000)
+
+             GRTOBJAUT  OBJ(&LIB/IACMPSAVF) OBJTYPE(*FILE) +
+                          USER(*PUBLIC) AUT(*ALL)
+               MONMSG     MSGID(CPF0000)
+             CHGOBJOWN  OBJ(&LIB/IACMPSAVF) OBJTYPE(*FILE) +
+                          NEWOWN(QPGMR)
+               MONMSG     MSGID(CPF0000)
+             ENDSUBR
+
+             SUBR       SUBR(CLRSAVFILE)
+               CLRSAVF    FILE(&LIB/IADTASAVF)
+
+               CLRSAVF    FILE(&LIB/IAOBJSAVF)
+
+               CLRSAVF    FILE(&LIB/IASRCSAVF)
+
+               CLRSAVF    FILE(&LIB/IATOOL)
+
+               CLRSAVF    FILE(&LIB/IAEMGSAVF)
+
+               CLRSAVF    FILE(&LIB/IACMPSAVF)
+             ENDSUBR
+
+ END:        ENDPGM

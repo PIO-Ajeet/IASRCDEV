@@ -1,0 +1,81 @@
+      *%METADATA                                                       *
+      * %TEXT IA Display file to show the IA job details               *
+      *%EMETADATA                                                      *
+     A*-------------------------------------------------------------------------------- //
+     A*Created By    : Programmers.io @ 2024                                            //
+     A*Created Date  : 2024/11/14                                                       //
+     A*Developer     : Kaushal kumar                                                    //
+     A*Description   : Display file to show the IA job details from IAJOBDTLPR          //
+     A*Procedure Log :                                                                  //
+     A*-------------------------------------------------------------------------------- //
+     A*Procedure Name           | Procedure Description                                 //
+     A*-------------------------|------------------------------------------------------ //
+     A*-------------------------------------------------------------------------------- //
+     A*Modification Log:                                                                //
+     A*-------------------------------------------------------------------------------- //
+     A*Date    | Mod_ID | Task# | Developer  | Case and Description                     //
+     A*--------|--------|-------|------------|----------------------------------------- //
+     A*-------------------------------------------------------------------------------- //
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A*-------------------------------------------------------------------------------- //
+     A*Subfile Record Format                                                            //
+     A*-------------------------------------------------------------------------------- //
+     A          R SFL01                     SFL
+     A  30                                  SFLNXTCHG
+     A            S1JOBNM       10A  O  7  2
+     A            S1JOBUSR      10A  O  7 22
+     A            S1SUBSY       10A  O  7 34
+     A            S1JOBTYP       3A  O  7 48
+     A            S1JOBSTS       4A  O  7 55
+     A            S1JOB#         6Y 0O  7 14EDTCDE(4)
+     A            S1STATUS      10A  O  7 60COLOR(WHT)
+     A            S1LSTDATE     10   O  7 71
+     A*-------------------------------------------------------------------------------- //
+     A*Subfile Control Record Format                                                    //
+     A*-------------------------------------------------------------------------------- //
+     A          R SFLCTL01                  SFLCTL(SFL01)
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0015)
+     A                                      CF01(01 'HELP')
+     A                                      CF03(03 'EXIT')
+     A                                      CF12(12 'CANCEL')
+     A                                      CF05(05 'REFRESH')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  33                                  SFLCLR
+     A  34                                  SFLEND(*MORE)
+     A                                  1  2USER
+     A                                  1 33'{P}rogrammers.io'
+     A                                      COLOR(WHT)
+     A                                  1 73DATE
+     A                                      EDTCDE(Y)
+     A                                  2 73TIME
+     A                                  4  2'Position to.......:'
+     A            C1POSTO       10A  B  4 22
+     A                                  6  2'Job Name'
+     A                                      COLOR(WHT)
+     A                                  6 34'SubSystem'
+     A                                      COLOR(WHT)
+     A                                  2 34'IA Job Details'
+     A                                      COLOR(WHT)
+     A                                  6 13'Job Num'
+     A                                      COLOR(WHT)
+     A                                  6 22'Job User'
+     A                                      COLOR(WHT)
+     A                                  6 45'Job Type'
+     A                                      COLOR(WHT)
+     A                                  6 55'Job Status'
+     A                                      COLOR(WHT)
+     A                                  6 71'Last Date'
+     A                                      COLOR(WHT)
+     A          R SFLFTR01
+     A                                 23  2'F1=Help'
+     A                                      COLOR(BLU)
+     A                                 23 13'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 23'F5=Refresh'
+     A                                      COLOR(BLU)
+     A                                 23 36'F12=Cancel'
+     A                                      COLOR(BLU)

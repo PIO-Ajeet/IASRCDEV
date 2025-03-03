@@ -1,0 +1,151 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/10/28                                                         //
+--Developer........: Piyush Kumar                                                       //
+--Description......: IA - DDS To DDL File Conversion History Details                    //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--11/11/24| 0001   |Karthick S  | Task#1067 - Swap the fields and added new field to    //
+--        |        |            | capture the format level identifier.                  //
+--12/11/24| 0002   |Piyush Kumar| Task#1072 - Added new field File Type, Record Format  //
+--        |        |            | name and member name.                                 //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction:                                                              //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IADDSDDLDH) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table DDStoDDL_File_Conversion_History_Details(
+ Request_Id           For Column iAReqId    BigInt    Not Null With Default 0,
+ Repository_Name      For Column iARepoNm   Char(10)  Not Null With Default ' ',
+ DDS_File_Type        For Column iADdsFlTyp Char(3)   Not Null With Default ' ',         --0002
+ DDS_Object_Lib       For Column iADdsObjLb Char(10)  Not Null With Default ' ',
+ DDS_Object_Name      For Column iADdsObjNm Char(10)  Not Null With Default ' ',
+ DDS_Object_Type      For Column iADdsObjTy Char(10)  Not Null With Default ' ',         --0001
+ DDS_Object_Attr      For Column iADdsObjAt Char(10)  Not Null With Default ' ',         --0001
+ DDS_Member_Name      For Column iADdsMbrNm Char(10)  Not Null with Default ' ',         --0002
+ DDS_Record_Format    For Column iADdsRcdFm Char(10)  Not Null with Default ' ',         --0002
+ DDS_Fmt_Identifier   For Column iADdsFmtID Char(13)  Not Null with Default ' ',         --0001
+ Based_On_PF          For Column iABasedPF  Char(10)  Not Null With Default ' ',
+ DDS_Source_Lib       For Column iADdsSrcLb Char(10)  Not Null With Default ' ',
+ DDS_Source_File      For Column iADdsSrcFl Char(10)  Not Null With Default ' ',
+ DDS_Source_Mbr       For Column iADdsSrcMb Char(10)  Not Null With Default ' ',
+ DDS_Source_Attr      For Column iADdsSrcAt Char(10)  Not Null With Default ' ',
+ DDL_Source_Lib       For Column iADdlSrcLb Char(10)  Not Null With Default ' ',
+ DDL_Source_File      For Column iADdlSrcFl Char(10)  Not Null With Default ' ',
+ DDL_Source_Mbr       For Column iADdlSrcMb Char(10)  Not Null With Default ' ',
+ DDL_Souce_Attr       For Column iADdlSrcAt Char(10)  Not Null With Default ' ',
+ DDL_Object_Lib       For Column iADdlObjLb Char(10)  Not Null With Default ' ',
+ DDL_Object_Name      For Column iADdlObjNm Char(10)  Not Null With Default ' ',
+ DDL_Object_Type      For Column iADdlObjTy Char(10)  Not Null With Default ' ',         --0001
+ DDL_Object_Attr      For Column iADdlObjAt Char(10)  Not Null With Default ' ',         --0001
+ DDL_Fmt_Identifier   For Column iADdlFmtID Char(13)  Not Null with Default ' ',         --0001
+ DDL_Long_Name        For Column iADdlLngNm Char(128) Not Null With Default ' ',
+ Unique_Flag          For Column iAUnqFlg   Char(1)   Not Null With Default ' ',
+ Keyed_Flag           For Column iAKeyFlg   Char(1)   Not Null With Default ' ',
+ Keyed_IdxName        For Column iAKeyIdxNm Char(10)  Not Null With Default ' ',
+ Obj_Conv_Status      For Column iAConvSts  Char(1)   Not Null With Default ' ',
+ Error_Message        For Column iAErrMsg   Char(80)  Not Null With Default ' ',
+ Replaced_By_Req_ID   For Column iARplReqId BigInt    Not Null With Default 0,
+ Replaced_By_UserName For Column iARplUser  Char(10)  Not Null With Default ' ',
+ Replaced_TimeStamp   For Column iARplTime  Timestamp Not Null For Each Row
+                                         on Update as Row Change Timestamp,
+ Created_PgmName      For Column iACrtPgm   Char(10)  Not Null With Default ' ',
+ Created_UserName     For Column iACrtUser  Char(10)  Not Null With Default ' ',
+ Created_TimeStamp    For Column iACrtTime  TimeStamp Not Null Default
+                                            Current   TimeStamp,
+ Updated_PgmName      For Column iAUpdPgm   Char(10)  Not Null With Default ' ',
+ Updated_UserName     For Column iAUpdUser  Char(10)  Not Null With Default ' ',
+ Updated_TimeStamp    For Column iAUpdTime  Timestamp Not Null Default
+                                               Current   TimeStamp)
+RcdFmt iADdsDdlDR;
+
+Rename Table DDStoDDL_File_Conversion_History_Details to System Name iADdSDdlDH;
+
+Label On Table iADdSDdlDH Is 'IA - DDS To DDL File Conversion History Details';
+
+Label On Column iADdSDdlDH(
+ iAReqId     Is 'Request             ID',
+ iARepoNm    Is 'Repository          Name',
+ iADdsFlTyp  Is 'DDS                 File                Type',                          --0002
+ iADdsObjLb  Is 'DDS                 Object              Library',
+ iADdsObjNm  Is 'DDS                 Object              Name',
+ iADdsObjTy  Is 'DDS                 Object              Type',                          --0001
+ iADdsObjAt  Is 'DDS                 Object              Attribute',                     --0001
+ iADdsMbrNm  Is 'DDS                 Member              Name',                          --0002
+ iADdsRcdFm  Is 'DDS                 Record              Format',                        --0002
+ iADdsFmtID  Is 'DDS                 Format              Identifier',                    --0001
+ iABasedPF   Is 'Based               On PF               Object',
+ iADdsSrcLb  Is 'DDS                 Source              Library',
+ iADdsSrcFl  Is 'DDS                 Source              File',
+ iADdsSrcMb  Is 'DDS                 Source              Member',
+ iADdsSrcAt  Is 'DDS                 Source              Attribute ',
+ iADdlSrcLb  Is 'DDL                 Source              Library',
+ iADdlSrcFl  Is 'DDL                 Source              File',
+ iADdlSrcMb  Is 'DDL                 Source              Member',
+ iADdlSrcAt  Is 'DDL                 Source              Attribute ',
+ iADdlObjLb  Is 'DDL                 Object              Library',
+ iADdlObjNm  Is 'DDL                 Object              Name',
+ iADdlObjTy  Is 'DDL                 Object              Type',                          --0001
+ iADdlObjAt  Is 'DDL                 Object              Attribute',                     --0001
+ iADdlFmtID  Is 'DDL                 Format              Identifier',                    --0001
+ iADdlLngNm  Is 'DDL                 Long                Name',
+ iAUnqFlg    Is 'Unique              Index               Flag',
+ iAKeyFlg    Is 'Keyed               Flag',
+ iAKeyIdxNm  Is 'Keyed               Index               Name',
+ iAConvSts   Is 'Object              Conversion          Status',
+ iAErrMsg    Is 'Error               Message',
+ iARplReqId  Is 'Replaced            Request             ID',
+ iARplUser   Is 'Replaced            User                Name',
+ iARplTime   Is 'Replaced            TimeStamp',
+ iACrtPgm    Is 'Created             Program             Name',
+ iACrtUser   Is 'Created             User                Name',
+ iACrtTime   Is 'Created             TimeStamp',
+ iAUpdPgm    Is 'Updated             Program             Name',
+ iAUpdUser   Is 'Updated             User                Name',
+ iAUpdTime   Is 'Updated             TimeStamp');
+
+Label On Column iADdSDdlDH(
+ iAReqId    Text Is 'Request ID',
+ iARepoNm   Text Is 'Repository Name',
+ iADdsFlTyp Text Is 'DDS File Type',                                                     --0002
+ iADdsObjLb Text Is 'DDS Object Library',
+ iADdsObjNm Text Is 'DDS Object Name',
+ iADdsObjTy Text Is 'DDS Object Type',                                                   --0001
+ iADdsObjAt Text Is 'DDS Object Attribute',                                              --0001
+ iADdsMbrNm Text Is 'DDS Member Name',                                                   --0002
+ iADdsRcdFm Text Is 'DDS Record Format',                                                 --0002
+ iADdsFmtID Text Is 'DDS Format Identifier',                                             --0001
+ iABasedPF  Text Is 'Based On PF Object',
+ iADdsSrcLb Text Is 'DDS Source Library',
+ iADdsSrcFl Text Is 'DDS Source File',
+ iADdsSrcMb Text Is 'DDS Source Member',
+ iADdsSrcAt Text Is 'DDS Source Attribute',
+ iADdlSrcLb Text Is 'DDL Source Library',
+ iADdlSrcFl Text Is 'DDL Source File',
+ iADdlSrcMb Text Is 'DDL Source Member',
+ iADdlSrcAt Text Is 'DDL Source Attribute',
+ iADdlObjLb Text Is 'DDL Object Library',
+ iADdlObjNm Text Is 'DDL Object Name',
+ iADdlObjTy Text Is 'DDL Object Type',                                                   --0001
+ iADdlObjAt Text Is 'DDL Object Attribute',                                              --0001
+ iADdlFmtID Text Is 'DDL Format Identifier',                                             --0001
+ iADdlLngNm Text Is 'DDL Long Name',
+ iAUnqFlg   Text Is 'Unique Index Flag',
+ iAKeyFlg   Text Is 'Keyed Flag',
+ iAKeyIdxNm Text Is 'Keyed Index Name',
+ iAConvSts  Text Is 'Object Conversion Status',
+ iAErrMsg   Text Is 'Error Message',
+ iARplReqId Text Is 'Replaced Request ID',
+ iARplUser  Text Is 'Replaced User Name',
+ iARplTime  Text Is 'Replaced TimeStamp',
+ iACrtPgm   Text Is 'Created Program Name',
+ iACrtUser  Text Is 'Created User Name',
+ iACrtTime  Text Is 'Created TimeStamp',
+ iAUpdPgm   Text Is 'Updated Program Name',
+ iAUpdUser  Text Is 'Updated User Name',
+ iAUpdTime  Text Is 'Updated TimeStamp');

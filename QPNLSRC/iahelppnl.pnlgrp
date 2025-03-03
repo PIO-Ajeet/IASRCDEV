@@ -1,0 +1,134 @@
+:PNLGRP.
+.*
+:HELP NAME=IAHELP.
+.*
+IA Product - Help
+.*
+:P.This Product is part of IA suite developed by {P}rogrammers.io. This product is used to access
+impact of any changes to the system.
+.*
+:P.Most of IBMi applications have big chunk of data in form of tables,
+indexes, SQL, and Programs (RPGLE, CLLE etc). Making any changes to these
+systems are quite challenging and it requires lot of time in analysis. Doing
+this impact analysis work manually, can be very tedious, time consuming and
+error prone as well. This IA product by "{P}rogrammers.io" reduces the time,
+effort & makes it error free. It provides the user with fast and accurate results.
+.*
+:P.The IA product also helps IBMi developers, Analysts, and Architects to
+understand, maintain, and enhance the existing IBMi applications.
+.*
+:xh3.What IA product can do:
+.*
+:UL.
+:LI.Automate and optimize your analysis process with improved accuracy.
+:LI.Help to gain insight your application and data.
+:LI.Reduce the time and effort required to modify, maintain, and test IBMi
+applications.
+:LI.Meet your business goals faster.
+:EUL.
+.*
+:xh3.Position to:
+.*
+:P.Use this prompt to go to a particular area in the list. Use it for quick
+repositioning of the list, not for creating a subset of the list.
+Choose from the following:
+.*
+:xh3.Name or partial name
+.*
+:P.Type the name or partial name of the repository you want to go to in the
+list. The list of repositories is positioned to the first repository name
+beginning with the string specified. If no repository exists in the present
+list, then the list is positioned to the repository immediately preceding the position
+you want.
+.*
+:xh3.Option:
+.*
+:P.Use this column to perform different operations on individual repository. Type
+the option number next to a repository and press Enter. You can type the same
+option next to more than one repository at a time, and you can also type different
+options next to different repositories at the same time.
+.*
+:P.Choose from the following:
+.*
+:xh3.2=Library Setup:
+.*
+:P.Option 2 allows user to Add/Modify the application library for a repository.
+.*
+:xh3.3=Build Meta Data.
+.*
+:P.Option 3 allows user to build Meta data for a repository. During this process
+it will scan source member(s) and object(s) from the specified libraries.
+.*
+:P.After pressing Enter key for option 3, Metadata Building Process Screen will
+pop up where user have option to run this Build process in Batch only.
+.*
+:xh3.Running Build Process in Batch:
+.*
+:P.Select the "B" and provide the "Batch Details" like Job Queue & Process
+Date-Time and press the "Enter" key with confiramtion as "Y". Then the
+Metadata Build Process will run at that Scheduled Time.
+.*
+:xh3.Rebuild Metadata for an existing Repository
+.*
+:P.If we use Option 3 for any repository which already have Meta Data, then IA
+product will provide you an option to re-build the metadata.
+.*
+:P.When user confirms with "Y" for rebuilding the metadata and press the "Enter"
+key, then it again repeats the same steps mentioned under "Build Meta Data" to
+run the metadata building process.
+.*
+:xh3.4=Delete Repository.
+.*
+:P.Option 4 allows user to delete a repository. It will also delete Meta data
+for the specified repository. On pressing "ENTER" key, Confirm Delete of
+Repositories Screen will appear to re-verify. On pressing Enter again, Deletion
+of selected repository will take place.
+.*
+:EHELP.
+.*
+:HELP NAME=FUNKEYS.
+Function Keys:
+:xh3.Function Keys:
+.*
+:P.Explains about the different Function Keys used in the IA Product Screen.
+.*
+:xh3.F1=Help
+.*
+:P.Press F1 to see information about this display.
+.*
+:xh3.F3=Exit
+.*
+:P.Press F3 to end the current task and return to the previous entry point. (either
+the Programming Development Manager (PDM) menu or at whatever entry point from
+where you originally ran the IA).
+.*
+:xh3.F5=Refresh
+.*
+:P.Press F5 to rebuild the list and display it again. Whatever item is at the
+top of the page when you press F5 becomes the top item of the page of the
+refreshed list. If you created a subset of a list, it remains as a subset.
+.*
+:xh3.F6=Add Repository
+.*
+:P."Add Repository" function allows user to create a new repository for impact
+analysis. On pressing this function key, Add Repository Screen will appear. Provide
+meaningful Repository name, Application Library (on which Impact
+Analysis to be performed) and Short Description for new Repository and hit
+Enter.
+:P.After pressing Enter, user will be asked to add more Application Libraries
+for Impact Analysis. Enter "Y" to add more application Library for this new
+repository. After providing all the details, hit enter and then the
+Repository Entry will be created without any data.
+.*
+:xh3.F12=Previous
+.*
+:P.Press F12 to cancel processing of any options or changes that you have made
+to the current display, and go back to the previous display.
+.*
+:xh3.F17=Change Description
+.*
+:P.Press F17 to Change Description of the created repositories.
+.*
+:EHELP.
+.*
+:EPNLGRP.

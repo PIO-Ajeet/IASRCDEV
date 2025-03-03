@@ -1,0 +1,36 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAMSGFILE) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAMSGFILE(
+ IAMSGID         FOR COLUMN MSGID       CHAR(10) NOT NULL WITH DEFAULT,
+ IADSPVALU       FOR COLUMN DSPVALU     CHAR(01) NOT NULL WITH DEFAULT,
+ IAMSGDESC       FOR COLUMN MSGNAME     CHAR(80) NOT NULL WITH DEFAULT ' ',
+
+PRIMARY KEY (IAMSGID))
+RCDFMT IAMSGFILER;
+
+LABEL ON TABLE IAMSGFILE IS 'IA TEXT MESSAGE DETAILS' ;
+
+LABEL ON COLUMN IAMSGFILE(
+ IAMSGID       IS 'Message Identity',
+ IADSPVALU     IS 'Dsply dynamic value (Y/N)',
+ IAMSGDESC     IS 'Message Description');
+
+LABEL ON COLUMN IAMSGFILE(
+ IAMSGID    TEXT IS 'Message Identity Column',
+ IADSPVALU  TEXT IS 'Display dynamic value (Y/N)',
+ IAMSGDESC  TEXT IS 'Message Description');

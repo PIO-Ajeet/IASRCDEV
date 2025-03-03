@@ -1,0 +1,51 @@
+      /*%METADATA                                                     */
+      /* %TEXT Program to Start Metadata Building                     */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------ */
+/*CREATED BY.......: Programmers.io @ 2020                                             */
+/*CREATE DATE......: 2020/01/01                                                        */
+/*DEVELOPER........: Kaushal kumar                                                     */
+/*DESCRIPTION......: Program to Start Metadata Building                                */
+/*                                                                                     */
+/*PROCEDURE LOG:                                                                       */
+/*------------------------------------------------------------------------------------ */
+/*Procedure Name           | Procedure Description                                     */
+/*-------------------------|---------------------------------------------------------- */
+/*                         |                                                           */
+/*                         |                                                           */
+/*------------------------------------------------------------------------------------ */
+/*                                                                                     */
+/*MODIFICATION LOG:                                                                    */
+/*------------------------------------------------------------------------------------ */
+/*Date    | Mod_ID | Developer  | Case and Description                                 */
+/*--------|--------|------------|----------------------------------------------------- */
+/*        |        |            |                                                      */
+/*------------------------------------------------------------------------------------ */
+
+             PGM
+
+             DCL        VAR(&FLAG)  TYPE(*CHAR) LEN(1)
+             DCL        VAR(&CCSID) TYPE(*DEC)  LEN(5 0)
+
+             RTVJOBA    CCSID(&CCSID)
+             CHGJOB     CCSID(37)
+
+             ADDLIBLE   LIB(#IADTA)
+             MONMSG     MSGID(CPF0000)
+
+             ADDLIBLE   LIB(#IAOBJ)
+             MONMSG     MSGID(CPF0000)
+
+             SBMJOB     CMD(CALL PGM(#IAOBJ/BLDMTADTA) +
+                          PARM('SSIREPO')) JOB(IATOOL) JOBQ(QINTER) +
+                          LOGCLPGM(*YES) LOGOUTPUT(*JOBEND)
+
+             CHGJOB     CCSID(&CCSID)
+
+             RMVLIBLE   LIB(#IADTA)
+             MONMSG     MSGID(CPF0000)
+
+             RMVLIBLE   LIB(#IAOBJ)
+             MONMSG     MSGID(CPF0000)
+
+             ENDPGM

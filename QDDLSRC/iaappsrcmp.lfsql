@@ -1,0 +1,39 @@
+-- ------------------------------------------------------------------------------------- //
+-- Created By.......: Kartik Parihar                                                     //
+-- Created Date.....: 2024/11/12                                                         //
+-- Developer........: Programmers.io                                                     //
+-- Description......: Application Area Source Details View                               //
+-- ------------------------------------------------------------------------------------- //
+-- Modification Log:                                                                     //
+-- ------------------------------------------------------------------------------------- //
+-- Date    | Mod_ID | Developer        | Case and Description                            //
+-- --------|--------|------------------|------------------------------------------------ //
+--         |        |Kartik Parihar    |                                                 //
+-- ------------------------------------------------------------------------------------- //
+-- Compilation Instruction:                                                              //
+-- ------------------------------------------------------------------------------------- //
+-- RUNSQLSTM SRCFILE(#IADTA/QDDLSRC) SRCMBR(IAAPPSRCMP) COMMIT(*NONE)                    //
+-- ------------------------------------------------------------------------------------- //
+Create or Replace View Application_Area_Source_Details_View As
+Select A.Repo_Name,
+       A.App_Area_Name,
+       A.Object_Library,
+       A.Object_Name,
+       A.Object_Type,
+       A.Object_Attribute,
+       A.Object_Text,
+       B.Member_Libr,
+       B.Member_Srcf,
+       B.Member_Name,
+       B.Member_Type,
+       B.Member_Rmks
+From   Iaappaobjl A
+Left Join   Iaobjmap B
+On     A.Object_Library = B.Object_Libr And
+       A.Object_Name    = B.Object_Name And
+       A.Object_Type    = B.Object_Type
+
+-- Record Format Name
+RcdFmt Iaappsrcmr;
+
+Rename Table Application_Area_Source_Details_View to System Name Iaappsrcmp;

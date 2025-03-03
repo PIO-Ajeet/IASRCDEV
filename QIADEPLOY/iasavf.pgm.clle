@@ -1,0 +1,135 @@
+      /*%METADATA                                                     */
+      /* %TEXT Create Save File for iA Tool                           */
+      /*%EMETADATA                                                    */
+             PGM        PARM(&LIB &FTP)
+             DCL        VAR(&LIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FTP) TYPE(*CHAR) LEN(1)
+
+             IF         COND(&LIB = '#IAOBJ' *OR &LIB = '#IASRC' *OR +
+                          &LIB = '#IADTA' *OR &LIB = 'IACMPSAVF' +
+                          *OR &LIB = 'ANKUSH' *OR &LIB = 'IASRCV2' +
+                          *OR &LIB = 'IASRCV3' *OR &LIB = +
+                          'IAOBJBETA' *OR &LIB = 'IADTABETA') +
+                        THEN(DO)
+             SNDPGMMSG  MSG('THIS IS A TOOL LIBRARY. CHOOSE ANOTHER +
+                          LIBRARY')
+             GOTO       CMDLBL(END)
+             ENDDO
+             ELSE       CMD(DO)
+             CRTLIB     LIB(&LIB) TYPE(*TEST)
+             MONMSG     MSGID(CPF0000)
+
+             CLRLIB     LIB(&LIB)
+
+             CALLSUBR   SUBR(CRTSAVFILE)
+
+             CALLSUBR    SUBR(SAVSAFLIB)
+
+          /* SAVOBJ     OBJ(IACMPSAVF IADTASAVF IAOBJSAVF IASRCSAVF +
+                          IASRCV2SVF ANKUSHSVF IASRCV3SVF +
+                          IAOBETASVF IADBETASVF) LIB(&LIB) +
+                          DEV(*SAVF) SAVF(&LIB/IATOOL) */
+             SAVOBJ     OBJ(IACMPSAVF IADTASAVF IAOBJSAVF IASRCSAVF +
+                          IASRCV2SVF IASRCV3SVF IAOBETASVF +
+                          IADBETASVF ANKUSHSVF) LIB(&LIB) +
+                          DEV(*SAVF) SAVF(&LIB/IATOOL)
+             ENDDO
+
+ FTPSTART:   IF         COND(&FTP = 'Y') THEN(DO)
+
+             IF         COND(&LIB *NE 'BACKUP') THEN(DO)
+             CRTLIB     LIB(BACKUP)
+             MONMSG     MSGID(CPF0000)
+
+             CLRLIB     LIB(BACKUP)
+
+             CRTDUPOBJ  OBJ(IATOOL) FROMLIB(&LIB) OBJTYPE(*FILE) +
+                          TOLIB(BACKUP) DATA(*YES) CST(*NO) +
+                          TRG(*NO) FILEID(*YES)
+             ENDDO
+
+             OVRDBF     FILE(INPUT) TOFILE(#IACOMPILE/QCLPSRC) +
+                          MBR(IAFTPCMD)
+             OVRDBF     FILE(OUTPUT) TOFILE(#IACOMPILE/QCLPSRC) +
+                          MBR(IAFTPLOG)
+             FTP        RMTSYS('23.229.165.7')
+
+             SNDPGMMSG  MSG('FTP PROCESSED.')
+
+ FTPEND:     ENDDO
+
+             SUBR       SUBR(SAVSAFLIB)
+                SAVLIB     LIB(#IACOMPILE) DEV(*SAVF) SAVF(&LIB/IACMPSAVF)
+
+                SAVLIB     LIB(#IADTA) DEV(*SAVF) SAVF(&LIB/IADTASAVF)
+
+                SAVLIB     LIB(#IAOBJ) DEV(*SAVF) SAVF(&LIB/IAOBJSAVF)
+
+                SAVLIB     LIB(#IASRC) DEV(*SAVF) SAVF(&LIB/IASRCSAVF)
+
+                SAVLIB     LIB(ANKUSH) DEV(*SAVF) SAVF(&LIB/ANKUSHSVF)
+
+                SAVLIB     LIB(IASRCV2) DEV(*SAVF) SAVF(&LIB/IASRCV2SVF)
+
+                SAVLIB     LIB(IASRCV3) DEV(*SAVF) SAVF(&LIB/IASRCV3SVF)
+
+                SAVLIB     LIB(IAOBJBETA) DEV(*SAVF) SAVF(&LIB/IAOBETASVF)
+
+                SAVLIB     LIB(IADTABETA) DEV(*SAVF) SAVF(&LIB/IADBETASVF)
+             ENDSUBR
+
+             SUBR       SUBR(CRTSAVFILE)
+               CRTSAVF    FILE(&LIB/IASRCSAVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IADTASAVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IAOBJSAVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IACMPSAVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IASRCV2SVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/ANKUSHSVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IASRCV3SVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IAOBETASVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IADBETASVF)
+               MONMSG     MSGID(CPF0000)
+
+               CRTSAVF    FILE(&LIB/IATOOL)
+               MONMSG     MSGID(CPF0000)
+             ENDSUBR
+
+             SUBR       SUBR(CLRSAVFILE)
+               CLRSAVF    FILE(&LIB/IASRCV2SVF)
+
+             /*CLRSAVF    FILE(&LIB/ANKUSHSVF) */
+
+               CLRSAVF    FILE(&LIB/IACMPSAVF)
+
+               CLRSAVF    FILE(&LIB/IADTASAVF)
+
+               CLRSAVF    FILE(&LIB/IAOBJSAVF)
+
+               CLRSAVF    FILE(&LIB/IASRCSAVF)
+
+               CLRSAVF    FILE(&LIB/IASRCV3SVF)
+
+               CLRSAVF    FILE(&LIB/IAOBETASVF)
+
+               CLRSAVF    FILE(&LIB/IADBETASVF)
+
+               CLRSAVF    FILE(&LIB/IATOOL)
+             ENDSUBR
+
+ END:        ENDPGM

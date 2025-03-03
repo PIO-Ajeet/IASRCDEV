@@ -1,0 +1,110 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT RPG3 IA Pseudocode Service Program Prototypes           *
+      //%EMETADATA                                                     *
+//------------------------------------------------------------------------------------- //
+//Created By   :  Programmers.io @ 2024                                                 //
+//Created Date :  2024/01/01                                                            //
+//Developer    :  Programmers.io                                                        //
+//Description  :  Prototypes for Module IAPCOD01SV                                      //
+//                                                                                      //
+//Modification Log:                                                                     //
+//------------------------------------------------------------------------------------- //
+//Date    | Mod_ID | Developer  | Case and Description                                  //
+//--------|--------|------------|------------------------------------------------------ //
+//30/08/24| 0001   | Azhar Uddin| Task 893 - Added DS definition for checking I Spec    //
+//24/09/06| 0002   | Manju      | Task 918 - Added DS definition to Save Prev SrcDta Ln //
+//        |        |            |            Added new procedure WriteWkPseudoCode.     //
+//12/09/24| 0003   | Azhar Uddin| Task 689 - Added declaration of new procedure         //
+//        |        |            |            rpg3WriteCommentedText which will be used  //
+//        |        |            |            to write commented text to pseudocode doc  //
+//10/12/24| 0004   | Mahima T   | Task 1071- Added new procedure prototype              //
+//07/01/25| 0005   | HIMANSHUGA | Task 1099- Added new parameter in proc-               //
+//        |        |            |            GetRPG3SpecsToInclude,rpg3CSpecParser      //
+//------------------------------------------------------------------------------------- //
+
+Dcl-Pr rpg3HSpecParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr rpg3FSpecParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr rpg3ESpecParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr rpg3ISpecParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr rpg3CSpecParser;
+   *n Pointer;
+   *n Char(1);                                                                           //0005
+End-Pr;
+
+Dcl-Pr GetRPG3SpecSrcMapping;
+   *n             Char(5);
+   *n             Char(1);
+End-Pr;
+
+Dcl-Pr LoadRPG3DataTypeMap;
+End-Pr;
+
+Dcl-Pr rpg3WriteCommentedText;                                                           //0003
+   *n Pointer;                                                                           //0003
+End-Pr;                                                                                  //0003
+
+Dcl-Ds SpecMappingDs Qualified;
+   dsKeywrdOpcodeName Char(10);
+   dsActionType       Char(10);
+   dsSrcMapping       Varchar(200);
+End-Ds ;
+
+Dcl-Ds ChkISpecDsV3 qualified;
+  //Subfields for checking prompt type
+  ChkForI_IX_DS_SV_Prompt  char(14)  pos(7);
+  ChkForSV_Prompt          char(1)   pos(7);
+  ChkForI_Prompt1          char(4)   pos(15);
+  ChkForI_Prompt2          char(27)  pos(21);
+
+  ChkForJ_Prompt           char(22)  pos(21);
+  ChkForN_Prompt           char(16)  pos(43);
+  ChkForSS_Prompt          char(22)  pos(31);
+
+  //Subfields to hold the declaration information
+  file_RecFmt_Ds_Name         char(8)   pos(7);
+  Actual_Or_RenamedField      char(6)   pos(53);
+  option_or_DS_Type           char(1)   pos(18);
+  RecordId_Or_DS              char(2)   pos(19);
+  ActualField_Or_ExtFileName  char(10)  pos(21);
+  FieldType                   char(1)   pos(43);
+  FromPos_Or_OccursDs         char(4)   pos(44);
+  FromPosNum                  Char(4)   pos(44);
+  ToPos_Or_DSLength           char(4)   pos(48);
+  ToPosNum                    Char(4)   pos(48);
+  decimalPosition             char(1)   pos(52);
+  Initial_Or_ConstValue       char(22)  pos(21);
+End-Ds;
+
+//Procedure to Write IAPSEUDOWK for Cspec and Kspec                                     //0002
+Dcl-Pr WriteIaPseudowk;                                                                  //0002
+   *n Pointer;                                                                           //0002
+   *n Packed(6:0);                                                                       //0002
+   *n Char(4) Options(*NoPass) Const;                                                    //0002
+End-Pr;                                                                                  //0002
+                                                                                         //0002
+Dcl-pr GetRPG3SpecsToInclude Char(1) dim(10);                                            //0004
+    *N Char(1);                                                                          //0005
+End-pr;                                                                                  //0004
+
+//Datastructure to save the previous process data                                       //0002
+Dcl-Ds iAQRpgSrcPrvDs Qualified;                                                         //0002
+   dsSrcRrn  Packed(6:0);                                                                //0002
+   dsSrcSeq  Packed(6:2);                                                                //0002
+   dsSrcLtyp Char(5);                                                                    //0002
+   dsSrcSpec Char(1);                                                                    //0002
+   dsSrcLnct Char(1);                                                                    //0002
+   dsSrcDta  Char(4046);                                                                 //0002
+End-Ds;                                                                                  //0002

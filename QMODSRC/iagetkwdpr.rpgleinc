@@ -1,0 +1,36 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT IAGETKWDSV Service Program Prototypes                   *
+      //%EMETADATA                                                     *
+
+dcl-pr GetKeywords char(25) dim(500);
+   *n char(10);
+   *n char(10);
+   Keyword_Array char(25) dim(500);
+end-pr;
+
+dcl-pr GetValidChars char(1) dim(50);
+   *n char(10);
+   *n char(10);
+   Char_Array char(1) dim(50);
+end-pr;
+
+dcl-pr ValidateOpcodeName ind;
+   *n varchar(5000) const options(*trim);
+   *n varchar(50) const options(*trim);
+   *n zoned(4:0);
+end-pr;
+
+dcl-pr GetStrOcrCount Zoned(4:0);
+   *n varchar(50) const options(*trim);
+   *n varchar(5000) const options(*trim);
+   *n zoned(4:0) Options(*NoPass);
+   *n zoned(4:0) Options(*NoPass);
+end-pr;
+
+dcl-pr GetExceptionField char(1) dim(50);
+   *n char(10);
+   *n char(10);
+   *n char(25);
+   Char_Array char(1) dim(50);
+end-pr;

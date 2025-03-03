@@ -1,0 +1,178 @@
+**free
+
+     // --------------------------------------------------------------------- //
+     dcl-pr iaaddlibr extpgm('IAADDLIBR');
+       *n Char(10);
+       *n Char(3);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr iamenur ;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr ibldpgmref extpgm('IBLDPGMREF');
+       *n Char(10);
+       *n Char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr iarpgdta extpgm('IARPGDTA');
+       *n Char(10);
+       *n Char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr iainit extpgm('IAINIT');
+       *n char(10);
+       *n Char(74) const;
+       *n Char(1) const;
+       *n Char(1);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr iacldta extpgm('IACLDTA') ;
+       *n Char(10);
+       *n Char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr iaddsdta extpgm('IADDSDTA');
+       *n Char(10);
+       *n Char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt01 extpgm('IAROPT01');
+       *n Char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt02 extpgm('IAROPT02');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt03 extpgm('IAROPT03');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt04 extpgm('IAROPT04');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt05 extpgm('IAROPT05');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt06 extpgm('IAROPT06');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt07 extpgm('IAROPT07');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt09 extpgm('IAROPT09');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IaRopt10 extpgm('IAROPT10');
+       *n char(10);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IAPSRRPG extpgm('IAPSRRPG');
+       *n char(10);
+       *n Char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IAPSRCL extpgm('IAPSRCL');
+       *n char(10);
+       *n Char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IAMENURVLD extpgm('IAMENURVLD');
+       *n char(10);
+       *n char(1);
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IAPSRPH3 extpgm('IAPSRPH3');
+       *n char(10);
+       *n char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IAVARIDR extpgm('IAVARIDR');
+       *n char(10);
+       *n char(74) const;
+     end-pr;
+
+     // --------------------------------------------------------------------- //
+     dcl-pr IAVARTRKR extpgm('IAVARTRKR');
+       *n    char(10);
+       *n    char(74) const;
+     end-pr;
+
+     dcl-pr IAVWUR ;
+       *n    char(30);
+     end-pr;
+     // --------------------------------------------------------------------- //
+     dcl-pr IAFILEDTLR extpgm('IAFILEDTLR');
+       *n    char(10);
+       *n char(74) const;
+     end-pr;
+     // --------------------------------------------------------------------- //
+     dcl-pr IAOBJMAPS ;
+       *n    char(10);
+     end-pr;
+     // --------------------------------------------------------------------- //
+     dcl-pr IAOBJSRCDF ;
+       *n    char(10);
+     end-pr;
+     // --------------------------------------------------------------------- //
+  // dcl-pr IAPRGBAR extpgm('IAPRGBAR');
+  //   *n Char(74)     Options(*NoPass) Const;
+  //   *n Packed(10:0) Options(*NoPass);
+  //   *n Packed(10:0) Options(*NoPass);
+  // end-Pr;
+     // --------------------------------------------------------------------- //
+     dcl-pr IaHelpW ExtPgm('IAHELPW');
+       *n Char(10);
+       *n Char(10);
+     End-pr;
+     // --------------------------------------------------------------------- //
+     dcl-pr IaSndEmail;
+       *n Char(10) Const;
+       *n Char(10) Options(*NoPass);
+     End-Pr;
+     // --------------------------------------------------------------------- //
+     Dcl-pr IaGetMsg extpgm('IAGETMSG');
+       *n Char(01)     Options(*NoPass) Const;
+       *n Char(07)     Options(*NoPass) Const;
+       *n Char(1000)   Options(*NoPass);
+       *n Char(80)     Options(*NoPass) Const;                                            //0001
+     End-pr;
+
+     dcl-pr iaindexr extpgm('IAINDEXR');
+       *n      char(30)    const;
+       *n      char(10)    const;
+       *n      char(10)    const;
+       *n      char(10)    const;
+       *n      char(200)   const;
+       *n      char(1)     const;
+     end-pr;
+
+     dcl-pr IAMBRPRSER extpgm('IAMBRPRSER');
+        *n char(10) options(*nopass);
+        *n char(74) options(*nopass) CONST;
+     end-pr;

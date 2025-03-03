@@ -1,0 +1,160 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2020                                             //
+--Created Date.....: 2023/09/04                                                        //
+--Developer........: Manasa Shanmugam                                                  //
+--Description......: Object Details Table                                              //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--09022024| 0001   | Arshaa     | LongName for field 'Created_Date' changed to         //
+--        |        |            | 'Creation_Time'                                      //
+--18092024| 0002   | Piyush     | Task#907 - Adding EXPORT Source Details Field For    //
+--        |        |            | Service Program Object Type                          //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAOBJECT) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Object_Details(
+ Object_Library     For Column iALibNam   Char(10) Not Null With Default ' ',
+ Object_Name        For Column iAObjNam   Char(10) Not Null With Default ' ',
+ Object_Type        For Column iAObjTyp   Char(8)  Not Null With Default ' ',
+ Object_Attribute   For Column iAObjAtr   Char(10) Not Null With Default ' ',
+ Object_Size        For Column iAObjSiz   Decimal(10,0) Not Null With Default 0,
+ Object_Text        For Column iATxtDes   Char(50) Not Null With Default ' ',
+ Creation_Century   For Column iAOcCen    Char(1)  Not Null With Default ' ',
+ Creation_Date      For ColUmn iAOcDat    Char(6)  Not Null With Default ' ',
+ Creation_Time      For Column iAOcTim    Char(6)  Not Null With Default ' ',            --0001
+ Object_Owner       For Column iAOBow     Char(10) Not Null With Default ' ',
+ System_level       For Column iACpfl     Char(6)  Not Null With Default ' ',
+ Source_File        For Column iASrcFil   Char(10) Not Null With Default ' ',
+ Source_Library     For Column iASrcLib   Char(10) Not Null With Default ' ',
+ Source_Member      For Column iASrcMbr   Char(10) Not Null With Default ' ',
+ Export_Src_File    For Column iAExpFil   Char(10) Not Null With Default ' ',            --0002
+ Export_Src_Lib     For Column iAExpLib   Char(10) Not Null With Default ' ',            --0002
+ Export_Src_Mbr     For Column iAExpMbr   Char(10) Not Null With Default ' ',            --0002
+ Export_Src_STMF    For Column iAExpStmf  Char(100) Not Null With Default ' ',           --0002
+ Src_Chg_Century    For Column iASrcCen   Char(1)  Not Null With Default ' ',
+ Src_Chg_Date       For ColUmn iASrcDat   Char(6)  Not Null With Default ' ',
+ Src_Chg_Time       For Column iASrcTim   Char(6)  Not Null With Default ' ',
+ Change_Century     For Column iAChgCen   Char(1)  Not Null With Default ' ',
+ Change_Date        For ColUmn iAChgDat   Char(6)  Not Null With Default ' ',
+ Change_Time        For Column iAChgTim   Char(6)  Not Null With Default ' ',
+ System_Name        For Column iAObjSys   Char(8)  Not Null With Default ' ',
+ Created_By_User    For Column iACrtUsr   Char(10) Not Null With Default ' ',
+ System_CreatedOn   For Column iACrtSys   Char(8)  Not Null With Default ' ',
+ Usage_Updated      For Column iADuUpd    Char(1)  Not Null With Default ' ',
+ LastUsed_Century   For Column iADuCen    Char(1)  Not Null With Default ' ',
+ LastUsed_date      For Column iADuDat    Char(6)  Not Null With Default ' ',
+ Days_Used_Count    For Column iADuCnt    Decimal(5,0) Not Null With Default 0 ,
+ Obj_ASP_Number     For Column iADaSpl    Numeric(5,0) Not Null With Default 0 ,
+ Lib_ASP_Number     For Column iADlAsn    Numeric(5,0) Not Null With Default 0 ,
+ Obj_ASP_DevName    For Column iADoAdn    Char(10) Not Null With Default ' ',
+ Lib_ASP_Devname    For Column iADlAdn    Char(10) Not Null With Default ' ',
+ Excluded_Flag      For Column iAExcl     Char(1)  Not Null With Default ' ',
+ Refresh_Flag       For Column iARefresh  Char(1)  Not Null With Default ' ',
+ No_Of_Depend       For Column iADeps     Numeric(3,0) Not Null With Default 0,
+ Crt_User           For Column CrtUser    Char(10) Not Null
+                                          With Default ' ',
+ Crt_Timestamp      For Column CrtOnts    TIMESTAMP Not Null Default
+                                          CURRENT TIMESTAMP,
+ Chg_User           For Column ChgUser    Char(10) Not Null
+                                          With Default ' ',
+ Chg_Timestamp      For Column ChgOnts    TIMESTAMP Not Null For Each ROW
+                                          On Update as ROW CHANGE TIMESTAMP)
+Rcdfmt iAObjectR;
+
+Rename table Object_Details to System Name iAObject;
+
+Label On Table Object_Details Is 'Object Details Table' ;
+
+Label On Column Object_Details(
+ iALibNam    Is 'Library             Name',
+ iAObjNam    Is 'Object              Name',
+ iAObjTyp    Is 'Object              Type',
+ iAObjAtr    Is 'Object              Attribute',
+ iAObjSiz    Is 'Object              Size',
+ iATxtDes    Is 'Object              Description',
+ iAOcCen     Is 'Object Created      Century',
+ iAOcDat     Is 'Object Created      Date',
+ iAOcTim     Is 'Object Created      Time',
+ iAOBow      Is 'Object              Owner',
+ iACpfl      Is 'System              Level',
+ iASrcFil    Is 'Source File         Name',
+ iASrcLib    Is 'Source File         Library',
+ iASrcMbr    Is 'Source File         Member',
+ iAExpFil    Is 'Export Source       File',                                              --0002
+ iAExpLib    Is 'Export Source       Library',                                           --0002
+ iAExpMbr    Is 'Export Source       Member',                                            --0002
+ iAExpStmf   Is 'Export Source       Stream File',                                       --0002
+ iASrcCen    Is 'Source Change       Century',
+ iASrcDat    Is 'Source Change       Date',
+ iASrcTim    Is 'Source Change       Time',
+ iAChgCen    Is 'Change              Century',
+ iAChgDat    Is 'Change              Date',
+ iAChgTim    Is 'Change              Time',
+ iAObjSys    Is 'Object System       Name',
+ iACrtUsr    Is 'Created By          User',
+ iACrtSys    Is 'Created On          System',
+ iADuUpd     Is 'Usage               Updated',
+ iADuCen     Is 'Last Used           Century',
+ iADuDat     Is 'Last Used           Date',
+ iADuCnt     Is 'Days Used           Count',
+ iADaSpl     Is 'Object ASP          Number',
+ iADlAsn     Is 'Library ASP         Number',
+ iADoAdn     Is 'Object ASP          Device Name',
+ iADlAdn     Is 'Library ASP         Device Name',
+ iAExcl      Is 'Excluded            Flag(Y/N)',
+ iARefresh   Is 'Refresh             Flag',
+ iADeps      Is 'Number of           Dependents',
+ CrtUser     Is 'Created By          User',
+ CrtOnts     Is 'Created             Timestamp',
+ ChgUser     Is 'Changed By          User',
+ ChgOnts     Is 'Changed             TimeStamp');
+
+Label On Column Object_Details(
+ iALibNam    Text Is 'Library Name',
+ iAObjNam    Text Is 'Object Name',
+ iAObjTyp    Text Is 'Object Type',
+ iAObjAtr    Text Is 'Object Attribute',
+ iAObjSiz    Text Is 'Object Size',
+ iATxtDes    Text Is 'Object Description',
+ iAOcCen     Text Is 'Object Created Century',
+ iAOcDat     Text Is 'Object Created Date',
+ iAOcTim     Text Is 'Object Created Time',
+ iAOBow      Text Is 'Object Owner',
+ iACpfl      Text Is 'System Level',
+ iASrcFil    Text Is 'Source File Name',
+ iASrcLib    Text Is 'Source File Library',
+ iASrcMbr    Text Is 'Source File Member',
+ iAExpFil    Text Is 'Export Source File',                                               --0002
+ iAExpLib    Text Is 'Export Source Library',                                            --0002
+ iAExpMbr    Text Is 'Export Source Member',                                             --0002
+ iAExpStmf   Text Is 'Export Source Stream File',                                        --0002
+ iASrcCen    Text Is 'Source Change Century',
+ iASrcDat    Text Is 'Source Change Date',
+ iASrcTim    Text Is 'Source Change Time',
+ iAChgCen    Text Is 'Change Century',
+ iAChgDat    Text Is 'Change Date',
+ iAChgTim    Text Is 'Change Time',
+ iAObjSys    Text Is 'Object System Name',
+ iACrtUsr    Text Is 'Created By User',
+ iACrtSys    Text Is 'Created On System',
+ iADuUpd     Text Is 'Usage Updated',
+ iADuCen     Text Is 'Last Used Century',
+ iADuDat     Text Is 'Last Used Date',
+ iADuCnt     Text Is 'Days Used Count',
+ iADaSpl     Text Is 'Object ASP Number',
+ iADlAsn     Text Is 'Library ASP Number',
+ iADoAdn     Text Is 'Object ASP Device Name',
+ iADlAdn     Text Is 'Library ASP Device Name',
+ iAExcl      Text Is 'Excluded Flag(Y/N)',
+ iARefresh   Text Is 'Refresh Flag',
+ iADeps      Text Is 'Number of Dependents',
+ CrtUser     Text Is 'Created By User',
+ CrtOnts     Text Is 'Created Timestamp',
+ ChgUser     Text Is 'Changed By User',
+ ChgOnts     Text Is 'Changed TimeStamp');

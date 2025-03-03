@@ -1,0 +1,37 @@
+      --%METADATA                                                      *
+      -- %TEXT IA stored procedure for add/modify/delete               *
+      --%EMETADATA                                                     *
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/01/22                                                         //
+--Developer........: Sribalaji Vk                                                       //
+--Description......: Stored Procedure For Add/Modify/Delete Repository.                 //
+--                 : This procedures calls external program IAMNTREPOC for processing.  //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--25/07/24| 0001   | Sasikumar R| To add input parameter for environment library.       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAMNTREPO) DFTRDBCOL(#IAOBJ) COMMIT(*NONE)   //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Procedure Maintain_Repository_Details
+   (In  upRepoAction      char(1),
+    In  upRepoName        char(10),
+    In  upRepoDescription char(30),
+    In  upListOfLibrary   char(1000),
+    In  upUiUser          char(10),
+    In  upUiEnvLib        char(10),
+    Out upStatus          char(1),
+    Out upMessage         char(80))
+
+ language cl
+ specific iamntrepo
+ not deterministic
+ modifies sql data
+ parameter style general
+ external name iamntrepoc

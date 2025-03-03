@@ -1,0 +1,35 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA - Retrive Object details                            */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------ */
+/*Created By  : Programmers.io @ 2024                                                  */
+/*Created Date: 2024/04/24                                                             */
+/*Developer   : Programmers.io                                                         */
+/*Description : Retrieve Job Type, Attribute and Text                                  */
+/*                                                                                     */
+/*Procedure Log:                                                                       */
+/*------------------------------------------------------------------------------------ */
+/*Procedure Name           | Procedure Description                                     */
+/*-------------------------|---------------------------------------------------------- */
+/*                         |                                                           */
+/*------------------------------------------------------------------------------------ */
+/*                                                                                     */
+/*Modification Log:                                                                    */
+/*------------------------------------------------------------------------------------ */
+/*Date    | Mod_ID | Developer  | Case and Description                                 */
+/*--------|--------|------------|----------------------------------------------------- */
+/*        |        |            |                                                      */
+/*------------------------------------------------------------------------------------ */
+             PGM        PARM(&LIBRARY &OBJECT &TYPE &OBJATR &TEXT)
+
+             DCL        VAR(&LIBRARY) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJECT ) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&TYPE   ) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJATR ) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&TEXT)    TYPE(*CHAR) LEN(50)
+
+             RTVOBJD    OBJ(&LIBRARY/&OBJECT) OBJTYPE(&TYPE) +
+                          OBJATR(&OBJATR) TEXT(&TEXT)
+             MONMSG     MSGID(CPF0000)
+
+             ENDPGM

@@ -1,0 +1,65 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/29/08                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: Application Area Object Details Table                              //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction:                                                              //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAAPPAOBJL) COMMIT(*NONE)                    //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Application_Area_Object_Details(
+ Repo_Name            For Column iARepoNam  Char(10) Not Null With Default ' ',
+ App_Area_Name        For Column iAAppANam  Char(20) Not Null With Default ' ',
+ Object_Library       For Column iAObjLib   Char(10) Not Null With Default ' ',
+ Object_Name          For Column iAObjNam   Char(10) Not Null With Default ' ',
+ Object_Type          For Column iAObjTyp   Char(8)  Not Null With Default ' ',
+ Object_Attribute     For Column iAObjAtr   Char(10) Not Null With Default ' ',
+ Object_Text          For Column iAObjTxt   Char(50) Not Null With Default ' ',
+ Created_User         For Column iACrtUsr   Char(10) Not Null
+                                            With Default 'USER JOB',
+ Created_TimeStamp    For Column iACrtDtTm  TimeStamp Not Null Default
+                                            Current TimeStamp ,
+ Updated_User         For Column iAUpdUsr   Char(10) Not Null
+                                            With Default 'USER JOB',
+ Update_TimeStamp     For Column iAUpdDtTm  TimeStamp Not Null For Each ROW
+                                            On Update As Row Change TimeStamp)
+
+RcdFmt iAAppAObjR ;
+
+Rename Table Application_Area_Object_Details to System Name iAAppAObjL ;
+
+Label On Table iAAppAObjL Is 'iA Application Area Object Details';
+
+Label On Column iAAppAObjL (
+ iARepoNam   Is 'Repo                Name',
+ iAAppANam   Is 'Application         Area                Name',
+ iAObjLib    Is 'Object              Library',
+ iAObjNam    Is 'Object              Name',
+ iAObjTyp    Is 'Object              Type',
+ iAObjAtr    Is 'Object              Attribute',
+ iAObjTxt    Is 'Object              Text',
+ iACrtUsr    Is 'Created             User',
+ iACrtDtTm   Is 'Created             TimeStamp',
+ iAUpdUsr    Is 'Updated             User',
+ iAUpdDtTm   Is 'Updated             TimeStamp');
+
+Label On Column iAAppAObjL (
+ iARepoNam   Text Is 'Repo Name',
+ iAAppANam   Text Is 'Application Area Name',
+ iAObjLib    Text Is 'Object Library',
+ iAObjNam    Text Is 'Object Name',
+ iAObjTyp    Text Is 'Object Type',
+ iAObjAtr    Text Is 'Object Attribute',
+ iAObjTxt    Text Is 'Object Text',
+ iACrtUsr    Text Is 'Created User',
+ iACrtDtTm   Text Is 'Created TimeStamp',
+ iAUpdUsr    Text Is 'Updated User',
+ iAUpdDtTm   Text Is 'Updated TimeStamp');

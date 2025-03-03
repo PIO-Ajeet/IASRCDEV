@@ -1,0 +1,164 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA Initialization - Restore Process                    */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2020                                              */
+/*Created Date.....: 2024/01/29                                                         */
+/*Developer........: Hemant                                                             */
+/*Description......: Restore files and data areas from Backup Library to                */
+/*                   Repository library                                                 */
+/*Procedure Log:                                                                        */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*------------------------------------------------------------------------------------- */
+/*                         |                                                            */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date(DMY)| Mod_ID | Task# | Developer  | Case and Description                         */
+/*-------- |--------|-------|------------|--------------------------------------------- */
+/*31/01/24 |        | 553   | Hemant     | Initial creation.                            */
+/*08/05/25 | 0001   | 651   | Manav      | Change restoration logic for IAINITRST pgm   */
+/*07/06/24 | 0002   | 298   | Akshay S   | Rename AIPURGDTA to IAPURGDTA                */
+/*02/07/24 | 0003   | 248   | Vamsi      | Rename AIEXCTIME to IAEXCTIME                */
+/*03/07/24 | 0004   | 252   | Vamsi      | Rename AIEXCOBJS to IAEXCOBJS                */
+/*07/08/24 | 0005   | 841   | Yogesh     | IADUPOBJ logic automation of BCK/RST, Usage  */
+/*         |        |       |    Chandra |  and unwanted entries are inserted.          */
+/*------------------------------------------------------------------------------------- */
+             PGM        PARM(&UWXREF &UPERR)
+             DCLF       FILE(IADUPOBJ)                                                   /* 0005 */
+
+             DCL        VAR(&UWXREF) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&UPERR)  TYPE(*CHAR) LEN(1)
+             DCL        VAR(&DTAARA) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FILE)   TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BKPLIB) TYPE(*CHAR) LEN(10) VALUE('QTEMP')
+             DCL        VAR(&NRCD)   TYPE(*DEC)  LEN(10 0)
+             DCL        VAR(&DVALUE) TYPE(*CHAR) LEN(100)
+
+             DCL        VAR(&SQLCMD)     TYPE(*CHAR) LEN(1024)                           /* 0005 */
+             DCL        VAR(&SINGLEQUOT) TYPE(*CHAR) LEN(1)  VALUE('''')                 /* 0005 */
+             DCL        VAR(&WKPROCNAM)  TYPE(*CHAR) LEN(10) VALUE('IAINITRST')          /* 0005 */
+             DCL        VAR(&WKSUBRTN)   TYPE(*CHAR) LEN(8)  VALUE('ERRLOGP')            /* 0005 */
+             DCL        VAR(&WKEXCPTYP)  TYPE(*CHAR) LEN(3)  VALUE('CMD')                /* 0005 */
+             DCL        VAR(&WKPGMLIB)   TYPE(*CHAR) LEN(10)                             /* 0005 */
+             DCL        VAR(&WKEXCPTDTA) TYPE(*CHAR) LEN(80)                             /* 0005 */
+             DCL        VAR(&WKJOBNAME)  TYPE(*CHAR) LEN(10)                             /* 0005 */
+             DCL        VAR(&WKJOBUSR)   TYPE(*CHAR) LEN(10)                             /* 0005 */
+             DCL        VAR(&WKJOBNBR)   TYPE(*CHAR) LEN(6)                              /* 0005 */
+             DCL        VAR(&WKJOBSDAT)  TYPE(*CHAR) LEN(6)                              /* 0005 */
+             DCL        VAR(&WKUSRNAM)   TYPE(*CHAR) LEN(10)                             /* 0005 */
+             DCL        VAR(&WKQRYNAME)  TYPE(*CHAR) LEN(30)                             /* 0005 */
+             DCL        VAR(&DATA)       TYPE(*CHAR) LEN(80)                             /* 0005 */
+
+             /*Initialise Value for Materialize Program Name Parameter */               /* 0005 */
+             /*The first value of 80, starting in position 1, is the length of the         0005 */
+             /*variable I am passing to the MI program. The second 80 is, starting in      0005 */
+             /*position 5, is the length of  variable I want returned.                     0005 */
+             CHGVAR     VAR(%BIN(&DATA  1 4)) VALUE(80)                                  /* 0005 */
+             CHGVAR     VAR(%BIN(&DATA  5 4)) VALUE(80)                                  /* 0005 */
+             CHGVAR     VAR(%BIN(&DATA  9 4)) VALUE( 0)                                  /* 0005 */
+             CHGVAR     VAR(%BIN(&DATA 13 4)) VALUE( 0)                                  /* 0005 */
+
+             CALLPRC    PRC('_MATPGMNM') PARM(&DATA)                                     /* 0005 */
+             /*Library Name where this pgm called */                                    /* 0005 */
+             CHGVAR     VAR(&WKPGMLIB) VALUE(%SST(&DATA 19 10))                          /* 0005 */
+             RTVJOBA    JOB(&WKJOBNAME) USER(&WKJOBUSR) +
+                          NBR(&WKJOBNBR) CURUSER(&WKUSRNAM) +
+                          DATE(&WKJOBSDAT)                                               /* 0005 */
+
+             OVRDBF     FILE(IADUPOBJ) TOFILE(*FILE) SHARE(*YES)                         /* 0005 */
+             OPNQRYF    FILE((IADUPOBJ)) QRYSLT('IABCKRSTF *EQ ''Y''')                   /* 0005 */
+RESTORE:                                                                                 /* 0005 */
+             RCVF       RCDFMT(IADUPOBJR)                                                /* 0005 */
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(CLOSE))                          /* 0005 */
+                                                                                         /* 0005 */
+             SELECT                                                                      /* 0005 */
+                                                                                         /* 0005 */
+             /*Restore - Files */                                                       /* 0005 */
+             WHEN       COND(&IAOBJTYP = '*FILE') THEN(DO)                               /* 0005 */
+             CHGVAR     VAR(&FILE) VALUE(&IAFLNAME)                                      /* 0005 */
+             CALLSUBR   SUBR(FILERST)                                                    /* 0005 */
+             ENDDO                                                                       /* 0005 */
+                                                                                         /* 0005 */
+             /*Restore - Data area */                                                   /* 0005 */
+             WHEN       COND(&IAOBJTYP = '*DTAARA') THEN(DO)                             /* 0005 */
+             CHGVAR     VAR(&DTAARA) VALUE(&IAFLNAME)                                    /* 0005 */
+             CALLSUBR   SUBR(DTARRST)                                                    /* 0005 */
+             ENDDO                                                                       /* 0005 */
+                                                                                         /* 0005 */
+             ENDSELECT                                                                   /* 0005 */
+
+             GOTO       CMDLBL(RESTORE)
+                                                                                         /* 0005 */
+CLOSE:       CLOF       OPNID(IADUPOBJ)                                                  /* 0005 */
+             DLTOVR     FILE(IADUPOBJ)                                                   /* 0005 */
+             GOTO       CMDLBL(END)                                                      /* 0005 */
+                                                                                         /* 0005 */
+             /*Restore files from backup to Repo library  */
+             SUBR       SUBR(FILERST)
+             CHGVAR     VAR(&NRCD) VALUE(0)                                /* 0001  */
+             RTVMBRD    FILE(&BKPLIB/&FILE) NBRCURRCD(&NRCD)               /* 0001  */
+             MONMSG     MSGID(CPF0000)                                     /* 0001  */
+             IF         COND(&NRCD *GT 0) THEN(DO)                         /* 0001  */
+             CPYF       FROMFILE(&BKPLIB/&FILE) +
+                          TOFILE(&UWXREF/&FILE) MBROPT(*REPLACE) +
+                          CRTFILE(*YES) FMTOPT(*MAP *DROP)
+             MONMSG     MSGID(CPF0000) EXEC(DO)                                          /* 0005 */
+             CHGVAR     VAR(&WKEXCPTDTA) VALUE('Error during CPYF ' *CAT &FILE)          /* 0005 */
+             CHGVAR     VAR(&WKQRYNAME) VALUE('CPYF_' *CAT &FILE)                        /* 0005 */
+             /*When Restore for File Object failed */                                   /* 0005 */
+             CALLSUBR   SUBR(ERRLOGP)                                                    /* 0005 */
+             ENDDO                                                                       /* 0005 */
+             ENDDO                                                         /* 0001  */
+             ENDSUBR
+
+             /*Restore  DataAreas from backup to Repo library */
+             SUBR       SUBR(DTARRST)
+             CRTDUPOBJ  OBJ(&DTAARA) FROMLIB(&BKPLIB) +
+                          OBJTYPE(*DTAARA) TOLIB(&UWXREF)
+             MONMSG     MSGID(CPF0000) EXEC(DO)                                          /* 0005 */
+             CHGVAR     VAR(&WKEXCPTDTA) VALUE('Error during CRTDUPOBJ ' +
+                                               *CAT  &DTAARA )                           /* 0005 */
+             CHGVAR     VAR(&WKQRYNAME) VALUE('CRTDUPOBJ_' *CAT &DTAARA)                 /* 0005 */
+             /*When Restore for DATAAREA Object failed */                               /* 0005 */
+             CALLSUBR   SUBR(ERRLOGP)                                                    /* 0005 */
+             ENDDO                                                                       /* 0005 */
+             ENDSUBR
+
+             /*When RST for obj is failed, then it should log the error  +              /* 0005 */
+             /*message in error log file   */                                           /* 0005 */
+             SUBR       SUBR(ERRLOGP)                                                    /* 0005 */
+
+             CHGVAR     VAR(&SQLCMD)                         +
+                        VALUE('INSERT INTO IAERRLOGP ' *CAT +
+                              '(AIPROCNAM   ,' *CAT +
+                               'AISUBRTN    ,' *CAT +
+                               'AIEXCPTYP   ,' *CAT +
+                               'AIPGMLIB    ,' *CAT +
+                               'AIEXCPTDTA  ,' *CAT +
+                               'AIJOBNAME   ,' *CAT +
+                               'AIJOBUSR    ,' *CAT +
+                               'AIJOBNBR    ,' *CAT +
+                               'AIJOBSDAT   ,' *CAT +
+                               'AIUSRNAM    ,' *CAT +
+                               'AIQRYNAME   ) VALUES (' +
+                         *CAT &SINGLEQUOT *CAT &WKPROCNAM  *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKSUBRTN   *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKEXCPTYP  *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKPGMLIB   *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKEXCPTDTA *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKJOBNAME  *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKJOBUSR   *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKJOBNBR   *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKJOBSDAT  *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKUSRNAM   *CAT &SINGLEQUOT *CAT ',' +
+                         *CAT &SINGLEQUOT *CAT &WKQRYNAME  *CAT &SINGLEQUOT *CAT ')' +
+                         )                                                               /* 0005 */
+
+             RUNSQL     SQL(&SQLCMD) COMMIT(*NONE)                                       /* 0005 */
+             ENDSUBR                                                                     /* 0005 */
+
+ END:        ENDPGM

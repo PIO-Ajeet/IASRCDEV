@@ -1,0 +1,87 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Creation Date....: 2023/11/29                                                        //
+--Developer........: Saikiran Parupalli                                                //
+--Description......: IA Audit Report Table                                             //
+--                   Audit Report of the Modified, Added, Deleted Objects or Members   //
+--                   during REFRESH process                                            //
+-------------------------------------------------------------------------------------- //
+--Modification Log:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Developer  | Case and Description                                          //
+----------|------------|-------------------------------------------------------------- //
+--        |            |                                                               //
+-------------------------------------------------------------------------------------- //
+-- Compilation Instruction
+-- ------------------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAREFAUDF) COMMIT(*NONE) DFTRDBCOL(#IADTA)
+-- ------------------------------------------------------------------------------------
+
+Create Or Replace Table
+   Audit_Report_Of_Modified_Added_Deleted_Objects_And_Members(
+ Audit_Number          For Column iAAuditNo  Char(12) Not Null With Default ' ',
+ Member_Object_Name    For Column iAMbrObjNm Char(10) Not Null With Default ' ',
+ Member_Object_Library For Column iAMbrObjLb Char(10) Not Null With Default ' ',
+ Object_Type           For Column iAObjType  Char(10) Not Null With Default ' ',
+ Object_Attribute      For Column iAObjAttr  Char(10) Not Null With Default ' ',
+ Source_File           For Column iASrcPf    Char(10) Not Null With Default ' ',
+ Member_Type           For Column iAMbrType  Char(10) Not Null With Default ' ',
+ MbrObj_Created_Date   For Column iAMbObCrtD Decimal(6,0) Not Null
+                                                          With Default 0,
+ MbrObj_Created_Time   For Column iAMbObCrtT Decimal(6,0) Not Null
+                                                          With Default 0,
+ MbrObj_Changed_Date   For Column iAMbObChgD Decimal(6,0) Not Null
+                                                          With Default 0,
+ MbrObj_Changed_Time   For Column iAMbObChgT Decimal(6,0) Not Null
+                                                          With Default 0,
+ MbrObj_Status         For Column iAStatus   Char(1)  Not Null With Default ' ',
+ Start_TimeStamp       For Column iAStartTim Timestamp Not Null Default
+                                             Current Timestamp,
+ End_TimeStamp         For Column iAEndTime  Timestamp Not Null Default
+                                             Current Timestamp,
+ Total_Duration        For Column iADuration Char(40) Not Null With Default ' ')
+Rcdfmt IAREFAUDFR;
+
+Rename table
+   Audit_Report_Of_Modified_Added_Deleted_Objects_And_Members to
+   System Name IAREFAUDF;
+
+Label On Table
+   Audit_Report_Of_Modified_Added_Deleted_Objects_And_Members is
+  'Audit Report of Mod/Added/Deleted Members/Objects';
+
+Label On Column
+   Audit_Report_Of_Modified_Added_Deleted_Objects_And_Members(
+ iAAuditNo   Is 'Audit               Number',
+ iAMbrObjNm  Is 'Member/Object       Name',
+ iAMbrObjLb  Is 'Library             Name',
+ iAObjType   Is 'Object              Type',
+ iAObjAttr   Is 'Object              Attribute',
+ iASrcPf     Is 'Source              File',
+ iAMbrType   Is 'Member              Type',
+ iAMbObCrtD  Is 'Member/Object       Created Date',
+ iAMbObCrtT  Is 'Member/Object       Created Time',
+ iAMbObChgD  Is 'Member/Object       Changed Date',
+ iAMbObChgT  Is 'Member/Object       Changed Time',
+ iAStatus    Is 'Member/Object       Status',
+ iAStartTim  Is 'Start               Time',
+ iAEndTime   Is 'End                 Time',
+ iADuration  Is 'Duration');
+
+Label On Column
+   Audit_Report_Of_Modified_Added_Deleted_Objects_And_Members(
+ iAAuditNo   Text Is 'Audit Number',
+ iAMbrObjNm  Text Is 'Member/Object Name',
+ iAMbrObjLb  Text Is 'Library Name',
+ iAObjType   Text Is 'Object Type',
+ iAObjAttr   Text Is 'Object Attribute',
+ iASrcPf     Text Is 'Source File',
+ iAMbrType   Text Is 'Member Type',
+ iAMbObCrtD  Text Is 'Member/Object Created Date',
+ iAMbObCrtT  Text Is 'Member/Object Created Time',
+ iAMbObChgD  Text Is 'Member/Object Changed Date',
+ iAMbObChgT  Text Is 'Member/Object Changed Time',
+ iAStatus    Text Is 'Member/Object Status',
+ iAStartTim  Text Is 'Start Time',
+ iAEndTime   Text Is 'End Time',
+ iADuration  Text Is 'Duration');

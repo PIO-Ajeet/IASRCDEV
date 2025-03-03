@@ -1,0 +1,69 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 2024/01/01                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: Pseudocode Keyword Mapping File                                    //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPSEUDOKP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Pseudocode_Keyword_Mapping_Details (
+ SrcMbr_Type     For Column iASrcMTyp  Char(10)     Not Null With Default ' ',
+ SrcLin_Type     For Column iASrcLTyp  Char(5)      Not Null With Default ' ',
+ Source_Spec     For Column iASrcSpec  Char(1)      Not Null With Default ' ',
+ SrcSpec_Extn    For Column iASrcSExtn Char(10)     Not Null With Default ' ',
+ Seq_No          For Column iASeqNo    Decimal(2,0) Not Null With Default 0,
+ Keyword_Opcode  For Column iAKwdOpc   Char(10)     Not Null With Default ' ',
+ Action_Type     For Column iAActType  Char(10)     Not Null With Default ' ',
+ Src_Mapping     For Column iASrcMap   VarChar(200) Not Null With Default ' ',
+ Created_By_User For Column iACrtByUsr Char(10)     Not Null
+                                                    With Default 'USER ID',
+ Crt_TimeStam    For Column iACrtOnts  TimeStamp    Not Null Default
+                                                    Current TimeStamp,
+ Changed_By_User For Column iAChgByUsr Char(10)     Not Null
+                                                    With Default 'USER ID',
+ Chg_TimeStam    For Column iAChgOnts  TimeStamp    Not Null For Each Row
+                                                    On Update As Row Change
+                                                    TimeStamp)
+RcdFmt iAPseudoKr ;
+
+Rename Table Pseudocode_Keyword_Mapping_Details To System Name iAPseudoKp;
+
+Label On Table iAPseudoKp Is 'PseudoCode Keyword Mapping File';
+
+Label On Column iAPseudoKp (
+ iASrcMTyp   Is 'Source Member       Type',
+ iASrcLTyp   Is 'Source Line         Type',
+ iASrcSpec   Is 'Source              Spec',
+ iASrcSExtn  Is 'Source Spec         Extension',
+ iASeqNo     Is 'Sequence            No',
+ iAKwdOpc    Is 'Keyword/Opcode',
+ iAActType   Is 'Action              Type',
+ iASrcMap    Is 'Source              Mapping',
+ iACrtByUsr  Is 'Created By          User',
+ iACrtOnts   Is 'Created On          TimeStamp',
+ iAChgByUsr  Is 'Changed By          User',
+ iAChgOnts   Is 'Changed On          TimeStamp');
+
+Label On Column iAPseudoKp (
+ iASrcMTyp  Text Is 'Source Member Type',
+ iASrcLTyp  Text Is 'Source Line Type',
+ iASrcSpec  Text Is 'Source Specification',
+ iASrcSExtn Text Is 'Source Spec Extension',
+ iASeqNo    Text Is 'Sequence No',
+ iAKwdOpc   Text Is 'Keyword/Opcode',
+ iAActType  Text Is 'Action Type',
+ iASrcMap   Text Is 'Source Mapping',
+ iACrtByUsr Text Is 'Created By User',
+ iACrtOnts  Text Is 'Created On TimeStamp',
+ iAChgByUsr Text Is 'Changed By User',
+ iAChgOnts  Text Is 'Changed On TimeStamp');
+

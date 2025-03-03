@@ -1,0 +1,355 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT 01 IA Pseudocode Service Program Prototypes             *
+      //%EMETADATA                                                     *
+//------------------------------------------------------------------------------------- //
+//Created By   :  Programmers.io @ 2024                                                 //
+//Created Date :  2024/01/01                                                            //
+//Developer    :  Programmers.io                                                        //
+//Description  :  Prototypes for Module IAPCOD01SV                                      //
+//                                                                                      //
+//Modification Log:                                                                     //
+//------------------------------------------------------------------------------------- //
+//Date    | Mod_ID | Developer  | Case and Description                                  //
+//--------|--------|------------|------------------------------------------------------ //
+//07/05/24| 0001   | Khushi w   | Added protype defination of procedure WriteGlossary   //
+//16/05/24| 0002   | Manav T    | Added additional parameters in iARequestStatusUpdate  //
+//        |        |            | procedure.                                            //
+//16/05/24| 0003   | Azhar Uddin| Added new procedure GetLastRrnOfMainLogic procedure.  //
+//10/07/24| 0004   | Munumonika | Added new procedure processNestedBIF.                 //
+//09/07/24| 0005   | Azhar Uddin| Added new DS to be used in IAPCOD01SV.                //
+//10/07/24| 0006   | Azhar Uddin| Added new DS template to use in IAPCOD01SV            //
+//13/08/24| 0007   | Shefali    | Added new DS template to use in IAPCOD01SV            //
+//06/09/24| 0008   | Manju      | Added New Optional Parm in  DS template               //
+//        |        |            | iAWriteSpecHeader and iACopyBookDclParser             //
+//        |        |            | to use in IAPCOD01SV and IAPSRPG3PR                   //
+//20/09/24| 0009   | Azhar Uddin| Task#956 -Added new procedure IaFixedFormatISpecParser//
+//        |        |            |    and template for input parameter DS for I spec.    //
+//11/09/24| 0010   | Azhar Uddin| Added declaration of IaWriteCommentedText procedure   //
+//        |        |            | which will be use to write commented text to pseudo   //
+//        |        |            | code document task# 689                               //
+//27/08/24| 0011   | Shefali    | Added new key based DS template to use in IAPCOD01SV  //
+//03/10/24| 0012   | Shefali    | Task#970 -Added new procedure IaGetLogicalFileDetails //
+//29/11/24| 0013   | Azhar Uddin| Task-#815 - 1- Added declaration of indentation proc  //
+//        |        |            |             IndentRPGPseudoCode                       //
+//        |        |            |             2- Added additional fields in indentation //
+//        |        |            |             DS to store pipe indent & tag indicator   //
+//        |        |            |             3- Moved source data DS in this           //
+//------------------------------------------------------------------------------------- //
+
+Dcl-Pr WritePseudoCode;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr WriteHeader;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAWriteSpecHeader;
+   *n Pointer;
+   *n Char(1) Options(*NoPass) Const;                                                    //0008
+End-Pr;
+
+Dcl-Pr GetObjectDesc Ind;
+  *n Char(10);
+  *n Char(50);
+  *n Char(10)   Options(*NoPass);
+  *n Char(10)   Options(*NoPass);
+  *n Char(10)   Options(*NoPass);
+End-Pr;
+
+Dcl-Pr iAPrPsDcl;
+   *n Pointer;
+   *n Char(10);
+End-Pr;
+
+Dcl-Pr iAPrPsPgm;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAPsChgVar;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAPsGoto;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAPsMonMsg;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAPsDoLoop;
+   *n Pointer;
+   *n Char(1);
+   *n Char(1);
+End-Pr;
+
+Dcl-Pr iAPsElse;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAPsEnd;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAPsClMap;
+   *n Pointer;
+   *n char(10);
+End-Pr;
+
+Dcl-Pr iAPsLabel;
+   *n char(10);
+   *n char(20);
+   *n char(20);
+End-Pr;
+
+Dcl-Pr iAFixedFormatParser Ind;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iASqlPseudoCodeParser Ind;
+ *n Pointer;
+End-Pr;
+
+Dcl-Pr iAParseCSpecPseudoCode ;
+   inSrcData varchar(4046);
+   inSrcMap  varchar(4046);
+   inPseudoCode  char(4046);
+End-Pr;
+
+Dcl-Pr iAFreeFormatPseudocodeParser Ind;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAAddPseudocodeIndentation;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iAHSpecPseudocodeParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr iACopyBookDclParser;
+   *N Pointer;
+   *N VarChar(4046);
+   *N Char(1) Options(*NoPass) Const;                                                    //0008
+End-Pr;
+
+Dcl-Pr iARequestStatusUpdate;
+   *n Char(18);
+   *n Char(10);                                                                          //0002
+   *n Char(10);                                                                          //0002
+   *n Char(10);                                                                          //0002
+   *n Char(10);                                                                          //0002
+End-Pr;
+
+Dcl-Pr GetSpecSrcMapping ;
+   *n             Char(5);
+   *n             Char(1) ;
+End-Pr;
+
+Dcl-Pr freeFormatFSpecParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr FreeFormatDSpecParser;
+   *n Pointer;
+End-Pr;
+
+Dcl-Pr LoadFixedDataTypeMap;
+End-Pr;
+
+Dcl-Pr WriteGlossary;                                                                    //0001
+   *n Pointer;                                                                           //0001
+End-Pr;                                                                                  //0001
+
+Dcl-Pr GetLastRrnOfMainLogic;                                                            //0003
+   *n Pointer;                                                                           //0003
+End-Pr;                                                                                  //0003
+
+Dcl-Pr ProcessNestedBIF Ind;                                                             //0004
+   InSrcDtaBIF       VarChar(4046);                                                      //0004
+   OutBifParmPointer Pointer;                                                            //0004
+   OutMaxBif         Packed(3:0);                                                        //0004
+End-Pr;                                                                                  //0004
+
+Dcl-Pr IaFixedFormatISpecParser;                                                         //0009
+   *n Pointer;                                                                           //0009
+End-Pr;                                                                                  //0009
+
+Dcl-Pr IaWriteCommentedText;                                                             //0010
+   *n Pointer;                                                                           //0010
+End-Pr;                                                                                  //0010
+
+Dcl-Pr IaGetLogicalFileDetails ;                                                         //0012
+   *n Char(1)     Const ;                                                                //0012
+   *n likeDS(TdsFSpecLFNewFormat) ;                                                      //0012
+   *n Pointer ;                                                                          //0012
+   *n Packed(2:0) ;                                                                      //0012
+End-Pr ;                                                                                 //0012
+
+Dcl-Pr IndentRPGPseudoCode;                                                              //0013
+   *n Pointer;                                                                           //0013
+End-Pr;                                                                                  //0013
+
+//Common Data Structure Definition to write Pseudo Code
+Dcl-Ds WritePseudoCodeDs Qualified;
+   ReqId      Char(18);
+   SrcLib     Char(10);
+   SrcPf      Char(10);
+   SrcMbr     Char(10);
+   SrcType    Char(10);
+   SrcRrn     Packed(6:0);
+   SrcSeq     Packed(6:2);
+   SrcLTyp    Char(5);
+   SrcSpec    Char(1);
+   SrcLnCt    Char(1);
+   PseudoCode Char(4046);
+End-Ds;
+//Data Structure to store the indentation related data.                                 //0005
+Dcl-Ds RPGIndentParmDSTmp Qualified;                                                     //0005
+   dsIndentType        Char(10);                                                         //0005
+   dsPseudocode        Char(4046);                                                       //0005
+   dsTagCountArr       Packed(5:0)        Dim(99);                                       //0005
+   dsIndentsArr        Packed(5:0)        Dim(99);                                       //0005
+   dsIndentTypeArr     Char(10)           Dim(99);                                       //0005
+   dsIndentIndex       Packed(5:0);                                                      //0005
+   dsCurrentIndents    Packed(5:0);                                                      //0005
+   dsCurrentTagCount   Packed(5:0);                                                      //0005
+   dsPipeIndentSave    Char(109);                                                        //0013
+   dsPipeTagInd        Ind;                                                              //0013
+   dsSrcDtlDSPointer   Pointer;                                                          //0013
+End-Ds;                                                                                  //0005
+//Data Structure to store the mapping data from IAPSEUDOMP and mapping retrieval        //0005
+Dcl-Ds iAPSeudoMpDs Qualified Dim(9999);                                                 //0005
+   Key                           ;                                                       //0005
+   iASrcLtyp          Char(5)    Overlay(Key);                                           //0005
+   iASrcSpec          Char(1)    Overlay(Key:*next);                                     //0005
+   iAKeyFld1          Char(10)   Overlay(Key:*next);                                     //0005
+   iAKeyFld2          Char(10)   Overlay(Key:*next);                                     //0005
+   iAKeyFld3          Char(10)   ;                                                       //0005
+   iAKeyFld4          Char(10)   ;                                                       //0005
+   iASeqNo            Zoned(2:0) ;                                                       //0005
+   iAIndntTy          Char(10)   ;                                                       //0005
+   iASubSChr          Char(10)   ;                                                       //0005
+   iAActType          Char(10)   ;                                                       //0005
+   iACmtDesc          Char(100)  ;                                                       //0005
+   iASrhFld1          Char(10)   ;                                                       //0005
+   iASrhFld2          Char(10)   ;                                                       //0005
+   iASrhFld3          Char(10)   ;                                                       //0005
+   iASrhFld4          Char(10)   ;                                                       //0005
+   iASrcMap        Varchar(200)  ;                                                       //0005
+End-Ds ;                                                                                 //0005
+// Data Structures to send source details, opcode and receive mapping data               //0006
+Dcl-Ds DsMappingInData;                                                                  //0006
+   wkSrcLtyp     Char(5);                                                                //0006
+   wkSrcSpec     Char(1);                                                                //0006
+   wkDclType     Char(10);                                                               //0006
+   wkiAKeyFld2   Char(10);                                                               //0006
+End-Ds;                                                                                  //0006
+Dcl-Ds DsMappingOutData;                                                                 //0006
+   wkKeyFld2     Char(10);                                                               //0006
+   wkKeyFld3     Char(10);                                                               //0006
+   wkKeyFld4     Char(10);                                                               //0006
+   wkIndentType  Char(10);                                                               //0006
+   wkSubsChr     Char(10);                                                               //0006
+   wkActionType  Char(10);                                                               //0006
+   wkSrcMapOut   Char(200);                                                              //0006
+   wkSearchFld1  Char(10);                                                               //0006
+   wkSearchFld2  Char(10);                                                               //0006
+   wkSearchFld3  Char(10);                                                               //0006
+   wkSearchFld4  Char(10);                                                               //0006
+   wkCommentDesc Char(100);                                                              //0006
+End-Ds;                                                                                  //0006
+                                                                                         //0007
+Dcl-Ds TSpecMappingDs Qualified                                                          //0007
+                      Template                                                           //0007
+                      Inz ;                                                              //0007
+   dsKeywrdOpcodeName Char(10);                                                          //0007
+   dsActionType       Char(10);                                                          //0007
+   dsSrcMapping       Varchar(200);                                                      //0007
+End-Ds ;                                                                                 //0007
+//Common Data Structure Definition for input parameters having pseudo-code              //0009
+Dcl-Ds DsInputParmDsTmp Qualified Template;                                              //0009
+   dsReqId      Char(18);                                                                //0009
+   dsSrcLib     Char(10);                                                                //0009
+   dsSrcPf      Char(10);                                                                //0009
+   dsSrcMbr     Char(10);                                                                //0009
+   dssrcType    Char(10);                                                                //0009
+   dsSrcRrn     Packed(6:0);                                                             //0009
+   dsSrcSeq     Packed(6:2);                                                             //0009
+   dsSrcLtyp    Char(5);                                                                 //0009
+   dsSrcSpec    Char(1);                                                                 //0009
+   dsSrcLnct    Char(1);                                                                 //0009
+   dsPseudocode Varchar(4046);                                                           //0009
+End-Ds;                                                                                  //0009
+                                                                                         //0011
+Dcl-Ds TSpecMappingDswKey Qualified                                                      //0011
+                          Template                                                       //0011
+                          Inz ;                                                          //0011
+   Key ;                                                                                 //0011
+   dsKeywrdOpcodeName Char(10) Overlay(Key) ;                                            //0011
+   dsActionType       Char(10) Overlay(Key:*Next) ;                                      //0011
+   dsSrcMapping       Varchar(200);                                                      //0011
+End-Ds ;                                                                                 //0011
+                                                                                         //0011
+Dcl-Ds TCallPseudoCode     Qualified                                                     //0011
+                           Template                                                      //0011
+                           Inz ;                                                         //0011
+   Category       Char(10) ;                                                             //0011
+   PseudoCode     Char(200) ;                                                            //0011
+End-Ds ;                                                                                 //0011
+//Data Structure for F spec for RPG3 and RPGLE                                           //0012
+Dcl-Ds TdsFSpecLFNewFormat  Qualified   Template Inz ;                                   //0012
+   dsFSpec      Char(109) ;                                                              //0012
+   dsName       Char(11)   Overlay(dsFSpec) ;                                            //0012
+   dsDeLimit1   Char(2)    Overlay(dsFSpec:*Next) ;                                      //0012
+   dsMode       Char(8)    Overlay(dsFSpec:*Next) ;                                      //0012
+   dsDeLimit2   Char(2)    Overlay(dsFSpec:*Next) ;                                      //0012
+   dsBasedon    Char(11)   Overlay(dsFSpec:*Next) ;                                      //0012
+   dsDeLimit3   Char(2)    Overlay(dsFSpec:*Next) ;                                      //0012
+   dsDevice     Char(11)   Overlay(dsFSpec:*Next) ;                                      //0012
+   dsDeLimit4   Char(2)    Overlay(dsFSpec:*Next) ;                                      //0012
+   dsKeyField   Char(11)   Overlay(dsFSpec:*Next) ;                                      //0012
+   dsDeLimit5   Char(2)    Overlay(dsFSpec:*Next) ;                                      //0012
+   dsSelOmitCst Char(47)   Overlay(dsFSpec:*Next) ;                                      //0012
+End-Ds ;                                                                                 //0012
+//Data Structure to hold keywords used for F spec                                        //0012
+Dcl-Ds TdsFSpecKeywords  Qualified   Template Inz ;                                      //0012
+   dsAllKeywords    Char(100) ;                                                          //0012
+   dsKeyWrdHdr      Char(11)     Overlay(dsAllKeywords:*Next) ;                          //0012
+   dsDelimit1       Char(2)      Overlay(dsAllKeywords:*Next) ;                          //0012
+   dsKeyWrdDtls     Char(80)     Overlay(dsAllKeywords:*Next) ;                          //0012
+End-Ds ;                                                                                 //0012
+//Data Structure to hold Select Omit info for a file                                     //0012
+Dcl-Ds TdsSelectOmit  Qualified   Template Inz ;                                         //0012
+   dsSOLetter     Char(1) ;                                                              //0012
+   dsDelimit      Char(2) ;                                                              //0012
+   dsFieldName    Char(11) ;                                                             //0012
+   dsOperator     Char(4) ;                                                              //0012
+   dsComparator   Char(30) ;                                                             //0012
+End-Ds ;                                                                                 //0012
+//Data Structure to hold Keyfields for a file                                            //0012
+Dcl-Ds TdsKeyField    Qualified   Template Inz ;                                         //0012
+   KeyField       Char(11) ;                                                             //0012
+End-Ds ;                                                                                 //0012
+//Data Structure to hold key formats for a file                                          //0012
+Dcl-Ds TdsFileFormat     Qualified   Template Inz ;                                      //0012
+   FileFormat     Char(11) ;                                                             //0012
+End-Ds ;                                                                                 //0012
+
+Dcl-Ds OutParmWriteSrcDocDS Qualified;                                                   //0013
+   dsReqId      Char(18);                                                                //0013
+   dsSrcLib     Char(10);                                                                //0013
+   dsSrcPf      Char(10);                                                                //0013
+   dsSrcMbr     Char(10);                                                                //0013
+   dssrcType    Char(10);                                                                //0013
+   dsSrcRrn     Packed(6:0);                                                             //0013
+   dsSrcSeq     Packed(6:2);                                                             //0013
+   dsSrcLtyp    Char(5);                                                                 //0013
+   dsSrcSpec    Char(1);                                                                 //0013
+   dsSrcLnct    Char(1);                                                                 //0013
+   dsPseudocode Char(4046);                                                              //0013
+   dsDocSeq     packed(6:0);                                                             //0013
+End-Ds;                                                                                  //0013

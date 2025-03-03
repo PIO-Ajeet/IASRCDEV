@@ -1,0 +1,77 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 2024/05/21                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: iA Generated Pseudocode of Source Temporary File                   //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--25/07/24| 0001   | Gokul R    | Task #817 - Add New Column "Font Code" to identify    //
+--        |        |            | if a Tag needs to be printed with changed Fonts       //
+--        |        |            | (Bold/Underline/Color/Reserved for future)            //
+--22/08/24| 0002   | Mahima     | Task #849 - Reduce Column WKGENPSCDE Length to 200    //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPSEUDOWK) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Temporary_PseudoCode_Details (
+ Request_Id       For Column wkReqId   BigInt       Not Null With Default 0,
+ Library_Name     For Column wkMbrLib  Char(10)     Not Null With Default ' ',
+ SourceFile_Name  For Column wkSrcFile Char(10)     Not Null With Default ' ',
+ Member_Name      For Column wkMbrNam  Char(10)     Not Null With Default ' ',
+ Member_Type      For Column wkMbrTyp  Char(10)     Not Null With Default ' ',
+ Source_Rrn       For Column wkSrcRrn  Decimal(6,0) Not Null With Default 0,
+ Source_Seq       For Column wkSrcSeq  Decimal(6,2) Not Null With Default 0,
+ SrcLin_Type      For Column wkSrcLTyp Char(5)      Not Null With Default ' ',
+ Source_Spec      For Column wkSrcSpec Char(1)      Not Null With Default ' ',
+ Document_Seq     For Column wkDocSeq  Decimal(6,0) Not Null With Default 0,
+ Generated_Pseudocode For Column wkGenPsCde VarChar(200)                                 //0002
+                                                    Not Null With Default ' ',
+ Font_Code        For Column wkFontCode Char(4)     Not Null With Default ' ',           //0001
+ Created_By_User  For Column wkCrtByUsr Char(10)    Not Null
+                                                    With Default 'USER JOB',
+ Crt_TimeStam     For Column wkCrtDtTme TimeStamp   Not Null Default
+                                                    Current TimeStamp )
+
+RcdFmt iAPseudoCR ;
+
+Rename Table Temporary_PseudoCode_Details To System Name iAPseudoWK ;
+
+Label On Table iAPseudoWK Is 'iA Generated Pseudocode of Source';
+
+Label On Column iAPseudoWK (
+ wkReqId     Is 'Request             Id',
+ wkMbrLib    Is 'Library             Name',
+ wkSrcFile   Is 'Source File         Name',
+ wkMbrNam    Is 'Member              Name',
+ wkMbrTyp    Is 'Member              Type',
+ wkSrcRrn    Is 'Source              Rrn',
+ wkSrcSeq    Is 'Source              Sequence',
+ wkSrcLTyp   Is 'Source Line         Type',
+ wkSrcSpec   Is 'Source              Spec',
+ wkDocSeq    Is 'Document            Sequence',
+ wkGenPsCde  Is 'Generated           PseudoCode',
+ wkFontCode  Is 'Font                Code',                                              //0001
+ wkCrtByUsr  Is 'Create              Job Id',
+ wkCrtDtTme  Is 'Created On          TimeStamp');
+
+Label On Column iAPseudoWk (
+ wkReqId    Text Is 'Request Id',
+ wkMbrLib   Text Is 'Library Name',
+ wkSrcFile  Text Is 'Source File Name',
+ wkMbrNam   Text Is 'Member Name',
+ wkMbrTyp   Text Is 'Member Type',
+ wkSrcRrn   Text Is 'Source Rrn',
+ wkSrcSeq   Text Is 'Source Sequence',
+ wkSrcLTyp  Text Is 'Source Line Type',
+ wkSrcSpec  Text Is 'Source Specification',
+ wkDocSeq   Text Is 'Document Sequence',
+ wkGenPsCde Text Is 'Generated Pseudocode',
+ wkFontCode Text Is 'Font Code',                                                         //0001
+ wkCrtByUsr Text Is 'Create Job Id',
+ wkCrtDtTme Text Is 'Created On TimeStamp');

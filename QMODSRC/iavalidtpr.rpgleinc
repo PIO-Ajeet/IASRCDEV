@@ -1,0 +1,76 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT IA IAVALIDTSV Service program Prototypes                *
+      //%EMETADATA                                                     *
+
+dcl-pr isRepositoryExists;
+   *N  varchar(10) const options(*trim);
+   *N  char(1) const;
+   *N  char(1);
+   *N  char(7);
+end-pr;
+
+dcl-pr isRepositoryInUse;
+   *N  varchar(10) const options(*trim);
+   *N  char(1);
+   *N  char(7);
+end-pr;
+
+dcl-pr isRepositoryNameValid;
+   *N varchar(10) const options(*trim);
+   *N char(1);
+   *N char(7);
+end-pr;
+
+dcl-pr isAppLibraryExists;
+   *N varchar(10) const options(*trim);
+   *N char(1);
+   *N char(7);
+end-pr;
+
+dcl-pr checkLibraryListDiffForRefresh;
+   *N varchar(10) const options(*trim);
+   *N char(1);
+   *N char(7);
+end-pr;
+
+dcl-pr lockRepository;
+   *N varchar(10) const options(*trim);
+   *N varchar(10) const options(*trim);
+   *N char(1);
+   *N char(7);
+end-pr;
+
+dcl-pr unlockRepository;
+   *N varchar(10) const options(*trim);
+   *N varchar(10) const options(*trim);
+   *N char(1);
+   *N char(7);
+end-pr;
+
+dcl-pr rtvJobLogMessage varchar(80);
+   *N char(7)     const;
+   *N varchar(15) const options(*trim);
+   *N varchar(10) const options(*trim);
+   *N zoned(6:0)  const;
+   *N varchar(10) const options(*trim);
+end-pr;
+
+dcl-pr deallocateRepoObjects;
+   *N varchar(10) const options(*trim);
+   *N char(1);
+   *N char(7);
+end-pr;
+
+dcl-pr isrepositoryScheduled char(1);
+   *N varchar(10) const options(*trim);
+end-pr;
+
+dcl-pr isrepositoryProcessing char(1);
+   *N varchar(10) const options(*trim);
+end-pr;
+
+dcl-pr setRepositoryStatus char(1);
+   *N varchar(10)   const options(*trim);
+   *N char(1)       const;
+end-pr;

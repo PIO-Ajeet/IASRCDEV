@@ -1,0 +1,37 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2023/26/09                                                        //
+--Developer........: Saumya Arora                                                      //
+--Description......: Application Configuration Table (This Table Is Used From Frontend)//
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--        |        |            |                                                      //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IACONFIGT) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Application_Config_Table(
+ Property_Key    For Column IaPKey    VarChar(100) Not Null With Default ' ',
+ Property_Value  For Column IaPValue  VarChar(200) Not Null With Default ' ',
+ Property_Desc   For Column IaPDesc   VarChar(100) Not Null With Default ' ')
+
+Rcdfmt IaConfigtR;
+
+Rename table Application_Config_Table to System Name IaConfigT;
+
+Label On Table Application_Config_Table Is 'Application Configuration ' ;
+
+Label On Column Application_Config_Table(
+ IaPKey     Is 'Property            Key',
+ IaPValue   Is 'Property            Value',
+ IaPDesc    Is 'Property            Desc');
+
+Label On Column Application_Config_Table(
+ IaPKey     Text Is 'Property Key',
+ IaPValue   Text Is 'Property Value',
+ IaPDesc    Text Is 'Property Desc');

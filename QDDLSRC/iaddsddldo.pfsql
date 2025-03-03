@@ -1,0 +1,77 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                             //
+--Created Date.....: 2024/11/08                                                        //
+--Developer........: S Karthick                                                        //
+--Description......: IA - DDS TO DDL File Conversion Dependent object Details          //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IADDSDDLDO) COMMIT(*NONE) DFTRDBCOL(#IADTA) //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Dependent_Object_For_Converted_DDL(
+ Request_ID         For Column iAReqId    BigInt   Not Null With Default   0,
+ DDL_Obj_Lib        For Column iADdlLib   Char(10) Not Null With Default ' ',
+ DDL_Obj_Name       For Column iADdlNam   Char(10) Not Null With Default ' ',
+ DDL_Obj_Type       For Column iADdlTyp   Char(10) Not Null With Default ' ',
+ Dep_Obj_Lib        For Column iADpObjLib Char(10) Not Null With Default ' ',
+ Dep_Obj_Name       For Column iADpObjNme Char(10) Not Null With Default ' ',
+ Dep_Obj_Type       For Column iADpObjTyp Char(10) Not Null With Default ' ',
+ Dep_Obj_Attr       For Column iADpObjAtt Char(10) Not Null With Default ' ',
+ Obj_Comp_Rqd_Flg   For ColUmn iACmpFlg   Char(1)  Not Null With Default ' ',
+ Obj_Comp_Reason    For Column iACmpRes   Char(80) Not Null With Default ' ',
+ Created_PgmName    For Column iACrtPgm   Char(10) Not Null With Default ' ',
+ Created_UserName   For Column iACrtUser  Char(10) Not Null With Default ' ',
+ Created_Timestamp  For Column iACrtTime  TIMESTAMP Not Null Default
+                                          CURRENT TIMESTAMP,
+ Updated_PgmName    For Column iAUpdPgm   Char(10) Not Null With Default ' ',
+ Updated_UserName   For Column iAUpdUser  Char(10) Not Null With Default ' ',
+ Updated_Timestamp  For Column iAUpdTime  TIMESTAMP Not Null For Each ROW
+                                          On Update as ROW CHANGE TIMESTAMP)
+Rcdfmt iADdsDdlfR;
+
+Rename Table Dependent_Object_For_Converted_DDL to System Name iADdSDdlDO;
+
+Label On Table IADDSDDLDO Is
+'IA - Dependent Object For Converted DDL';
+
+Label On Column IADDSDDLDO(
+ iAReqId     Is 'Request             ID',
+ iADdlLib    Is 'DDL                 Object              Library',
+ iADdlNam    Is 'DDL                 Object              Name',
+ iADdlTyp    Is 'DDL                 Object              Type',
+ iADpObjLib  Is 'Dependent           Object              Library',
+ iADpObjNme  Is 'Dependent           Object              Name',
+ iADpObjTyp  Is 'Dependent           Object              Type',
+ iADpObjAtt  Is 'Dependent           Object              Attribute',
+ iACmpFlg    Is 'Compilation         Required            Flag',
+ iACmpRes    Is 'Compilation         Required            Reason',
+ iACrtPgm    Is 'Created             Program',
+ iACrtUser   Is 'Created             By                  User',
+ iACrtTime   Is 'Created             TimeStamp',
+ iAUpdPgm    Is 'Changed             Program',
+ iAUpdUser   Is 'Changed             By                  User',
+ iAUpdTime   Is 'Changed             TimeStamp');
+
+Label On Column IADDSDDLDO(
+ iAReqId     Text Is 'Request ID',
+ iADdlLib    Text Is 'DDL Object Library',
+ iADdlNam    Text Is 'DDL Object Name',
+ iADdlTyp    Text Is 'DDL Object Type',
+ iADpObjLib  Text Is 'Dependent Object Library',
+ iADpObjNme  Text Is 'Dependent Object Name',
+ iADpObjTyp  Text Is 'Dependent Object Type',
+ iADpObjAtt  Text Is 'Dependent Object Attribute',
+ iACmpFlg    Text Is 'Compilation Required Flag',
+ iACmpRes    Text Is 'Compilation Required Reason',
+ iACrtPgm    Text Is 'Created Program',
+ iACrtUser   Text Is 'Created By User',
+ iACrtTime   Text Is 'Created TimeStamp',
+ iAUpdPgm    Text Is 'Changed Program',
+ iAUpdUser   Text Is 'Changed By User',
+ iAUpdTime   Text Is 'Changed TimeStamp');

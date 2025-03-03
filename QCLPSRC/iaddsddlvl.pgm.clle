@@ -1,0 +1,718 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA - DDSToDDL Conversion Driver & Validation           */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2024                                              */
+/*Created Date.....: 2024/04/02                                                         */
+/*Developer........: Programmers.io                                                     */
+/*Description......: IA - DDStoDDL conversion 'Driver & Validation' Program             */
+/*Procedure Log....:                                                                    */
+/*                   -----------------                                                  */
+/*                   Input Parameters:                                                  */
+/*                   -----------------                                                  */
+/*                   inReqId            - Request ID                                    */
+/*                   inRepo             - Repository Name                               */
+/*                   inDDSObjNm         - DDS Object Name                               */
+/*                   inDDSObjLb         - DDS Object Library                            */
+/*                   inDDSObjAt         - DDS Object Attribute                          */
+/*                   inDDLMbrNm         - DDL Member Name                               */
+/*                   inDDLMbrLb         - DDL Member Library                            */
+/*                   inDDLObjNm         - DDL Object Name                               */
+/*                   inDDLObjLb         - DDL Object Library                            */
+/*                   inDDLLngNm         - DDL Long Name                                 */
+/*                   inReplcDDL         - Replace DDL Flag                              */
+/*                   inIncDepFl         - Include Dependent Files                       */
+/*                   inIncDepPg         - Include Dependent Programs                    */
+/*                   inIncAudCo         - Include Audit Columns                         */
+/*                   inIncIdnCo         - Include Identity Columns                      */
+/*                   inCopyData         - Copy Data                                     */
+/*                   inReqUser          - Requested User                                */
+/*                   inEnvLib           - Environment Library                           */
+/*                   ------------------                                                 */
+/*                   Output Parameters:                                                 */
+/*                   ------------------                                                 */
+/*                   outStatus          - Status                                        */
+/*                   outMessage         - Message                                       */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*-------------------------|----------------------------------------------------------- */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date    | ModID  | Developer  | Case and Description                                  */
+/*--------|--------|------------|------------------------------------------------------ */
+/*26092024| 0001   | BPAL       | On Unsuccessful Conversion request also,              */
+/*        |        |            | the library is getting created on IBMi.      TASK#961 */
+/*09102024| 0002   | Piyush     | Task#1005 - DDL Long name should be same as DDL Object*/
+/*        |        |    Kumar   | name when DDL long name as *SAME.                     */
+/*15102024| 0003   | Piyush     |Task#1015 - When *SAME Passed for DDL Src,Obj,Lng Name */
+/*        |        |    Kumar   |1.DDL Src name should be populated with DDS Object Name*/
+/*        |        |            |2.DDL Obj name should be populated with DDS Object Name*/
+/*        |        |            |3.DDL Lng name should be blank                         */
+/*22102024| 0004   | K Abhishek |Task#1038 - Added new Copy Data flag to copy PF data to*/
+/*        |        |   Anurag   | corresponding DDL file.                               */
+/*        |        |            | Populated Copy Data flag in IADDSDDLHP file.          */
+/*28102024| 0005   | Piyush     |Task#1016 - Archive Process when same request comes.  o*/
+/*        |        |    Kumar   |- Moving Archive Process from IADDSDDLVL to IADDSDDLRT */
+/*16102024| 0006   | BPAL       |Task#1018 - 'Request Staus' Column Update as 'N' and   */
+/*        |        |            |Reason code with new request id.                       */
+/*        |        |            |- Moving the Changes to IADDSDDLAP Program             */
+/*05112024| 0007   | Manav      |Error handling when DDS Object Attribute is passed as  */
+/*        |        |  Tripathi  |'LF'. It checks if parent PFs are already created for  */
+/*        |        |            |Join and Non-Join Logicals.[TASK#1027]                 */
+/*28102024| 0008   | Piyush     |Task#1069 - Purge Header File Details History and File */
+/*        |        |    Kumar   |Conversion Details History File.                       */
+/*16122024| 0009   | Piyush     |Task#1072 - Removing LF validation as the same check   */
+/*        |        |    Kumar   |already happening in IADDSDDLRT program.               */
+/*18112024| 0010   | S Karthick | Task# - 1068 Calling Program IADDSDDLRP For To capture*/
+/*        |        |            | Recompilation List in IADDSDDLDO file.                */
+/*19112024| 0011   | Piyush     |Task#1021 - If DDL Member is *SAME then DDL member name*/
+/*        |        |            |will be DDS member name.                               */
+/*------------------------------------------------------------------------------------- */
+             PGM        PARM(&INREQID    &INREPO     &INDDSOBJNM &INDDSOBJLB +
+                             &INDDSOBJAT &INDDLMBRNM &INDDLMBRLB &INDDLOBJNM +
+                             &INDDLOBJLB &INDDLLNGNM &INREPLCDDL &ININCDEPFL +
+                             &ININCDEPPG &ININCAUDCO &ININCIDNCO &INCOPYDATA +
+                             &INREQUSER  &INENVLIB   &OUTSTATUS  &OUTMESSAGE)            /*0004*/
+
+             /*Processing Options */
+             DCLPRCOPT  DFTACTGRP(*NO) ACTGRP(*NEW)
+             /*           BNDSRVPGM((IAOBJDEV/IADDSDDLSV))   0011*/
+
+             /*Parameter Declarations */
+             DCL        VAR(&INREQID)    TYPE(*CHAR) LEN(18)
+             DCL        VAR(&INREPO)     TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDSOBJNM) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDSOBJLB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDSOBJAT) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDLMBRNM) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDLMBRLB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDLOBJNM) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDLOBJLB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INDDLLNGNM) TYPE(*CHAR) LEN(128)
+             DCL        VAR(&INREPLCDDL) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&ININCDEPFL) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&ININCDEPPG) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&ININCAUDCO) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&ININCIDNCO) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&INCOPYDATA) TYPE(*CHAR) LEN(1)                              /*0004*/
+             DCL        VAR(&INREQUSER)  TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INENVLIB)   TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OUTSTATUS)  TYPE(*CHAR) LEN(1)
+             DCL        VAR(&OUTMESSAGE) TYPE(*CHAR) LEN(80)
+          /* DCL        VAR(&OBJTYP) TYPE(*CHAR) LEN(10) VALUE('*FILE')                    0011*/
+          /* DCL        VAR(&RTNMBRVAL) TYPE(*CHAR) LEN(40)                                0011*/
+
+             /*Variable Declarations */
+             DCL        VAR(&EOFIND) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&DDLSRCFILE) TYPE(*CHAR) LEN(10) +
+                          VALUE('QDDLSRC')
+             DCL        VAR(&CHKNAME) TYPE(*CHAR) LEN(128)
+             DCL        VAR(&CHKLIBNAM) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&RTVFILEATR) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&REPLACEVAR) TYPE(*CHAR) LEN(80)                             /*0006*/
+             DCL        VAR(&MSG) TYPE(*CHAR) LEN(80)
+             DCL        VAR(&MSGF) TYPE(*CHAR) LEN(10) VALUE('IAMSGF')
+             DCL        VAR(&RTNVALUE) TYPE(*INT) LEN(4)
+             DCL        VAR(&BLANKPOS) TYPE(*INT) LEN(4)
+             DCL        VAR(&UWSQLSTMT)  TYPE(*CHAR) LEN(1024) VALUE(' ')
+             DCL        VAR(&SINGLEQUOT) TYPE(*CHAR) LEN(1) VALUE('''')
+             DCL        VAR(&TEXT) TYPE(*CHAR) LEN(50)
+             DCL        VAR(&STATUS) TYPE(*LGL)
+             DCL        VAR(&WKCURPGM) TYPE(*CHAR) LEN(10) VALUE('IADDSDDLVL')
+             DCL        VAR(&SQLCMD) TYPE(*CHAR) LEN(1024)
+             DCL        VAR(&INPROGRESS) TYPE(*CHAR) LEN(1) VALUE('P')
+             DCL        VAR(&WKOLDREQID) TYPE(*CHAR) LEN(18) VALUE(' ')
+
+             /*File Declarations */
+             DCLF       FILE(IAINPLIB)   OPNID(INP)
+             DCLF       FILE(IASRCPF)    OPNID(SRC)
+             DCLF       FILE(IADDSDDLHP) OPNID(CMP)
+
+             MONMSG     MSGID(CPF0000 MCH0000) EXEC(GOTO +
+                          CMDLBL(RETURNERR))
+
+             /*IA Environment setup                               */
+             CALL       PGM(&INENVLIB/IASETENV) PARM((&INENVLIB) +
+                          (&STATUS))
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             CHGVAR     VAR(&STATUS) VALUE('0')
+             ENDDO
+
+             /*When Status is '*off' throw error message library list not setup.    */
+             IF         COND(&STATUS *EQ  '0'  ) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             /*MSG - Library List not setup.                     */
+             CHGVAR     VAR(&OUTMESSAGE) VALUE('Library List not +
+                          setup.')
+             RETURN
+             ENDDO
+
+             /*Add repository library in library list */
+             ADDLIBLE   LIB(&INREPO) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Set optional input parms */
+             CALLSUBR   SUBR(SETOPTVAL)
+
+             /*Validate all the inputs for Single DDL generation                  */   /*0001*/
+             IF         COND(&INDDSOBJNM *NE '*ALL') THEN(DO)
+             CALLSUBR   SUBR(CHKSININP)
+             ENDDO
+
+             /*Validate all the inputs - Common for Bulk and Single generation */
+             CALLSUBR   SUBR(CHKINPUTS)
+
+             /*All validations passed - Override DDL source file with DDL member and    */
+             /*proceed with the DDL generation PROCESS                                  */
+             CALLSUBR   SUBR(PROCESS)
+
+             GOTO       CMDLBL(FINAL)
+
+RETURNERR:   CHGVAR     VAR(&OUTSTATUS)  VALUE('E')
+
+             /*MSG - Error occurred in the process,please check job log for more information*/
+             RTVMSG     MSGID(MSG0197) MSGF(&MSGF) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+
+ FINAL:      SNDPGMMSG  MSG('End of the program')
+
+/*-------------------------------------SUBROUTINES--------------------------------------*/
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE PROCESS : To peform the DDL generation process                             */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(PROCESS)
+
+             /*Call to Archive the file in IADDSDDLHH and IADDSDDLDH file               */
+             CALL       PGM(IADDSDDLAP) PARM((&INREQID) (&INREPO)   +
+                          (&INDDSOBJNM) (&INDDSOBJLB) (&INDDSOBJAT) +
+                          (&INDDLMBRNM) (&INDDLMBRLB) (&INDDLOBJNM) +
+                          (&INDDLOBJLB) (&INDDLLNGNM) (&INREPLCDDL) +
+                          (&ININCDEPFL) (&ININCDEPPG) (&ININCAUDCO) +
+                          (&ININCIDNCO) (&INCOPYDATA) (&INREQUSER)  +
+                          (&INENVLIB)   (&OUTSTATUS)  (&OUTMESSAGE))                     /*0005*/
+
+             /*Call to write DDL compilation object list in IADDSDDLDP file             */
+             CALL       PGM(IADDSDDLRT) PARM((&INREQID) (&INREPO)   +
+                          (&INDDSOBJNM) (&INDDSOBJLB) (&INDDSOBJAT) +
+                          (&INDDLMBRNM) (&INDDLMBRLB) (&INDDLOBJNM) +
+                          (&INDDLOBJLB) (&INDDLLNGNM) (&INREPLCDDL) +
+                          (&ININCDEPFL) (&ININCDEPPG) (&ININCAUDCO) +
+                          (&ININCIDNCO) (&INCOPYDATA) (&INREQUSER)  +
+                          (&INENVLIB)   (&OUTSTATUS)  (&OUTMESSAGE))                     /*0004*/
+
+             /*Purging Header File Details History File(IADDSDDLHH)       */            /*0008*/
+             CALL       PGM(IADDSDDLPR) PARM((IADDSDDLHH) (IARPLTIME))                   /*0008*/
+
+             /*Purging File Conversion Details Historye File(IADDSDDLDH)  */            /*0008*/
+             CALL       PGM(IADDSDDLPR) PARM((IADDSDDLDH) (IARPLTIME))                   /*0008*/
+
+             /*Call to write DDL compilation object list in IADDSDDLDO file  */         /*0010*/
+             CALL       PGM(IADDSDDLRP) PARM((&INREQID) (&INREQUSER))                    /*0010*/
+
+             ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE CHKCONVSTS : To check if conversion is in progress for input object        */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(CHKCONVSTS)
+
+             CHGVAR     VAR(&EOFIND) VALUE('N')
+
+             OVRDBF     FILE(IADDSDDLHP) TOFILE(*LIBL/IADDSDDLHP) +
+                          OVRSCOPE(*JOB) SHARE(*YES)
+
+             OPNQRYF    FILE((*LIBL/IADDSDDLHP)) +
+                          QRYSLT('(IAREPONM  = ''' *CAT &INREPO     *CAT ''') +
+                          *AND (IADDSOBJLB   = ''' *CAT &INDDSOBJLB *CAT ''') +
+                          *AND (IADDSOBJNM   = ''' *CAT &INDDSOBJNM *CAT ''') +
+                          *AND (IADDSOBJAT   = ''' *CAT &INDDSOBJAT *CAT ''') +
+                          *AND (IADDLMBRNM   = ''' *CAT &INDDLMBRNM *CAT ''') +
+                          *AND (IADDLMBRLB   = ''' *CAT &INDDLMBRLB *CAT ''')') +
+                          OPNID(CMP)
+
+             RCVF       OPNID(CMP)
+             MONMSG     MSGID(CPF0864) EXEC(CHGVAR VAR(&EOFIND) +
+                             VALUE('Y'))
+
+             /*If already conversion status is in progress for file,then throw message */
+             IF         COND(&EOFIND  *NE 'Y') THEN(DO)
+
+             IF         COND(&CMP_IACONVSTS *EQ 'P') THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             /*MSG -  DDL conversion already in progress for input file.  */
+             /*       Please try after a while.                           */
+             RTVMSG     MSGID(MSG0200) MSGF(&MSGF) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+
+             DLTOVR     FILE(IADDSDDLHP) LVL(*JOB)
+             MONMSG     MSGID(CPF0000)
+             CLOF       OPNID(CMP)
+             MONMSG     MSGID(CPF0000)
+
+             RETURN
+             ENDDO
+
+             /*If record exist in IADDSDDLHP file                         */
+             CHGVAR     VAR(&WKOLDREQID) VALUE(&CMP_IAREQID)
+
+             ENDDO
+
+             DLTOVR     FILE(IADDSDDLHP) LVL(*JOB)
+             MONMSG     MSGID(CPF0000)
+
+             CLOF       OPNID(CMP)
+             MONMSG     MSGID(CPF0000)
+
+             ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE CHKSININP : To validate all the inputs for Single DDL creation             */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(CHKSININP)
+
+             /***********   Validate the DDS Object    **********/
+             /*Check for existence of DDS Object */
+             CHKOBJ     OBJ(&INDDSOBJLB/&INDDSOBJNM) OBJTYPE(*FILE)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJNM)
+             CHGVAR     VAR(%SST(&REPLACEVAR 21 10)) VALUE(&INDDSOBJLB)
+             /*MSG - Object INDDSOBJNM does not exist in library INDDSOBJLB */
+             RTVMSG     MSGID(MSG0199) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             /*Retrieve Object details to confirm input attribute PF/LF is correct/not  */
+             RTVOBJD    OBJ(&INDDSOBJLB/&INDDSOBJNM) OBJTYPE(*FILE) +
+                          OBJATR(&RTVFILEATR)
+             IF         COND(&RTVFILEATR *NE &INDDSOBJAT) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJAT)
+             /*MSG - DDS object attribute INDDSOBJAT is invalid  */
+             RTVMSG     MSGID(MSG0201) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             /*If DDS object is a PF then check if it source file or data file */
+             IF         COND(&INDDSOBJAT *EQ 'PF') THEN(DO)
+
+             CHGVAR     VAR(&EOFIND) VALUE('N')
+
+             OVRDBF     FILE(IASRCPF) TOFILE(&INREPO/IASRCPF) +
+                          OVRSCOPE(*JOB) SHARE(*YES)
+
+             OPNQRYF    FILE((&INREPO/IASRCPF)) QRYSLT('(XSRCPF  = +
+                          ''' *CAT &INDDSOBJNM *CAT ''')  *AND +
+                          (XLIBNAM = ''' *CAT &INDDSOBJLB *CAT +
+                          ''')') OPNID(SRC)
+
+             RCVF       OPNID(SRC)
+
+             MONMSG     MSGID(CPF0864) EXEC(CHGVAR VAR(&EOFIND) +
+                           VALUE('Y'))
+
+             IF         COND(&EOFIND  *NE 'Y') THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJNM)
+             /*MSG - DDL conversion can not be executed on the source file INDDSOBJNM */
+             RTVMSG     MSGID(MSG0181) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+
+             DLTOVR     FILE(IASRCPF) LVL(*JOB)
+             MONMSG     MSGID(CPF0000)
+             CLOF       OPNID(SRC)
+             MONMSG     MSGID(CPF0000)
+
+             RETURN
+             ENDDO
+
+             DLTOVR     FILE(IASRCPF) LVL(*JOB)
+             MONMSG     MSGID(CPF0000)
+             CLOF       OPNID(SRC)
+             MONMSG     MSGID(CPF0000)
+
+             ENDDO
+
+             /***********   Validate DDL Member Name, if given  *********/
+             /*Blanks at beginning/between of DDL Member Name is invalid */
+             IF         COND(&INDDLMBRNM *NE '*SAME') THEN(DO)
+             CHGVAR     VAR(&CHKNAME) VALUE(&INDDLMBRNM)
+             CALLSUBR   SUBR(VALNAME)  RTNVAL(&RTNVALUE)
+
+             IF         COND((&RTNVALUE *EQ -1) *OR (&RTNVALUE *EQ +
+                          -2)) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDLMBRNM)
+             CHGVAR     VAR(%SST(&REPLACEVAR 21 10)) VALUE('DDL +
+                          MEMBER')
+             /*MSG - INDDLMBRNM : Invalid DDL MEMBER Name,contains blank characters */
+             RTVMSG     MSGID(MSG0180) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             ENDDO
+
+             /***********   Validate DDL Object Name, if given  *********/
+             /*Blanks at beginning/between of DDL Object Name is invalid */
+             IF         COND(&INDDLOBJNM *NE '*SAME') THEN(DO)
+             CHGVAR     VAR(&CHKNAME) VALUE(&INDDLOBJNM)
+             CALLSUBR   SUBR(VALNAME)  RTNVAL(&RTNVALUE)
+
+             IF         COND((&RTNVALUE *EQ -1) *OR (&RTNVALUE *EQ +
+                          -2)) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDLOBJNM)
+             CHGVAR     VAR(%SST(&REPLACEVAR 21 10)) VALUE('DDL +
+                          OBJECT')
+             /*MSG - INDDLOBJNM : Invalid DDL OBJECT Name,contains blank characters */
+             RTVMSG     MSGID(MSG0180) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             ENDDO
+
+             /***********   Validate Long Name, if given  *********/
+             /*Blanks at beginning/between of Long Name is invalid */
+             IF         COND(&INDDLLNGNM *NE ' ') THEN(DO)                               /*0003*/
+             CHGVAR     VAR(&CHKNAME) VALUE(&INDDLLNGNM)
+             CALLSUBR   SUBR(VALNAME)  RTNVAL(&RTNVALUE)
+
+             IF         COND((&RTNVALUE *EQ -1) *OR (&RTNVALUE *EQ +
+                          -2)) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE('LONG NAME')
+             CHGVAR     VAR(%SST(&REPLACEVAR 21 4)) VALUE('LONG')
+             /*MSG - LONG NAME : Invalid LONG Name,contains blank characters */
+             RTVMSG     MSGID(MSG0180) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             ENDDO
+
+             ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE CHECKLIB : To verify existence of an library                               */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(CHECKLIB)
+
+             CHGVAR     VAR(&RTNVALUE) VALUE(0)
+             CHKOBJ     OBJ(QSYS/&CHKLIBNAM) OBJTYPE(*LIB)
+
+             MONMSG     MSGID(CPF9800) EXEC(RTNSUBR RTNVAL(9800))
+
+             ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE VALNAME : To validate the given name                                       */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(VALNAME)
+
+             CHGVAR     VAR(&RTNVALUE) VALUE(0)
+             CHGVAR     VAR(&BLANKPOS) VALUE(%SCAN(' ' &CHKNAME))
+
+             /*If blank space is at beginning then its invalid case */
+             IF         COND(&BLANKPOS = 1) THEN(DO)
+             CHGVAR     VAR(&RTNVALUE) VALUE(-1)
+             GOTO       CMDLBL(RETURNSUBR)
+             ENDDO
+
+             /*If blank space is in between then its invalid case */
+             CHGVAR     VAR(&BLANKPOS) VALUE(&BLANKPOS + 1)
+             IF         COND(&BLANKPOS *LT %LEN(&CHKNAME)) THEN(DO)
+             CHGVAR     VAR(&BLANKPOS) VALUE(%CHECK(' ' &CHKNAME &BLANKPOS))
+             IF         COND(&BLANKPOS *GT 0) THEN(DO)
+             CHGVAR     VAR(&RTNVALUE) VALUE(-2)
+             GOTO       CMDLBL(RETURNSUBR)
+             ENDDO
+             ENDDO
+
+ RETURNSUBR: ENDSUBR    RTNVAL(&RTNVALUE)
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE CHKQDDLSRC : To check existence of DDL source file/member                  */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(CHKQDDLSRC)
+
+             /*Check for DDL Source file existence */
+             CHKOBJ     OBJ(&INDDLMBRLB/&DDLSRCFILE) OBJTYPE(*FILE)
+
+             /*If DDL Source file does not exist,create QDDLSRC source file */
+             MONMSG     MSGID(CPF9800) EXEC(DO)
+             CRTSRCPF   FILE(&INDDLMBRLB/&DDLSRCFILE) RCDLEN(112) +
+                          TEXT('Source File For DDL Source members')
+
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDLMBRLB)
+             /*MSG - Source file creation failed for INDDLMBRLB library */
+             RTVMSG     MSGID(MSG0173) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+             ENDDO
+
+             ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE CHKDDLMBR : To check existence of DDL source member                        */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(CHKDDLMBR)
+
+             /*This check is only for Single DDL creation*/
+             IF         COND(&INDDSOBJNM *EQ '*ALL') THEN(GOTO +
+                          CMDLBL(RETURNSUBR))
+
+             /*Check for DDL member*/
+             CHKOBJ     OBJ(&INDDLMBRLB/&DDLSRCFILE) OBJTYPE(*FILE) +
+                          MBR(&INDDLMBRNM)
+             MONMSG     MSGID(CPF9800) EXEC(DO)
+             GOTO       CMDLBL(RETURNSUBR)
+             ENDDO
+
+             /*If DDL member exists,proceed based on value of replace flag */
+             /*If Replace Flag is 'Y', clear DDL member */
+             IF         COND(&INREPLCDDL = 'Y') THEN(DO)
+             CLRPFM     FILE(&INDDLMBRLB/&DDLSRCFILE) MBR(&INDDLMBRNM)
+             GOTO       CMDLBL(RETURNSUBR)
+             ENDDO
+             ELSE DO
+             /*If Replace Flag is 'N', return with Error */
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE('REPLACE')
+             CHGVAR     VAR(%SST(&REPLACEVAR 21 22)) +
+                          VALUE('RE-GENERATE DDL SOURCE')
+             /*MSG - Select REPLACE flag as Y to RE-GENERATE DDL SOURCE */
+             RTVMSG     MSGID(MSG0176) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+ RETURNSUBR: ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE: Set optional input values if not passed in input parameter                */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(SETOPTVAL)
+
+             /*If DDL Member name not entered then populate DDS member name */          /*0011*/
+         /*  IF         COND(&INDDSOBJNM *NE '*ALL' *AND &INDDLMBRNM +
+                          = '*SAME') THEN(DO)                                              0011*/
+         /*  CALLPRC    PRC('IAGETSRCMBRINFO') PARM((&INDDSOBJLB +
+                          *BYREF) (&INDDSOBJNM *BYREF) (&OBJTYP +
+                          *BYREF) (&INDDSOBJAT *BYREF)) +
+                          RTNVAL(&RTNMBRVAL)                                               0011*/
+         /*  IF         COND(%SST(&RTNMBRVAL 21 10) *NE ' ') THEN(DO)                          */
+         /*  CHGVAR     VAR(&INDDLMBRNM) VALUE(%SST(&RTNMBRVAL 21 10))                         */
+         /*  ENDDO                                                                             */
+         /*  ELSE       CMD(DO)                                                                */
+         /*  CHGVAR     VAR(&INDDLMBRNM) VALUE(&INDDSOBJNM)                                    */
+         /*  ENDDO                                                                             */
+         /*  ENDDO                                                                         0011*/
+
+             /*If DDL Member name not entered then populate DDS object name */
+             IF         COND(&INDDLMBRNM = '*SAME') THEN(CHGVAR +
+                          VAR(&INDDLMBRNM) VALUE(&INDDSOBJNM))
+
+             /*If DDL Object name not entered then populate DDS object name */          /*0003*/
+             IF         COND(&INDDLOBJNM = '*SAME') THEN(CHGVAR +
+                          VAR(&INDDLOBJNM) VALUE(&INDDSOBJNM))                           /*0003*/
+
+             /*if DDL object library not entered then set it same as DDL member lib */
+             IF         COND(&INDDLOBJLB = '*SAME') THEN(CHGVAR +
+                          VAR(&INDDLOBJLB) VALUE(&INDDLMBRLB))
+
+             /*if Long name not entered then set it as blank */                         /*0003*/
+             IF         COND(&INDDLLNGNM = '*SAME') THEN(CHGVAR +
+                          VAR(&INDDLLNGNM) VALUE(' '))                                   /*0003*/
+
+             ENDSUBR
+
+/*--------------------------------------------------------------------------------------*/
+/*SUBROUTINE CHKINPUTS : To validate all the inputs - Common for Single and Bulk        */
+/*--------------------------------------------------------------------------------------*/
+             SUBR       SUBR(CHKINPUTS)
+
+             /*Check for conversion status of input DDS object */                       /*0001*/
+             CALLSUBR   SUBR(CHKCONVSTS)
+
+             /***********   Validate the DDS Library   **********/
+             /*Check for existence of DDS Library */
+             CHGVAR     VAR(&CHKLIBNAM) VALUE(&INDDSOBJLB)
+             CALLSUBR   SUBR(CHECKLIB)  RTNVAL(&RTNVALUE)
+
+             IF         COND(&RTNVALUE *EQ 9800) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJLB)
+             /*MSG -  Library INDDSOBJLB does not exist */
+             RTVMSG     MSGID(MSG0198) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             /*The DDS library should be included in the cross-repository */
+             OVRDBF     FILE(IAINPLIB) TOFILE(IAINPLIB) +
+                          OVRSCOPE(*JOB) SHARE(*YES)
+
+             OPNQRYF    FILE((IAINPLIB)) QRYSLT('(XREFNAM = ''' *CAT +
+                          &INREPO *CAT ''')  *AND (XLIBNAM = ''' +
+                          *CAT &INDDSOBJLB *CAT ''')') OPNID(INP)
+
+             RCVF       OPNID(INP)
+             MONMSG     MSGID(CPF0864) EXEC(DO)
+
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJLB)
+             CHGVAR     VAR(%SST(&REPLACEVAR 11 10)) VALUE(&INREPO)
+             /*MSG - Library INDDSOBJLB is not part of repo INREPO */
+             RTVMSG     MSGID(MSG0175) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+
+             DLTOVR     FILE(IAINPLIB) LVL(*JOB)
+             MONMSG     MSGID(CPF0000)
+             CLOF       OPNID(INP)
+             MONMSG     MSGID(CPF0000)
+
+             RETURN
+             ENDDO
+
+             DLTOVR     FILE(IAINPLIB) LVL(*JOB)
+             MONMSG     MSGID(CPF0000)
+             CLOF       OPNID(INP)
+             MONMSG     MSGID(CPF0000)
+
+             /***********   Validate the DDL Member Library    **********/
+             /*DDL Member Library is Mandatory Input */
+             IF         COND(&INDDLMBRLB = ' ') THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE('DDL MEMBER LIBRARY')
+             /*MSG - DDL MEMBER LIBRARY must not be blanks */
+             RTVMSG     MSGID(MSG0178) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+
+             /*DDL Member Library should not be same as DDS Library */
+             IF         COND(&INDDLMBRLB = &INDDSOBJLB) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDLMBRLB)
+             CHGVAR     VAR(%SST(&REPLACEVAR 41 10)) VALUE(&INDDSOBJLB)
+             /*MSG - DDL library INDDLMBRLB should be different from library INDDSOBJLB */
+             RTVMSG     MSGID(MSG0179) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+
+
+             /*DDL Object Library should not be same as DDS Library */
+             IF         COND(&INDDLOBJLB = &INDDSOBJLB) THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDLOBJLB)
+             CHGVAR     VAR(%SST(&REPLACEVAR 41 10)) VALUE(&INDDSOBJLB)
+             /*MSG - DDL library INDDLOBJLB should be different from library INDDSOBJLB */
+             RTVMSG     MSGID(MSG0179) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+
+             /***********   Validate flags, if file is Logical File  *********/
+             /*If file type is Logical and dependent flag is Y then return the error */
+             IF         COND(&INDDSOBJAT = 'LF' *AND &ININCDEPFL = +
+                          'Y') THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJNM)
+             /*MSG - Dependent Files flag must be set to 'N' for LF INDDSOBJNM */
+             RTVMSG     MSGID(MSG0182) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             /*If file type is Logical and Include Audit Columns is Y then return the error */
+             IF         COND(&INDDSOBJAT = 'LF' *AND &ININCAUDCO = +
+                          'Y') THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJNM)
+             /*MSG - Audit Columns must be set to 'N' for LF INDDSOBJNM */
+             RTVMSG     MSGID(MSG0183) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             /*If file type is Logical and Include Identity Column is Y then return the error */
+             IF         COND(&INDDSOBJAT = 'LF' *AND &ININCIDNCO = +
+                          'Y') THEN(DO)
+             CHGVAR     VAR(&OUTSTATUS) VALUE('E')
+             CHGVAR     VAR(&REPLACEVAR) VALUE(&INDDSOBJNM)
+             /*MSG - Identity Column must be set to 'N' for LF INDDSOBJNM */
+             RTVMSG     MSGID(MSG0184) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+
+             /*When all valiation passed then only created it */                        /*0001*/
+             /*Create DDL member library if not exists */
+             CHKOBJ     OBJ(QSYS/&INDDLMBRLB) OBJTYPE(*LIB)
+             MONMSG     MSGID(CPF9801) EXEC(DO)
+             CRTLIB     LIB(&INDDLMBRLB) TYPE(*TEST) TEXT('DDS to DDL Conversion Lib')
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             CHGVAR     VAR(&REPLACEVAR) VALUE('member')
+             CHGVAR     VAR(%SST(&REPLACEVAR 11 10)) VALUE(&INDDLMBRLB)
+             RTVMSG     MSGID(MSG0202) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+             ENDDO
+
+             /*Create DDL object library if not exists */                             /*0001*/
+             IF         COND((&INDDLOBJLB *NE '*SAME') *AND +
+                          (&INDDLOBJLB *NE &INDDLMBRLB)) THEN(DO)
+             CHKOBJ     OBJ(QSYS/&INDDLOBJLB) OBJTYPE(*LIB)
+             MONMSG     MSGID(CPF9801) EXEC(DO)
+             CRTLIB     LIB(&INDDLOBJLB) TYPE(*TEST) TEXT('DDS to DDL Conversion Lib')
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+             CHGVAR     VAR(&REPLACEVAR) VALUE('object')
+             CHGVAR     VAR(%SST(&REPLACEVAR 11 10)) VALUE(&INDDLOBJLB)
+             RTVMSG     MSGID(MSG0202) MSGF(&MSGF) +
+                          MSGDTA(&REPLACEVAR) MSG(&MSG)
+             CHGVAR     VAR(&OUTMESSAGE) VALUE(&MSG)
+             RETURN
+             ENDDO
+             ENDDO
+             ENDDO
+             /*Check for QDDLSRC existence */                                         /*0001*/
+             CALLSUBR   SUBR(CHKQDDLSRC)
+
+             /*Check for DDL member */                                                /*0001*/
+             CALLSUBR   SUBR(CHKDDLMBR)
+             ENDSUBR
+/*--------------------------------------------------------------------------------------*/
+
+             ENDPGM

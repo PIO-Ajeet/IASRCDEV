@@ -1,0 +1,29 @@
+      /*%METADATA                                                     */
+      /* %TEXT ISERVICE - Binder Language                             */
+      /*%EMETADATA                                                    */
+-- ---------------------------------------------------------------- --
+-- Program Name ..........:  IACOMMONBN                             --
+-- Program Description ...:  IACOMMONBN - Binder Language           --
+-- Program Working .......:  1. Binder source for service program   --
+--                              IACOMMONSV                          --
+-- Developer Name ........:  Ashish Kulthe                          --
+-- ---------------------------------------------------------------- --
+-- Modification Log                                                 --
+-- ---------------------------------------------------------------- --
+-- Date      Developer   TaskId  Case and Description               --
+-- --/--/--  ----------  ------  ---------------------------------- --
+--                                                                  --
+-- ---------------------------------------------------------------- --
+
+             STRPGMEXP  SIGNATURE('IACOMMONSV')
+             EXPORT     SYMBOL('IACOMMONSV_executeCommand')
+             EXPORT     SYMBOL('IACOMMONSV_executeSqlStatement')
+             EXPORT     SYMBOL('IACOMMONSV_getFileDescOutput')
+             EXPORT     SYMBOL('IACOMMONSV_clearPhysicalFile')
+             EXPORT     SYMBOL('IACOMMONSV_isObjectExists')
+             EXPORT     SYMBOL('IACOMMONSV_getFileFeildDescOutput')
+             EXPORT     SYMBOL('IACOMMONSV_getObjectDescOutput')
+             EXPORT     SYMBOL('IACOMMONSV_getFileRelationOutput')
+             EXPORT     SYMBOL('IACOMMONSV_getProgramReferenceOutput')
+             ENDPGMEXP
+

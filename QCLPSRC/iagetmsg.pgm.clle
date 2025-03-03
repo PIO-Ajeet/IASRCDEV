@@ -1,0 +1,57 @@
+      /*%METADATA                                                     */
+      /* %TEXT Get Message From Message File                          */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2020                                              */
+/*Created Date.....: 2020/01/01                                                         */
+/*Developer........: Kaushal kumar                                                      */
+/*Description......: Get Message From Message File                                      */
+/*                                                                                      */
+/*Procedure Log:                                                                        */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*-------------------------|----------------------------------------------------------- */
+/*                         |                                                            */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date    | Mod_ID | Developer  | Case and Description                                  */
+/*--------|--------|------------|------------------------------------------------------ */
+/*03/04/24| 0001   | Sriram B   | Added a new parameter input for Message Data          */
+/*        |        |            | substitution fields                                   */
+/*03/07/24| 0002   | Sribalaji  | Remove the hardcoded #IADTA lib from all sources      */
+/*        |        |            | Task# 754                                             */
+/*------------------------------------------------------------------------------------- */
+
+        /*   PGM      PARM(&MSGTYP &MSGID &MSGDATA)                                      /*0001*/
+
+             PGM        PARM(&MSGTYP &MSGID &MSGDATA &MSGDTAFLDS)                        /*0001*/
+
+             DCL      VAR(&MSGTYP)  TYPE(*CHAR) LEN(1)
+             DCL      VAR(&MSGID)   TYPE(*CHAR) LEN(7)
+             DCL      VAR(&MSGDATA) TYPE(*CHAR) LEN(1000)
+             DCL      VAR(&MSGDTAFLDS) TYPE(*CHAR) LEN(80)                               /*0001*/
+
+             IF         COND(&MSGTYP = '1') THEN(DO)
+        /*      RTVMSG     MSGID(&MSGID) MSGF(#IADTA/IAMSGF) MSG(&MSGDATA)               /*0001*/
+
+        /*     RTVMSG     MSGID(&MSGID) MSGF(#IADTA/IAMSGF) +                     /*0001   0002*/
+        /*                MSGDTA(&MSGDTAFLDS) MSG(&MSGDATA)                              /*0001*/
+             RTVMSG     MSGID(&MSGID) MSGF(IAMSGF) +
+                          MSGDTA(&MSGDTAFLDS) MSG(&MSGDATA)                              /*0002*/
+
+             ENDDO
+             ELSE DO
+        /*      RTVMSG     MSGID(&MSGID) MSGF(#IADTA/IAMSGF) +
+                           SECLVL(&MSGDATA)                                              /*0001*/
+
+        /*   RTVMSG     MSGID(&MSGID) MSGF(#IADTA/IAMSGF) +
+                          MSGDTA(&MSGDTAFLDS) SECLVL(&MSGDATA)                           /*0001*/
+
+             RTVMSG     MSGID(&MSGID) MSGF(IAMSGF) +
+                          MSGDTA(&MSGDTAFLDS) SECLVL(&MSGDATA)                           /*0002*/
+             ENDDO
+
+             ENDPGM

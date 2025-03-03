@@ -1,0 +1,61 @@
+-----------------------------------------------------------------------------------------//
+--Created By.......: Programmers.io @ 2024                                               //
+--Created Date.....: 2024/08/12                                                          //
+--Developer........: Saumya Arora                                                        //
+--Description......: Notifications Table                                                 //
+-----------------------------------------------------------------------------------------//
+--MODIFICATION LOG:                                                                      //
+-----------------------------------------------------------------------------------------//
+--Date    | Mod_ID | Developer  | Case and Description                                   //
+----------|--------|------------|--------------------------------------------------------//
+-----------------------------------------------------------------------------------------//
+--Compilation Instruction                                                                //
+-----------------------------------------------------------------------------------------//
+--RUNSQLSTM SRCFILE(IASRCDEV/QDDLSRC) SRCMBR(IANOTIFP) COMMIT(*NONE) DFTRDBCOL(IADTADEV) //
+-----------------------------------------------------------------------------------------//
+
+Create table Notifications(
+  Notification_ID        For Column iANotfId   BigInt Default 0 Not Null,
+  Notification_Content   For Column iANotfCont Varchar(1000) Default ' '
+                                               Not Null,
+  Notification_Status    For Column iANotfSts  Varchar(1) Default ' ' Not Null,
+  Request_User           For Column iAReqUsr   Varchar(10) Default ' '
+                                               Not Null,
+  Created_Timestamp      For Column iACrtTims  Timestamp Default
+                                               Current_Timestamp Not Null,
+  Retry_Count            For Column iARetrCnt  Integer Default 0 Not Null,
+  Failure_Reason         For Column iAFailRsn  Varchar(500) Default ' '
+                                               Not Null,
+  Notification_Type      For Column iANotfTyp  Varchar(1) Default ' ' Not Null,
+  Notification_Sent_Time For Column iANotfTime Timestamp Default Null,
+  Profile                For Column iAProfile  Varchar(5) Default 'PROD')
+
+Rcdfmt iANotificR;
+
+Rename table Notifications to System Name IANOTIFP;
+
+Label On Table Notifications Is 'Notifications Table ';
+
+Label On Column Notifications(
+ iANotfId   Is 'Notification          Id',
+ iANotfCont Is 'Notification     Content',
+ iANotfSts  Is 'Notification      Status',
+ iAReqUsr   Is 'Request             User',
+ iACrtTims  Is 'Created        Timestamp',
+ iARetrCnt  Is 'Retry              Count',
+ iAFailRsn  Is 'Failure           Reason',
+ iANotfTyp  Is 'Notification        Type',
+ iANotfTime Is 'Notification Sent   Time',
+ iAProfile  Is 'Profile');
+
+Label On Column Notifications(
+ iANotfId   Text Is 'Notification Id',
+ iANotfCont Text Is 'Notification Content',
+ iANotfSts  Text Is 'Notification Status',
+ iAReqUsr   Text Is 'Request User',
+ iACrtTims  Text Is 'Created Timestamp',
+ iARetrCnt  Text Is 'Retry Count',
+ iAFailRsn  Text Is 'Failure Reason',
+ iANotfTyp  Text Is 'Notification Type',
+ iANotfTime Text Is 'Notification Sent Time',
+ iAProfile  Text Is 'Profile');

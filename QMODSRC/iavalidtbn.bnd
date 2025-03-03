@@ -1,0 +1,17 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA IAVALIDTSV Service Program Binder Source            */
+      /*%EMETADATA                                                    */
+             STRPGMEXP  SIGNATURE('IATOOL_IAVALIDTSV')
+             EXPORT     SYMBOL('ISREPOSITORYEXISTS')
+             EXPORT     SYMBOL('ISREPOSITORYINUSE')
+             EXPORT     SYMBOL('ISREPOSITORYNAMEVALID')
+             EXPORT     SYMBOL('ISAPPLIBRARYEXISTS')
+             EXPORT     SYMBOL('CHECKLIBRARYLISTDIFFFORREFRESH')
+             EXPORT     SYMBOL('LOCKREPOSITORY')
+             EXPORT     SYMBOL('UNLOCKREPOSITORY')
+             EXPORT     SYMBOL('RTVJOBLOGMESSAGE')
+             EXPORT     SYMBOL('DEALLOCATEREPOOBJECTS')
+             EXPORT     SYMBOL('ISREPOSITORYSCHEDULED')
+             EXPORT     SYMBOL('ISREPOSITORYPROCESSING')
+             EXPORT     SYMBOL('SETREPOSITORYSTATUS')
+             ENDPGMEXP

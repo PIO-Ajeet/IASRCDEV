@@ -1,0 +1,46 @@
+      --%METADATA                                                      *
+      -- %TEXT SPE for front end app to submit metadata build job      *
+      --%EMETADATA                                                     *
+-- --------------------------------------------------------------------------//
+-- Created By.......: Programmers.io @ 2023                                  //
+-- Create Date......: 2023/12/13                                             //
+-- Developer........: SANTOSH KR                                             //
+-- Description......: Refresh program for front end application              //
+-------------------------------------------------------------------------------
+--MODIFICATION LOG:
+-------------------------------------------------------------------------------
+--Date    | Mod_ID | Developer  | Case and Description
+----------|--------|------------|----------------------------------------------
+--15/12/23| 0001   | ABHIJITH   | Rename Procedure & External names
+--26/02/24| 0002   | MANASA S   | Add new parameter for Action - Add
+--        |        |            | update, delete.
+--25/07/24| 0003   | Sasikumar R| To add input parameter in_EnvLib                      //
+--        |        |            | to set the library list.                              //
+-------------------------------------------------------------------------------
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(IASRCDEV/QDDLSRC) SRCMBR(IASBMSCHS) DFTRDBCOL(IAOBJDEV)
+-- COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+Create Or Replace Procedure Submit_Schedule_Metadata_Refresh
+   (In in_repoName    char(10),
+    In in_processType char(10),
+    In in_actionFlag  char(1),
+    In in_ActFlagDb   char(3),                                                           --0002
+    In in_jobQueue    char(10),
+    In in_processDate char(10),
+    In in_processTime char(8),
+    In in_frequency   char(8),
+    In in_scheduleDay char(35),
+    In in_relativeDay char(25),
+    In in_userId      char(10),
+    In in_envLibl     char(10),                                                  --0001
+    Out out_status    char(1),
+    Out out_message   char(80))
+
+ LANGUAGE RPGLE
+ SPECIFIC IASBMSCHS
+ NOT DETERMINISTIC
+ MODIFIES SQL DATA
+ PARAMETER STYLE GENERAL
+ EXTERNAL NAME IASBMSCHR

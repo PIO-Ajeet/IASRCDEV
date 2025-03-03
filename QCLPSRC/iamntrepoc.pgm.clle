@@ -1,0 +1,67 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA Build library for Repository add from UI            */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------- */
+/*Created By.......: Programmers.io @ 2024                                              */
+/*Created Date.....: 2024/02/02                                                         */
+/*Developer........: Dada Bachute                                                       */
+/*Description......: Build Library for Repository add from UI                           */
+/*                                                                                      */
+/*Procedure Log:                                                                        */
+/*------------------------------------------------------------------------------------- */
+/*Procedure Name           | Procedure Description                                      */
+/*-------------------------|----------------------------------------------------------- */
+/*                         |                                                            */
+/*------------------------------------------------------------------------------------- */
+/*                                                                                      */
+/*Modification Log:                                                                     */
+/*------------------------------------------------------------------------------------- */
+/*Date    | Mod_ID | Developer  | Case and Description                                  */
+/*--------|--------|------------|------------------------------------------------------ */
+/*25/07/24| 0001   | Sasikumar R| To add input parameter for environment library.       */
+/*------------------------------------------------------------------------------------- */
+
+             PGM        PARM(&REPOACTION &REPONAME &DESC +
+                        &LIBRARYLST &UIUSER &ENVLIB &STATUS &OUTMESSAGE)                 /*0001*/
+             /*           &LIBRARYLST &UIUSER &STATUS &OUTMESSAGE)                         0001*/
+
+             /*Declare variables                                                        */
+             DCL        VAR(&REPOACTION) TYPE(*CHAR) LEN(1)
+             DCL        VAR(&REPONAME) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&DESC) TYPE(*CHAR) LEN(30)
+             DCL        VAR(&LIBRARYLST) TYPE(*CHAR) LEN(1000)
+             DCL        VAR(&UIUSER) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&ENVLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&STATUS) TYPE(*CHAR) STG(*AUTO) LEN(1)
+             DCL        VAR(&OUTMESSAGE) TYPE(*CHAR) STG(*AUTO) LEN(80)
+
+             IF         COND(&ENVLIB = '#IAOBJ') THEN(DO)                                /*0001*/
+             /*Database object library added                                            */
+             ADDLIBLE   LIB(#IADTA) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+
+             /*Program object library added                                             */
+             ADDLIBLE   LIB(#IAOBJ) POSITION(*AFTER #IADTA)
+             MONMSG     MSGID(CPF0000)
+             ENDDO                                                                       /*0001*/
+
+             IF         COND(&ENVLIB¬= '#IAOBJ') THEN(DO)                                /*0001*/
+             /*Database object library added                                            */
+             ADDLIBLE   LIB(IADTADEV) POSITION(*FIRST)                                   /*0001*/
+             MONMSG     MSGID(CPF0000)                                                   /*0001*/
+                                                                                         /*0001*/
+             /*Program object library added                                             */
+             ADDLIBLE   LIB(IAOBJDEV) POSITION(*AFTER IADTADEV)                          /*0001*/
+             MONMSG     MSGID(CPF0000)                                                   /*0001*/
+
+             /*Emergency library added                                                  */
+             ADDLIBLE   LIB(IAEMGDEV) POSITION(*FIRST) /*0001*/
+             MONMSG     MSGID(CPF0000)                                                   /*0001*/
+             ENDDO                                                                       /*0001*/
+                                                                                         /*0001*/
+             /*Call Repository Maintenance program                                      */
+             CALL       PGM(IAMNTREPOR) PARM((&REPOACTION) +
+                          (&REPONAME) (&DESC) (&LIBRARYLST) +
+                          (&UIUSER) (&STATUS) (&OUTMESSAGE))
+             ENDPGM
+

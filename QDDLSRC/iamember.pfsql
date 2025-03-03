@@ -1,0 +1,89 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2020                                             //
+--Created Date.....: 2023/12/05                                                        //
+--Developer........: Roshan Wankar                                                     //
+--Description......: Member list deatils                                               //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--24/12/24|  0001  | S Karthick | Add New field for Capture the Creation Time          //
+--25/01/21|  0002  | Sabarish   | IFS Member Parsing Feature                           //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAMEMBER) COMMIT(*NONE) DFTRDBCOL(#IADTA)   //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table MemberList_Details(
+ Source_File        For Column iASrcPfNam Char(10) Not Null With Default ' ',
+ Source_Library     For Column iASrcLib   Char(10) Not Null With Default ' ',
+ IFS_Location       For Column iAIfsLoc   Char(100) Not Null With Default ' ',           --0002
+ Member_Name        For Column iAMbrNam   Char(10) Not Null With Default ' ',
+ Member_Type        For Column iAMbrType  Char(10) Not Null With Default ' ',
+ Member_Type_S38    For Column iAMbrTyp1  Char(4) Not Null With Default ' ',
+ Mbr_Description    For Column iAMbrDsc   Char(50) Not Null With Default ' ',
+ Number_Of_Member   For Column iANoMbn    Decimal(5,0) Not Null With Default 0,
+ Number_Of_Record   For ColUmn iANRcd     Decimal(10,0) Not Null With Default 0,
+ Number_Of_Deleted_Record For ColUmn iANDtr
+                                          DECIMAL(10,0) NOT NULL WITH DEFAULT 0,
+ Mbr_Creation_Century For Column iACCen   Char(1) Not Null With Default ' ',
+ Mbr_Creation_date  For Column iACDat     Char(6)  Not Null With Default ' ',
+ Mbr_Creation_Time  For Column iACTime    Char(6)  Not Null With Default ' ',            --0001
+ Mbr_Changed_Century For Column iAChgC    Char(1) Not Null With Default ' ',
+ Mbr_Changed_Date   For Column iAChgD     Char(6) Not Null With Default ' ',
+ Mbr_Changed_Time   For Column iAChgT     Char(6) Not Null With Default ' ',
+ Last_Used_Century  For Column iAUCen     Char(1)  Not Null With Default ' ',
+ Last_Used_Date     For ColUmn iAUDat     Char(6)  Not Null With Default ' ',
+ Days_Used_Count    For Column iAUCnt     Decimal(5,0) Not Null With Default 0,
+ Refresh_Flag       For Column iARefFlg   Char(1)  Not Null With Default ' ')
+Rcdfmt iAMemberR;
+
+Rename table MemberList_Details to System Name iAMember;
+
+Label On Table MemberList_Details Is 'Member List deatils Table';
+
+Label On Column MemberList_Details(
+ iASrcPfNam  Is 'Source              File',
+ iASrcLib    Is 'Source              Library',
+ iAIfsLoc    Is 'IFS                 Location',                                          --0002
+ iAMbrNam    Is 'Member              Name',
+ iAMbrType   Is 'Member              Type'     ,
+ iAMbrTyp1   Is 'Member              Type_S38',
+ iAMbrDsc    Is 'Mbr                 Description',
+ iANoMbn     Is 'Number Of           Member',
+ iANRcd      Is 'Number Of           Record',
+ iANDtr      Is 'Number Of Deleted   Record',
+ iACCen      Is 'Mbr Creation        Century',
+ iACDat      Is 'Mbr Creation        date',
+ iACTime     Is 'Mbr Creation        Time',                                              --0001
+ iAChgC      Is 'Mbr Changed         Century',
+ iAChgD      Is 'Mbr Changed         Date',
+ iAChgT      Is 'Mbr Changed         Time',
+ iAUCen      Is 'Last Used           Century',
+ iAUDat      Is 'Last Used           Date',
+ iAUCnt      Is 'Days Used           Count',
+ iARefFlg    Is 'Refresh             Flag');
+
+Label On Column MemberList_Details(
+ iASrcPfNam  Text Is 'Source File',
+ iASrcLib    Text Is 'Source Library',
+ iAIfsLoc    Text Is 'IFS Location',                                                     --0002
+ iAMbrNam    Text Is 'Member Name',
+ iAMbrType   Text Is 'Member Type'     ,
+ iAMbrTyp1   Text Is 'Member Type_S38',
+ iAMbrDsc    Text Is 'Member Description',
+ iANoMbn     Text Is 'Number Of Member',
+ iANRcd      Text Is 'Number Of Record',
+ iANDtr      Text Is 'Number Of Deleted Record',
+ iACCen      Text Is 'Mbr Creation Century',
+ iACDat      Text Is 'Mbr Creation date',
+ iACTime     Text Is 'Mbr Creation Time',                                                --0001
+ iAChgC      Text Is 'Mbr Changed  Century',
+ iAChgD      Text Is 'Mbr Changed  Date',
+ iAChgT      Text Is 'Mbr Changed  Time',
+ iAUCen      Text Is 'Last Used Century',
+ iAUDat      Text Is 'Last Used Date',
+ iAUCnt      Text Is 'Days Used Count',
+ iARefFlg    Text Is 'Refresh Flag');

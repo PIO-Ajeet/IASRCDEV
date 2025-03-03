@@ -1,0 +1,70 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2022                                             //
+--Creation Date....: 2022/05/02                                                        //
+--Developer........: Himanshu Jain                                                     //
+--Description......: Execution Time Table                                              //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Developer  | Case and Description                                          //
+----------|------------|-------------------------------------------------------------- //
+--22/09/07| Sunny Jha  | Adding Source File Name field                                 //
+--23/11/29| Sabarish   | Adding Process Type (Task #424) MOD: 0002                     //
+--08/07/24| Vamsi      | Rename AIEXCTIME to IAEXCTIME4  (Task#248) (Mod : 0003)       //
+--12/08/24| Sabarish   | IFS Member Parsing Feature MOD: 0004                          //
+-------------------------------------------------------------------------------------- //
+-- Compilation Instruction
+-- ------------------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAEXCTIME) COMMIT(*NONE) DFTRDBCOL(#IADTA)   --0003
+-- ------------------------------------------------------------------------------------
+
+Create Or Replace Table Execution_Time(
+ Process_Type       For Column AIPROCESS  Char(07) Not Null With Default ' ',     --0002
+ Process_Name       For Column AIPRONME   Char(10) Not Null With Default ' ',
+ Pgm_Name           For Column AIPGM      Char(10) Not Null With Default ' ',
+ Lib_Name           For Column AILIB      Char(10) Not Null With Default ' ',
+ Type               For Column AITYPE     Char(10) Not Null With Default ' ',
+ Src_File_Name      For Column AISRCF     Char(10) Not Null With Default ' ',
+ Mbr_Name           For Column AIMBR      Char(10) Not Null With Default ' ',
+ Mbr_Lib_Name       For Column AIMBRLIB   Char(10) Not Null With Default ' ',
+ Mbr_IFS_Loc        For Column AIIFSLOC   Char(100) Not Null With Default ' ',    --0004
+ Mbr_Type           For Column AIMBRTYPE  Char(10) Not Null With Default ' ',
+ Start_TimeStamp    For Column AISTARTTIM TIMESTAMP NOT NULL DEFAULT
+                                          CURRENT TIMESTAMP,
+ End_TimeStamp      For Column AIENDTIM   TIMESTAMP,
+ Total_Duration     For Column AIDURATION Char(40) Not Null With Default ' ')
+Rcdfmt AIEXCTIMER;
+
+Rename table Execution_Time to System Name IAEXCTIME;                           --0003
+
+Label On Table Execution_Time Is 'AI Execution Time Table';
+
+Label On Column Execution_Time(
+ AIPROCESS   Is 'Process             Type',                                     --0002
+ AIPRONME    Is 'Process             Name',
+ AIPGM       Is 'Program             Name',
+ AILIB       Is 'Library             Name',
+ AITYPE      Is 'Type                Name',
+ AISRCF      Is 'Source File         Name',
+ AIMBR       Is 'Member              Name',
+ AIMBRLIB    Is 'Member              Library',
+ AIIFSLOC    Is 'IFS                 Location',                                 --0004
+ AIMBRTYPE   Is 'Member              Type',
+ AISTARTTIM  Is 'Start               TimeStamp',
+ AIENDTIM    Is 'End                 TimeStamp',
+ AIDURATION  Is 'Total               Duration');
+
+Label On Column Execution_Time(
+ AIPROCESS   Text Is 'Process Type',                                             --0002
+ AIPRONME    Text Is 'Process Name',
+ AIPGM       Text Is 'Program Name',
+ AILIB       Text Is 'Library Name',
+ AITYPE      Text Is 'Type Name',
+ AISRCF      Text Is 'Source File Name',
+ AIMBR       Text Is 'Member Name',
+ AIMBRLIB    Text Is 'Member Library',
+ AIIFSLOC    Text Is 'IFS Location',                                            --0004
+ AIMBRTYPE   Text Is 'Member Type',
+ AISTARTTIM  Text Is 'Start TimeStamp',
+ AIENDTIM    Text Is 'End TimeStamp',
+ AIDURATION  Text Is 'Total Duration');

@@ -1,0 +1,108 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/10/28                                                         //
+--Developer........: Piyush Kumar                                                       //
+--Description......: IA - DDS To DDL Header History File Details                        //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction:                                                              //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IADDSDDLHH) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table DDStoDDL_Header_History_File_Details(
+ Request_ID           For Column iAReqId    BigInt    Not Null With Default 0,
+ Repository_Name      For Column iARepoNm   Char(10)  Not Null With Default ' ',
+ DDS_Object_Lib       For Column iADdsObjLb Char(10)  Not Null With Default ' ',
+ DDS_Object_Name      For Column iADdsObjNm Char(10)  Not Null With Default ' ',
+ DDS_Object_Attr      For Column iADdsObjAt Char(10)  Not Null With Default ' ',
+ DDL_Member_Lib       For Column iADdlMbrLb Char(10)  Not Null With Default ' ',
+ DDL_Member_Name      For Column iADdlMbrNm Char(10)  Not Null With Default ' ',
+ DDL_Object_Lib       For Column iADdlObjLb Char(10)  Not Null With Default ' ',
+ DDL_Object_Name      For Column iADdlObjNm Char(10)  Not Null With Default ' ',
+ DDL_Long_Name        For Column iADdlLngNm Char(128) Not Null With Default ' ',
+ Replace_DDL_Flag     For Column iAReplace  Char(1)   Not Null With Default ' ',
+ Include_Dep_Pgms     For Column iAIncDepPg Char(1)   Not Null With Default ' ',
+ Include_Dep_Files    For Column iAIncDepFl Char(1)   Not Null With Default ' ',
+ Include_Audit_Col    For Column iAIncAudCo Char(1)   Not Null With Default ' ',
+ Include_Identity_Col For Column iAIncIdnCo Char(1)   Not Null With Default ' ',
+ Copy_Data            For Column iACopyData Char(1)   Not Null With Default ' ',
+ Object_Conv_Status   For Column iAConvSts  Char(1)   Not Null With Default ' ',
+ Replaced_By_Req_ID   For Column iARplReqId BigInt    Not Null With Default 0,
+ Replaced_By_UserName For Column iARplUser  Char(10)  Not Null With Default ' ',
+ Replaced_TimeStamp   For Column iARplTime  Timestamp Not Null For Each Row
+                                            on Update as Row Change Timestamp,
+ Created_PgmName      For Column iACrtPgm   Char(10)  Not Null With Default ' ',
+ Created_UserName     For Column iACrtUser  Char(10)  Not Null With Default ' ',
+ Created_TimeStamp    For Column iACrtTime  TimeStamp Not Null Default
+                                            Current   TimeStamp,
+ Updated_PgmName      For Column iAUpdPgm   Char(10)  Not Null With Default ' ',
+ Updated_UserName     For Column iAUpdUser  Char(10)  Not Null With Default ' ',
+ Updated_TimeStamp    For Column iAUpdTime  Timestamp Not Null Default
+                                            Current   TimeStamp)
+RcdFmt iADdsDdlHR;
+
+Rename Table DDStoDDL_Header_History_File_Details to System Name iADdSDdlHH;
+
+Label On Table iADdSDdlHH Is 'IA - DDS To DDL Header History File Details';
+
+Label On Column iADdSDdlHH(
+ iAReqId     Is 'Request             ID',
+ iARepoNm    Is 'Repository          Name',
+ iADdsObjLb  Is 'DDS                 Object              Library',
+ iADdsObjNm  Is 'DDS                 Object              Name',
+ iADdsObjAt  Is 'DDS                 Object              Attribute',
+ iADdlMbrLb  IS 'DDL                 Member              Library',
+ iADdlMbrNm  IS 'DDL                 Member              Name',
+ iADdlObjLb  IS 'DDL                 Object              Library',
+ iADdlObjNm  IS 'DDL                 Object              Name',
+ iADdlLngNm  IS 'DDL                 Long                Name',
+ iAReplace   Is 'Replace',
+ iAIncDepPg  IS 'Include             Dependent           Programs',
+ iAIncDepFl  IS 'Include             Dependent           Files',
+ iAIncAudCo  IS 'Include             Audit               Columns',
+ iAIncIdnCo  IS 'Include             Identity            Columns',
+ iACopyData  IS 'Copy                Data',
+ iAConvSts   Is 'Object              Conversion          Status',
+ iARplReqId  Is 'Replaced            Request             ID',
+ iARplUser   Is 'Replaced            User                Name',
+ iARplTime   Is 'Replaced            TimeStamp',
+ iACrtPgm    Is 'Created             Program             Name',
+ iACrtUser   Is 'Created             User                Name',
+ iACrtTime   Is 'Created             TimeStamp',
+ iAUpdPgm    Is 'Updated             Program             Name',
+ iAUpdUser   Is 'Updated             User                Name',
+ iAUpdTime   Is 'Updated             TimeStamp');
+
+Label On Column iADdSDdlHH(
+ iAReqId    Text Is 'Request ID',
+ iARepoNm   Text Is 'Repository Name',
+ iADdsObjLb Text Is 'DDS Object Library',
+ iADdsObjNm Text Is 'DDS Object Name',
+ iADdsObjAt Text Is 'DDS Object Attribute',
+ iADdlMbrLb Text IS 'DDL Member Library',
+ iADdlMbrNm Text IS 'DDL Member Name',
+ iADdlObjLb Text IS 'DDL Object Library',
+ iADdlObjNm Text IS 'DDL Object Name',
+ iADdlLngNm Text IS 'DDL Long Name',
+ iAReplace  Text Is 'Replace',
+ iAIncDepPg Text Is 'Include Dependent Programs',
+ iAIncDepFl Text Is 'Include Dependent Files',
+ iAIncAudCo Text Is 'Include Audit Columns',
+ iAIncIdnCo Text Is 'Include Identity Columns',
+ iACopyData Text Is 'Copy Data',
+ iAConvSts  Text Is 'Object Conversion Status',
+ iARplReqId Text Is 'Replaced Request ID',
+ iARplUser  Text Is 'Replaced User Name',
+ iARplTime  Text Is 'Replaced TimeStamp',
+ iACrtPgm   Text Is 'Created Program Name',
+ iACrtUser  Text Is 'Created User Name',
+ iACrtTime  Text Is 'Created TimeStamp',
+ iAUpdPgm   Text Is 'Updated Program Name',
+ iAUpdUser  Text Is 'Updated User Name',
+ iAUpdTime  Text Is 'Updated TimeStamp');

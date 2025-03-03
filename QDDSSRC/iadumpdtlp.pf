@@ -1,0 +1,18 @@
+      *%METADATA                                                       *
+      * %TEXT Dump detail log file                                     *
+      *%EMETADATA                                                      *
+     A* -----------------------------------------------------------------------//
+     A* CREATED BY.......: Programmers.io @ 2022                               //
+     A* CREATE DATE......: 2022/02/22                                          //
+     A* DEVELOPER........: Ajeet Srivastava                                    //
+     A* DESCRIPTION......: Dump detail log file                                //
+     A* -----------------------------------------------------------------------//
+     A* Modification Log                                                       //
+     A* -----------------------------------------------------------------------//
+     A* Date     Mod_ID      Developer   Case and Description                  //
+     A* YY/MM/DD ----------  ----------  --------------------------------------//
+     A* 23/10/04  0001       HIMANSHU    CHANGE THE RECORD FORMAT AND FIELD    //
+     A*                      GEHLOT      FROM AIDUMPDTLP TO IADUMPDTLP         //
+     A* -----------------------------------------------------------------------//
+     A          R IADUMPDTLP
+     A            IADUMPDTLP   200

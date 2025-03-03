@@ -1,0 +1,55 @@
+**free
+      //%METADATA                                                      *
+      // %TEXT Definitions of Exception/Error parameters               *
+      //%EMETADATA                                                     *
+//------------------------------------------------------------------------------------
+//Copybook IADERRLOG: Exception/Error log definitions
+//------------------------------------------------------------------------------------
+//definition of the PSDS                                                        //HJ01
+dcl-ds wkuDpsds Extname('IAUDPSDS') psds Qualified;                              //SB01
+   User char(10) pos(358);                   // Current user
+   ExtErrCode int(10) ;                      // External error code
+   IntoElements int(20) ;                    // Elements set by XML-INTO or
+end-ds;
+
+//definition of the DS with extra field                                         //HJ01
+dcl-ds uDpsds Extname('IAUDPSDS') Qualified;                                     //HJ01
+   User char(10);                            // Current user
+   ExtErrCode int(10) ;                      // External error code
+   IntoElements int(20) ;                    // Elements set by XML-INTO or
+   wkQuery_Name char(30);                                                        //HJ01
+end-ds;                                                                          //HJ01
+
+//Definition of the SQL Diagnostic Error
+dcl-ds uDsqlDiagErr;
+   MessageId char(10) ;
+   MessageId1 Char(7) ;
+   MessageId2 Char(7);
+   MessageLength int(5) ;
+   MessageText varchar(100);
+   ReturnedSqlCode char(5) ;
+   ReturnedSqlState char(5) ;
+   RowsCount int(10) ;
+end-ds ;
+
+//Prototype Definition of PSSR error log
+dcl-pr iAPssrErrorLog;
+   *n likeds(uDpsds);
+end-pr ;
+
+//Prototype Definition of SQL Diagnostic
+dcl-pr iASqlDiagnostic;
+   *n likeds(uDpsds);
+end-pr ;
+
+//Prototype Definition of QCMDEXC
+dcl-pr iAExcCommand extPgm('QCMDEXC');
+   *n char(1000) const;
+   *n packed(15:5) const;
+end-pr;
+
+dcl-s uwCommand     varchar(1000) inz;
+dcl-s wkSqlstmtNbr  packed(8:0) inz;
+dcl-c successCode   const(00000);
+dcl-c NO_DATA_FOUND const(100);
+dcl-c CSR_OPN_COD   const(-502);

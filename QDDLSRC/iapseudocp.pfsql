@@ -1,0 +1,76 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 2024/01/01                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: iA Generated Pseudocode of Source                                  //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--22/07/24| 0001   | Gokul R    | Task #801 - Add New Column "Font Code" to identify    //
+--        |        |            | if a Tag needs to be printed with changed Fonts       //
+--        |        |            | (Bold/Underline/Color/Reserved for future)            //
+--22/08/24| 0002   | Mahima     | Task #849 - Reduce column IAGENPSCDE length to 200    //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPSEUDOCP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Generated_PseudoCode_Details (
+ Request_Id       For Column iAReqId   BigInt       Not Null With Default 0,
+ Library_Name     For Column iAMbrLib  Char(10)     Not Null With Default ' ',
+ SourceFile_Name  For Column iASrcFile Char(10)     Not Null With Default ' ',
+ Member_Name      For Column iAMbrNam  Char(10)     Not Null With Default ' ',
+ Member_Type      For Column iAMbrTyp  Char(10)     Not Null With Default ' ',
+ Source_Rrn       For Column iASrcRrn  Decimal(6,0) Not Null With Default 0,
+ Source_Seq       For Column iASrcSeq  Decimal(6,2) Not Null With Default 0,
+ SrcLin_Type      For Column iASrcLTyp Char(5)      Not Null With Default ' ',
+ Source_Spec      For Column iASrcSpec Char(1)      Not Null With Default ' ',
+ Document_Seq     For Column iADocSeq  Decimal(6,0) Not Null With Default 0,
+ Generated_Pseudocode For Column iAGenPsCde VarChar(200)                                 //0002
+                                                    Not Null With Default ' ',
+ Font_Code        For Column iAFontCode Char(4)     Not Null With Default ' ',           //0001
+ Created_By_User  For Column iACrtByUsr Char(10)    Not Null
+                                                    With Default 'USER JOB',
+ Crt_TimeStam     For Column iACrtDtTme TimeStamp   Not Null Default
+                                                    Current TimeStamp )
+
+RcdFmt iAPseudoCR ;
+
+Rename Table Generated_PseudoCode_Details To System Name iAPseudoCP ;
+
+Label On Table iAPseudoCP Is 'iA Generated Pseudocode of Source';
+
+Label On Column iAPseudoCP (
+ iAReqId     Is 'Request             Id',
+ iAMbrLib    Is 'Library             Name',
+ iASrcFile   Is 'Source File         Name',
+ iAMbrNam    Is 'Member              Name',
+ iAMbrTyp    Is 'Member              Type',
+ iASrcRrn    Is 'Source              Rrn',
+ iASrcSeq    Is 'Source              Sequence',
+ iASrcLTyp   Is 'Source Line         Type',
+ iASrcSpec   Is 'Source              Spec',
+ iADocSeq    Is 'Document            Sequence',
+ iAGenPsCde  Is 'Generated           PseudoCode',
+ iAFontCode  Is 'Font                Code',                                              //0001
+ iACrtByUsr  Is 'Create              Job Id',
+ iACrtDtTme  Is 'Created On          TimeStamp');
+
+Label On Column iAPseudoCP (
+ iAReqId    Text Is 'Request Id',
+ iAMbrLib   Text Is 'Library Name',
+ iASrcFile  Text Is 'Source File Name',
+ iAMbrNam   Text Is 'Member Name',
+ iAMbrTyp   Text Is 'Member Type',
+ iASrcRrn   Text Is 'Source Rrn',
+ iASrcSeq   Text Is 'Source Sequence',
+ iASrcLTyp  Text Is 'Source Line Type',
+ iASrcSpec  Text Is 'Source Specification',
+ iADocSeq   Text Is 'Document Sequence',
+ iAGenPsCde Text Is 'Generated Pseudocode',
+ iAFontCode Text Is 'Font Code',                                                         //0001
+ iACrtByUsr Text Is 'Create Job Id',
+ iACrtDtTme Text Is 'Created On TimeStamp');

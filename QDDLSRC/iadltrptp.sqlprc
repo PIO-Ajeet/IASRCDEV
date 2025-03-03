@@ -1,0 +1,30 @@
+      --%METADATA                                                      *
+      -- %TEXT IA Stored Procedure to wrap IADLTRPT program            *
+      --%EMETADATA                                                     *
+-- --------------------------------------------------------------------------//
+-- Created By.......: Programmers.io @ 2022                                  //
+-- Create Date......: 2022/06/24                                             //
+-- Developer........: JAGDISH                                                //
+-- Description......: Execution Time Table                                   //
+-------------------------------------------------------------------------------
+--MODIFICATION LOG:
+-------------------------------------------------------------------------------
+--Date    | Mod_ID | Developer  | Case and Description
+----------|--------|------------|----------------------------------------------
+--23/10/05| 0001   | SARTHAK    | Rename the Stored Procedure From AI to IA
+--        |        |  GUPTA     | TASK #258
+--25/07/24| 0002   | Sasikumar R| To add input parameters for user id                   //
+--        |        |            | and environment library.                              //
+-------------------------------------------------------------------------------
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IADLTRPTP)                                   --0001
+-- COMMIT(*NONE) DFTRDBCOL(#IAOBJ)
+-- -----------------------------------------------------------------------------
+Create Or Replace Procedure IADLTRPTP                                                    --0001
+(In P_Export_Date Varchar(10),
+ In P_User_Id     char(10),
+ In P_Env_Lib     char(10),                                                              --0002
+ Out P_Del_Status  Varchar(1))
+ Language Rpgle
+ External Name '#IAOBJ/IADLTRPTR'                                                        --0001

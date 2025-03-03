@@ -1,0 +1,39 @@
+      --%METADATA                                                      *
+      -- %TEXT IA Stored Procedure to fetching the repo details        *
+      --%EMETADATA                                                     *
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/01/22                                                         //
+--Developer........: Dada Bachute                                                       //
+--Description......: This procedure select all the records from IAINPLIB file for the   //
+--                 : repository name received and will return the result set.           //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--03/07/24| 0001   | Sribalaji  | Remove the hardcoded #IADTA lib from all sources      //
+--        |        |            | Task# 754                                             //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IADTA/QDDLSRC) SRCMBR(IADSPREPO) COMMIT(*NONE) DFTRDBCOL(#IAOBJ)   //
+--------------------------------------------------------------------------------------- //
+Create Or Replace Procedure Display_Repository_Details
+ (In Repo_Name  Char(10))
+
+ Result Sets 1
+ Language SQL
+ Specific IADSPREPO
+
+ Begin
+    Declare FetchRepoDtl Cursor With Return For
+     Select xref_name, description, library_seqno, library_name, is_md_built,
+            built_version
+--       from #IADTA/IAINPLIB                                                            --0001
+         from IAINPLIB                                                                   --0001
+      Where xref_name = Repo_Name;
+
+    Open FetchRepoDtl ;
+ End

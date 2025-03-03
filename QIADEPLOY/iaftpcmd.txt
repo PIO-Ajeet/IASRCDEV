@@ -1,0 +1,5 @@
+as400@pixere.com W?Xxyg6!{I6#
+cd IATool Saia Installation
+bin
+put backup/iatool.savf ia101121.savf
+quit

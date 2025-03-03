@@ -1,0 +1,99 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 2024/01/01                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: Pseudocode Mapping File                                            //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPSEUDOMP) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Pseudocode_Mapping_Details (
+ SrcMbr_Type     For Column iASrcMTyp  Char(10)     Not Null With Default ' ',
+ SrcLin_Type     For Column iASrcLTyp  Char(5)      Not Null With Default ' ',
+ Source_Spec     For Column iASrcSpec  Char(1)      Not Null With Default ' ',
+ SrcLin_Cntn     For Column iASrcLNct  Char(1)      Not Null With Default ' ',
+ Seq_No          For Column iASeqNo    Decimal(2,0) Not Null With Default 0,
+ KeyField_1      For Column iAKeyFld1  Char(10)     Not Null With Default ' ',
+ KeyField_2      For Column iAKeyFld2  Char(10)     Not Null With Default ' ',
+ KeyField_3      For Column iAKeyFld3  Char(10)     Not Null With Default ' ',
+ KeyField_4      For Column iAKeyFld4  Char(10)     Not Null With Default ' ',
+ Indent_Type     For Column iAIndntTy  Char(10)     Not Null With Default ' ',
+ Subst_Char      For Column iASubsChr  Char(10)     Not Null With Default ' ',
+ Action_Type     For Column iAActType  Char(10)     Not Null With Default ' ',
+ Src_Mapping     For Column iASrcMap   VarChar(200) Not Null With Default ' ',
+ Search_Fld1     For Column iASrhFld1  Char(10)     Not Null With Default ' ',
+ Search_Fld2     For Column iASrhFld2  Char(10)     Not Null With Default ' ',
+ Search_Fld3     For Column iASrhFld3  Char(10)     Not Null With Default ' ',
+ Search_Fld4     For Column iASrhFld4  Char(10)     Not Null With Default ' ',
+ Comment_Desc    For Column iACmtDesc  Char(100)    Not Null With Default ' ',
+ Created_By_User For Column iACrtByUsr Char(10)     Not Null
+                                                    With Default 'USER ID',
+ Crt_TimeStam    For Column iACrtOnts  TimeStamp    Not Null Default
+                                                    Current TimeStamp,
+ Changed_By_User For Column iAChgByUsr Char(10)     Not Null
+                                                    With Default 'USER ID',
+ Chg_TimeStam    For Column iAChgOnts  TimeStamp    Not Null For Each Row
+                                                    On Update As Row Change
+                                                    TimeStamp)
+RcdFmt iAPseudoMr ;
+
+Rename Table Pseudocode_Mapping_Details To System Name iAPseudoMp;
+
+Label On Table iAPseudoMp Is 'PseudoCode Mapping File';
+
+Label On Column iAPseudoMp (
+ iASrcMTyp   Is 'Source Member       Type',
+ iASrcLTyp   Is 'Source Line         Type',
+ iASrcSpec   Is 'Source              Spec',
+ iASrcLNct   Is 'Source Line         Cont',
+ iASeqNo     Is 'Sequence            No',
+ iAKeyFld1   Is 'KeyField            1',
+ iAKeyFld2   Is 'KeyField            2',
+ iAKeyFld3   Is 'KeyField            3',
+ iAKeyFld4   Is 'KeyField            4',
+ iAIndntTy   Is 'Indentation Type    (Add/Remove)',
+ iASubsChr   Is 'Substring           Character',
+ iAActType   Is 'Action              Type',
+ iASrcMap    Is 'Source              Mapping',
+ iASrhFld1   Is 'Search              Field 1',
+ iASrhFld2   Is 'Search              Field 2',
+ iASrhFld3   Is 'Search              Field 3',
+ iASrhFld4   Is 'Search              Field 4',
+ iACmtDesc   Is 'Comment             Description',
+ iACrtByUsr  Is 'Created By          User',
+ iACrtOnts   Is 'Created On          TimeStamp',
+ iAChgByUsr  Is 'Changed By          User',
+ iAChgOnts   Is 'Changed On          TimeStamp');
+
+Label On Column iAPseudoMp (
+ iASrcMTyp  Text Is 'Source Member Type',
+ iASrcLTyp  Text Is 'Source Line Type',
+ iASrcSpec  Text Is 'Source Specification',
+ iASrcLNct  Text Is 'Line Continuation',
+ iASeqNo    Text Is 'Sequence No',
+ iAKeyFld1  Text Is 'Key Field 1',
+ iAKeyFld2  Text Is 'Key Field 2',
+ iAKeyFld3  Text Is 'Key Field 3',
+ iAKeyFld4  Text Is 'Key Field 4',
+ iAIndntTy  Text Is 'Indentation Type (Add/Remove)',
+ iASubsChr  Text Is 'Substring Character',
+ iAActType  Text Is 'Action Type',
+ iASrcMap   Text Is 'Source Mapping',
+ iASrhFld1  Text Is 'Search Field 1',
+ iASrhFld2  Text Is 'Search Field 2',
+ iASrhFld3  Text Is 'Search Field 3',
+ iASrhFld4  Text Is 'Search Field 4',
+ iACmtDesc  Text Is 'Comment Description',
+ iACrtByUsr Text Is 'Created By User',
+ iACrtOnts  Text Is 'Created On TimeStamp',
+ iAChgByUsr Text Is 'Changed By User',
+ iAChgOnts  Text Is 'Changed On TimeStamp');
+

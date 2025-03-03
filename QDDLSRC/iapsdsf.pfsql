@@ -1,0 +1,128 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+-- 24/07/03 0001       | Sribalaji |Remove the hardcoded #IADTA lib from all //
+--                                 | sources                                 //
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(*LIBL/QDDLSRC) SRCMBR(IAPSDSF) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE IAPSDSF (
+   PROCNME      CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   STSCDE       NUMERIC(5,0)             NOT NULL DEFAULT 0,
+   PRVSTSCDE    NUMERIC(5,0)             NOT NULL DEFAULT 0,
+   SRCLINNBR    CHAR(8)        CCSID 37  NOT NULL DEFAULT '',
+   EXCPTSUBR    CHAR(8)        CCSID 37  NOT NULL DEFAULT '',
+   NBRPARMS     NUMERIC(3,0)             NOT NULL DEFAULT 0,
+   EXCPTTYP     CHAR(3)        CCSID 37  NOT NULL DEFAULT '',
+   EXCPTNBR     CHAR(4)        CCSID 37  NOT NULL DEFAULT '',
+   RESERVED01   CHAR(4)        CCSID 37  NOT NULL DEFAULT '',
+   MSGWRKAREA   CHAR(30)       CCSID 37  NOT NULL DEFAULT '',
+   LIB          CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   RTVEXCPTDT   CHAR(80)       CCSID 37  NOT NULL DEFAULT '',
+   EXCPTID      CHAR(4)        CCSID 37  NOT NULL DEFAULT '',
+   UNUSED0001   CHAR(16)       CCSID 37  NOT NULL DEFAULT '',
+   DTEJOBENTR   CHAR(8)        CCSID 37  NOT NULL DEFAULT '',
+   CNTJOBENTR   NUMERIC(2,0)             NOT NULL DEFAULT 0,
+   LASTFILEOP   CHAR(8)        CCSID 37  NOT NULL DEFAULT '',
+   FILESTS      CHAR(35)       CCSID 37  NOT NULL DEFAULT '',
+   JOBNME       CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   "USER"       CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   JOBNMBR      NUMERIC(6,0)             NOT NULL DEFAULT 0,
+   DTEJOBENT2   NUMERIC(6,0)             NOT NULL DEFAULT 0,
+   DTEPGMRUN    NUMERIC(6,0)             NOT NULL DEFAULT 0,
+   TMEPGMRUN    NUMERIC(6,0)             NOT NULL DEFAULT 0,
+   COMPILEDTE   CHAR(6)        CCSID 37  NOT NULL DEFAULT '',
+   COMPILETME   CHAR(6)        CCSID 37  NOT NULL DEFAULT '',
+   COMPILELVL   CHAR(4)        CCSID 37  NOT NULL DEFAULT '',
+   SRCFILE      CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   SRCLIB       CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   SRCMBR       CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   MODULEPGM    CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   MODULEPROC   CHAR(10)       CCSID 37  NOT NULL DEFAULT '',
+   UNUSED0002   CHAR(76)       CCSID 37  NOT NULL DEFAULT '')
+RCDFMT PSDSFR;
+
+--LABEL ON TABLE #IADTA.IAPSDSF IS 'Have All fields of PSDS';                     --0001
+LABEL ON TABLE IAPSDSF IS 'Have All fields of PSDS';                              --0001
+
+LABEL ON COLUMN IAPSDSF (
+    PROCNME     IS  'Procedure Name',
+    STSCDE      IS  'Status code',
+    PRVSTSCDE   IS  'Previuos Status Code',
+    SRCLINNBR   IS  'Source Line No',
+    EXCPTSUBR   IS  'Exception Subrputine',
+    NBRPARMS    IS  'No. of Parameters',
+    EXCPTTYP    IS  'Exception Type',
+    EXCPTNBR    IS  'Exception No.',
+    RESERVED01  IS  'Reserved',
+    MSGWRKAREA  IS  'Message Work Area',
+    LIB         IS  'Library',
+    RTVEXCPTDT  IS  'Retrieved Exception Data',
+    EXCPTID     IS  'Id. Of Exception RNX9001',
+    UNUSED0001  IS  'Unused',
+    DTEJOBENTR  IS  '*Date Job Entered',
+    CNTJOBENTR  IS  'Century Job Entered System',
+    LASTFILEOP  IS  'File Last Opertion Performed',
+    FILESTS     IS  'Status of File',
+    JOBNME      IS  'Job Name',
+    "USER"      IS  'User Profile',
+    JOBNMBR     IS  'Job Number',
+    DTEJOBENT2  IS  'Date Job Endtered System',
+    DTEPGMRUN   IS  'Date Prpgram Running',
+    TMEPGMRUN   IS  'Time Prpgram Running',
+    COMPILEDTE  IS  'Compile Date Data',
+    COMPILETME  IS  'Compile Time',
+    COMPILELVL  IS  'Level of Compile',
+    SRCFILE     IS  'Source file Name',
+    SRCLIB      IS  'Source Library',
+    SRCMBR      IS  'Source Member',
+    MODULEPGM   IS  'PGM containing Module',
+    MODULEPROC  IS  'Module containing PROC',
+    UNUSED0002  IS  'Unused');
+
+ LABEL ON COLUMN IAPSDSF (
+    PROCNME     TEXT IS  'Procedure Name',
+    STSCDE      TEXT IS  'Status code',
+    PRVSTSCDE   TEXT IS  'Previuos Status Code',
+    SRCLINNBR   TEXT IS  'Source Line No',
+    EXCPTSUBR   TEXT IS  'Exception Subrputine',
+    NBRPARMS    TEXT IS  'No. of Parameters',
+    EXCPTTYP    TEXT IS  'Exception Type',
+    EXCPTNBR    TEXT IS  'Exception No.',
+    RESERVED01  TEXT IS  'Reserved',
+    MSGWRKAREA  TEXT IS  'Message Work Area',
+    LIB         TEXT IS  'Library',
+    RTVEXCPTDT  TEXT IS  'Retrieved Exception Data',
+    EXCPTID     TEXT IS  'Id. Of Exception RNX9001',
+    UNUSED0001  TEXT IS  'Unused',
+    DTEJOBENTR  TEXT IS  '*Date Job Entered',
+    CNTJOBENTR  TEXT IS  'Century Job Entered System',
+    LASTFILEOP  TEXT IS  'File Last Opertion Performed',
+    FILESTS     TEXT IS  'Status of File',
+    JOBNME      TEXT IS  'Job Name',
+    "USER"      TEXT IS  'User Profile',
+    JOBNMBR     TEXT IS  'Job Number',
+    DTEJOBENT2  TEXT IS  'Date Job Endtered System',
+    DTEPGMRUN   TEXT IS  'Date Prpgram Running',
+    TMEPGMRUN   TEXT IS  'Time Prpgram Running',
+    COMPILEDTE  TEXT IS  'Compile Date Data',
+    COMPILETME  TEXT IS  'Compile Time',
+    COMPILELVL  TEXT IS  'Level of Compile',
+    SRCFILE     TEXT IS  'Source file Name',
+    SRCLIB      TEXT IS  'Source Library',
+    SRCMBR      TEXT IS  'Source Member',
+    MODULEPGM   TEXT IS  'PGM containing Module',
+    MODULEPROC  TEXT IS  'Module containing PROC',
+    UNUSED0002  TEXT IS  'Unused');
+

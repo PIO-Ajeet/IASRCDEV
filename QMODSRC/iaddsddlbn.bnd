@@ -1,0 +1,6 @@
+      /*%METADATA                                                     */
+      /* %TEXT IA - DDStoDDL Service Binder                           */
+      /*%EMETADATA                                                    */
+     STRPGMEXP  SIGNATURE('IADDSDDLSV')
+        EXPORT     SYMBOL('IAGETSRCMBRINFO')
+     ENDPGMEXP

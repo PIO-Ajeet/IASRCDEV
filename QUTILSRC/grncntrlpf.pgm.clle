@@ -1,0 +1,35 @@
+      /*%METADATA                                                     */
+      /* %TEXT CU Generate utility main control file                  */
+      /*%EMETADATA                                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Copyright © Programmers.Io, 2021 All rights reserved.                     */
+ /*--------------------------------------------------------------------------*/
+ /*Program: iA Tool Compilation Utility for Files (database and device)      */
+ /*--------------------------------------------------------------------------*/
+ /*Developer  :                                                              */
+ /*Description:                                                              */
+ /*--------------------------------------------------------------------------*/
+ /*Modification Log:                                                         */
+ /*--------------------------------------------------------------------------*/
+             PGM
+
+             DLTF       FILE(*LIBL/SRCLIST)
+             MONMSG     MSGID(CPF2105)
+
+             DLTF       FILE(*LIBL/OBJLIST)
+             MONMSG     MSGID(CPF2105)
+
+             DSPOBJD    OBJ(#IAOBJ/*ALL) OBJTYPE(*ALL) +
+                        OUTPUT(*OUTFILE) OUTFILE(#IAUTIL/OBJLIST)
+
+             DSPOBJD    OBJ(#IADTA/*ALL) OBJTYPE(*ALL) +
+                        OUTPUT(*OUTFILE) OUTFILE(#IAUTIL/OBJLIST) +
+                        OUTMBR(*FIRST *ADD)
+
+             DSPFD      FILE(#IASRC/*ALL) TYPE(*MBRLIST) +
+                        OUTPUT(*OUTFILE) OUTFILE(#IAUTIL/SRCLIST)
+
+             CALL       PGM(GRNCNTRLR)
+
+             RCLRSC
+             ENDPGM

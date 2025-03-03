@@ -1,0 +1,92 @@
+      *%METADATA                                                       *
+      * %TEXT iA Tool Purge all object locks Display file              *
+      *%EMETADATA                                                      *
+     *-----------------------------------------------------------------------*/
+     * Copyright © Programmers.Io, 2021 All rights reserved.                 */
+     *-----------------------------------------------------------------------*/
+     * Display File: iA Tool Utility to display all file locks               */
+     *-----------------------------------------------------------------------*/
+     * Description: This utility will be used for pre-packaging utility.     */
+     *              Before processing iA tool compilation utility, it list   */
+     *              all jobs locking DATA, OBJECT & SOURCE libraries.        */
+     *-----------------------------------------------------------------------*/
+     *Modification Log:                                                      */
+     *-----------------                                                      */
+     * 27/10/2022 RK01  | RISHAB KA | HEADER AND SUBHEADER TEST UPDATE       */
+     *-----------------------------------------------------------------------*/
+
+     *------------------------------------------------------------------------*
+     * File Level Description                                                 *
+     *------------------------------------------------------------------------*
+     A                                      DSPSIZ(27 132 *DS4)
+     A                                      INDARA
+     A                                      CHGINPDFT(HI UL)
+     A                                      CSRINPONLY
+     *------------------------------------------------------------------------*
+     * Record Format Level Description - SFL01                                *
+     *------------------------------------------------------------------------*
+     A          R SFL01                     SFL
+     A  29                                  SFLNXTCHG
+     * Row 10-24 *
+     A            S1OPT          1A  B 10  3VALUES('4' '5' ' ')
+     A N30                                  DSPATR(HI UL)
+     A  30                                  DSPATR(RI PC)
+     A            S1USRNAM      10A  O 10  8
+     A            S1LIBNAM      10A  O 10 20
+     A            S1JOBDTL      28A  O 10 32
+     *------------------------------------------------------------------------*
+     * Record Format Level Description - SFLCTL01                             *
+     *------------------------------------------------------------------------*
+     A          R SFLCTL01                  SFLCTL(SFL01)
+     * Control Functions *
+     A                                      CF03(03 'Exit')
+     A                                      CF05(05 'Refresh')
+     A                                      CF13(13 'Repeat')
+     * Other Functions *
+     A                                      OVERLAY
+     * Subfile Functions *
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(14)
+     A  25                                  SFLDSP
+     A  26                                  SFLDSPCTL
+     A  27                                  SFLCLR
+     A  28                                  SFLEND(*MORE)
+     A            RRN1           4  0H      SFLRCDNBR(CURSOR)
+     * Row 06 *
+     A                                  6  2'Type Options, Press Enter.'
+     A                                      COLOR(BLU)
+     A                                  7  3'4=Delete Jobs  5=Send Message'
+     A                                      COLOR(BLU)
+     * Row 09 *
+     A                                  9  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  9  8'UserName'
+     A                                      DSPATR(HI)
+     A                                  9 20'Library '
+     A                                      DSPATR(HI)
+     A                                  9 32'Job Details'
+     A                                      DSPATR(HI)
+     *------------------------------------------------------------------------*
+     * Record Format Level Description - HEADER1                              *
+     *------------------------------------------------------------------------*
+     A          R HEADER1
+     * Row 02 *
+     A                                  2  2'JOBLOCKLST'
+     A                                  2 28'Job Locking List'
+     A                                      DSPATR(HI)
+     A                                  2 73DATE EDTCDE(Y)
+     * Row 03 *
+     A                                  3  2USER
+     A                                  3 28'{P}rogrammer''s.IO'
+     A                                      DSPATR(HI)
+     A                                  3 73TIME
+     *------------------------------------------------------------------------*
+     * Record Format Level Description - FOOTER1                              *
+     *------------------------------------------------------------------------*
+     A          R FOOTER1
+     A                                      OVERLAY
+     * Row 26 *
+     A            F1TITLE      130A  O 26  2COLOR(BLU)
+     * Row 27 *
+     A            F1MSG        130A  O 27  2COLOR(WHT)
+     *------------------------------------------------------------------------*

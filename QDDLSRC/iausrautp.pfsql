@@ -1,0 +1,73 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2020/01/01                                             //
+-- DEVELOPER........: Kaushal kumar                                          //
+-- DESCRIPTION......:                                                        //
+-- --------------------------------------------------------------------------//
+-- Modification Log                                                          //
+-- --------------------------------------------------------------------------//
+-- Date     Mod_ID      Developer   Case and Description                     //
+-- YY/MM/DD ----------  ----------  -----------------------------------------//
+--                                                                           //
+-- --------------------------------------------------------------------------//
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAUSRAUTP) COMMIT(*NONE)
+-- -----------------------------------------------------------------------------
+
+CREATE OR REPLACE TABLE IAUSRAUTP(
+ USER_PROFILE    FOR COLUMN IAUSRPRF   CHAR(10) NOT NULL WITH DEFAULT ' ',
+ EMAIL           FOR COLUMN IAEMAIL    CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ DOWNLOAD        FOR COLUMN IADWNLOD   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION01        FOR COLUMN IAOPTN01   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION02        FOR COLUMN IAOPTN02   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION03        FOR COLUMN IAOPTN03   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION04        FOR COLUMN IAOPTN04   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION05        FOR COLUMN IAOPTN05   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION06        FOR COLUMN IAOPTN06   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION07        FOR COLUMN IAOPTN07   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION08        FOR COLUMN IAOPTN08   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION09        FOR COLUMN IAOPTN09   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION10        FOR COLUMN IAOPTN10   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION11        FOR COLUMN IAOPTN11   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+ OPTION12        FOR COLUMN IAOPTN12   CHAR(1)  NOT NULL WITH DEFAULT ' ',
+
+PRIMARY KEY (IAUSRPRF))
+RCDFMT IAUSRAUTR;
+
+LABEL ON TABLE IAUSRAUTP IS 'IA TOOL USER AUTHARITY TABLE';
+
+LABEL ON COLUMN IAUSRAUTP(
+ IAUSRPRF      IS 'User Profile',
+ IAEMAIL       IS 'Email Authority',
+ IADWNLOD      IS 'Download Authority',
+ IAOPTN01      IS 'Option 01',
+ IAOPTN02      IS 'Option 02',
+ IAOPTN03      IS 'Option 03',
+ IAOPTN04      IS 'Option 04',
+ IAOPTN05      IS 'Option 05',
+ IAOPTN06      IS 'Option 06',
+ IAOPTN07      IS 'Option 07',
+ IAOPTN08      IS 'Option 08',
+ IAOPTN09      IS 'Option 09',
+ IAOPTN10      IS 'Option 10',
+ IAOPTN11      IS 'Option 11',
+ IAOPTN12      IS 'Option 12');
+
+LABEL ON COLUMN IAUSRAUTP(
+ IAUSRPRF    TEXT  IS 'USER PROFILE',
+ IAEMAIL     TEXT  IS 'EMAIL AUTHORITY',
+ IADWNLOD    TEXT  IS 'DOWNLOAD AUTHORITY',
+ IAOPTN01    TEXT  IS 'OPTION 01',
+ IAOPTN02    TEXT  IS 'OPTION 02',
+ IAOPTN03    TEXT  IS 'OPTION 03',
+ IAOPTN04    TEXT  IS 'OPTION 04',
+ IAOPTN05    TEXT  IS 'OPTION 05',
+ IAOPTN06    TEXT  IS 'OPTION 06',
+ IAOPTN07    TEXT  IS 'OPTION 07',
+ IAOPTN08    TEXT  IS 'OPTION 08',
+ IAOPTN09    TEXT  IS 'OPTION 09',
+ IAOPTN10    TEXT  IS 'OPTION 10',
+ IAOPTN11    TEXT  IS 'OPTION 11',
+ IAOPTN12    TEXT  IS 'OPTION 12');
+

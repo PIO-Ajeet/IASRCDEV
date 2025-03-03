@@ -1,0 +1,62 @@
+      /*%METADATA                                                     */
+      /* %TEXT iA Tool FTP CL to transfer SAVF files                  */
+      /*%EMETADATA                                                    */
+ /*--------------------------------------------------------------------------*/
+ /*Copyright © Programmers.Io, 2021 All rights reserved.                     */
+ /*--------------------------------------------------------------------------*/
+ /*Program: iA Tool FTP Utility                                              */
+ /*--------------------------------------------------------------------------*/
+ /*Description:                                                              */
+ /*iA Tool requires FTP process to put SAVF to a certain FTP location.       */
+ /*                                                                          */
+ /*--------------------------------------------------------------------------*/
+ /*Modification Log:                                                         */
+ /*-----------------                                                         */
+ /*--------------------------------------------------------------------------*/
+             PGM
+             COPYRIGHT  TEXT('Copyright © Programmers.Io, 2021 All rights +
+                        reserved.')
+
+             DCL        VAR(&CMPLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&SAVLIB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FTPYN)  TYPE(*CHAR) LEN(01)
+             DCL        VAR(&FTPIP)  TYPE(*CHAR) LEN(15)
+             DCL        VAR(&OWNER)  TYPE(*CHAR) LEN(10)
+
+             /*Retrieve compile and save library names */
+             RTVDTAARA  DTAARA(AICTLDTA (41 10)) RTNVAR(&CMPLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (51 10)) RTNVAR(&SAVLIB)
+             RTVDTAARA  DTAARA(AICTLDTA (71 10)) RTNVAR(&OWNER)
+             RTVDTAARA  DTAARA(AICTLDTA (81 15)) RTNVAR(&FTPIP)
+             RTVDTAARA  DTAARA(AICTLDTA (96 01)) RTNVAR(&FTPYN)
+
+             /*Process FTP process when FTPYN = 'Y' */
+             IF         COND(&FTPYN = 'Y') THEN(DO)
+
+             /*Create a BACKUP library to store IATOOL SAVF */
+             IF         COND(&SAVLIB *NE 'BACKUP') THEN(DO)
+             CRTLIB     LIB(BACKUP) TYPE(*TEST)
+             GRTOBJAUT  OBJ(BACKUP) OBJTYPE(*LIB) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(BACKUP) OBJTYPE(*LIB) NEWOWN(&OWNER)
+
+             CRTDUPOBJ  OBJ(IATOOL) FROMLIB(&SAVLIB) OBJTYPE(*FILE) +
+                        TOLIB(BACKUP1) DATA(*YES) CST(*NO) +
+                        TRG(*NO) FILEID(*YES)
+             GRTOBJAUT  OBJ(BACKUP/IATOOL) OBJTYPE(*FILE) USER(*PUBLIC) AUT(*ALL)
+             CHGOBJOWN  OBJ(BACKUP/IATOOL) OBJTYPE(*FILE) NEWOWN(&OWNER)
+             ENDDO
+
+             /*Actual FTP starts */
+             OVRDBF     FILE(INPUT) TOFILE(&CMPLIB/QCLPSRC) MBR(IAFTPCMD)
+             OVRDBF     FILE(OUTPUT) TOFILE(&CMPLIB/QCLPSRC) MBR(IAFTPLOG)
+             FTP        RMTSYS(&FTPIP)
+
+             /*Removing delete overrides after FTP ends */
+             DLTOVR     FILE(INPUT OUTPUT)
+
+             /*Send program message of FTP completed. */
+             SNDPGMMSG  MSG('FTP PROCESSED.')
+
+             ENDDO
+
+ END:        ENDPGM

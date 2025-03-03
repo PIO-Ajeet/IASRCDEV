@@ -1,0 +1,69 @@
+-------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2023                                             //
+--Created Date.....: 2023/29/09                                                        //
+--Developer........: Saumya Arora                                                      //
+--Description......: File Download Request                                             //
+-------------------------------------------------------------------------------------- //
+--MODIFICATION LOG:                                                                    //
+-------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                 //
+----------|--------|------------|----------------------------------------------------- //
+--14/12/23| 0001   | Pranav     | Added field created_timestamp. Java Task# 889        //
+--03/01/24| 0002   | Pranav     | Added field profile. Java Task# 938                  //
+-------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                              //
+-------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAFDWNREQ) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+-------------------------------------------------------------------------------------- //
+
+Create Or Replace Table File_Download_Request(
+  Request_Id     For Column iAReqId     BigInt Primary Key Not Null With
+                                        Default 0,
+  Feature        For Column iAFeatr     VarChar(50) Not Null With Default ' ',
+  Request_User   For Column iAReqUsr    VarChar(10) Not Null With Default ' ',
+  Request_Json   For Column iAReqJsn    Blob Not Null,
+  Request_Status For Column iAReqSts    VarChar(1) Not Null With Default ' ',
+  Retry_Count    For Column iARetryCnt  Integer Not Null With Default 0 ,
+  Repo_Name      For Column iARepoNm    VarChar(10) Not Null With Default ' ',
+  Ifs_Path       For Column iAIfsPath   VarChar(250)Not Null With Default ' ',
+  created_timestamp For Column iACrtDtTm timestamp default current_timestamp             --0001
+                                         not null,                                       --0001
+  profile        For Column iAProfile   varchar(5) default 'prod' not null ,
+  Failure_Reason For Column iAFailRsn   VarChar(255)Not Null With Default ' ',
+  Request_Type   For Column iAReqType   Char(1)Not Null With Default ' ')
+
+
+Rcdfmt iAFDwnReqR;
+
+Rename table File_Download_Request to System Name iAFDwnReq;
+
+Label On Table File_Download_Request Is 'File Download Request ' ;
+
+Label On Column File_Download_Request(
+ iAReqId    Is 'Request             Id',
+ iAFeatr    Is 'Feature ',
+ iAReqUsr   Is 'Request             User',
+ iAReqJsn   Is 'Request             Json',
+ iAReqSts   Is 'Request             Status',
+ iARetryCnt Is 'Retry               Count',
+ iARepoNm   Is 'Repo                Name',
+ iAIfsPath  Is 'Ifs                 Path',
+ iACrtDtTm  Is 'Created             Timestamp',                                          --0001
+ iAProfile  Is 'Profile',                                                                --0002
+ iAFailRsn  Is 'Failure             Reason',
+ iAReqType  Is 'Request             Type');
+
+
+Label On Column File_Download_Request(
+ iAReqId    Text Is 'Request Id',
+ iAFeatr    Text Is 'Feature ',
+ iAReqUsr   Text Is 'Request User',
+ iAReqJsn   Text Is 'Request Json',
+ iAReqSts   Text Is 'Request Status',
+ iARetryCnt Text Is 'Retry Count',
+ iARepoNm   Text Is 'Repo Name',
+ iAIfsPath  Text Is 'Ifs Path',
+ iACrtDtTm  Text Is 'Created Timestamp',                                                 --0001
+ iAProfile  Text Is 'Profile',                                                           --0002
+ iAFailRsn  Text Is 'Failure Reason',
+ iAReqType  Text Is 'Request Type');

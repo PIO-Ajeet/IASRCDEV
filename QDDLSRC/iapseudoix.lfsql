@@ -1,0 +1,21 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/02/22                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: Index on iAPseudoIx file based on iAReqId , IaDocSeq               //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAPSEUDOIX) COMMIT(*NONE) DFTRDBCOL(#IADTA)  //
+--------------------------------------------------------------------------------------- //
+Create Index iAPseudoIx on IAPSEUDOCP(iAReqId, IaDocSeq)
+
+Rcdfmt iAPseudoIR;
+
+Label on Index iAPseudoIx is 'Index iAPseudoCP: iAReqId, IaDocSeq';

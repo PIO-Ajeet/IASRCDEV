@@ -1,0 +1,48 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Creation Date....: 19/01/2024                                                         //
+--Developer........: Bhavit Jain                                                        //
+--Description......: Member Exclusion detail table                                      //
+--------------------------------------------------------------------------------------- //
+--Modification Log                                                                      //
+--------------------------------------------------------------------------------------- //
+--Date     Mod_ID      Developer   Case and Description                                 //
+--24/01/19             Bhavit      Rewritten the DDL source with new file and field     //
+--                      Jain       names. (Task#:500)                                   //
+--24/03/07  0001       Vamsi       Added Sequence Number and Primary Key (Task#598)     //
+--                     Krishna2                                                         //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction                                                               //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAXSRCPF) COMMIT(*NONE) DFTRDBCOL(#IADTA)    //
+--------------------------------------------------------------------------------------- //
+
+Create or Replace Table Member_Exclusion_Detail_Table(
+ Sequence_Number   For Column IASQNO      smallint not null  Generated                   --0001
+                                          always as Identity (Start with 1               --0001
+                                          Increment By 1),                               --0001
+ Source_File_Name  For Column iASrcFile   Char(10)  Not Null With Default ' ',
+ Library_Name      For Column iASrcLib    Char(10)  Not Null With Default ' ',
+-- Source_Member     For Column iASrcMbr    Char(10)  Not Null With Default ' ')         --0001
+ Source_Member     For Column iASrcMbr    Char(10)  Not Null With Default ' ',           --0001
+
+Primary Key (IASQNO))                                                                    --0001
+RcdFmt IaXSrcPfr;
+
+Rename table Member_Exclusion_Detail_Table to System Name IAXSRCPF;
+
+Label On Table Member_Exclusion_Detail_Table is
+'Exclusion Table of Source PF, Library and Member';
+
+Label On Column Member_Exclusion_Detail_Table(
+ IASQNO      is 'Sequence            Number',                                            --0001
+ iASrcFile   Is 'Source              File',
+ iASrcLib    Is 'Source              Library',
+ iASrcMbr    Is 'Source              Member');
+
+Label On Column Member_Exclusion_Detail_Table(
+ IASQNO      Text Is 'Sequence Number',                                                  --0001
+ iASrcFile   Text Is 'Source File',
+ iASrcLib    Text Is 'Source Library',
+ iASrcMbr    Text Is 'Source Member');
+

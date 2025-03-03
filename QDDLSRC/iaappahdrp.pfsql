@@ -1,0 +1,53 @@
+--------------------------------------------------------------------------------------- //
+--Created By.......: Programmers.io @ 2024                                              //
+--Created Date.....: 2024/29/08                                                         //
+--Developer........: Programmers.io                                                     //
+--Description......: Application Area Header Table                                      //
+--------------------------------------------------------------------------------------- //
+--Modification Log:                                                                     //
+--------------------------------------------------------------------------------------- //
+--Date    | Mod_ID | Developer  | Case and Description                                  //
+----------|--------|------------|------------------------------------------------------ //
+--        |        |            |                                                       //
+--------------------------------------------------------------------------------------- //
+--Compilation Instruction:                                                              //
+--------------------------------------------------------------------------------------- //
+--RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAAPPAHDRP) COMMIT(*NONE)                    //
+--------------------------------------------------------------------------------------- //
+
+Create Or Replace Table Application_Area_Header(
+ Repo_Name            For Column iARepoNam  Char(10) Not Null With Default ' ',
+ App_Area_Name        For Column iAAppANam  Char(20) Not Null With Default ' ',
+ App_Area_Desc        For Column iAAppADesc Char(50) Not Null With Default ' ',
+ Created_User         For Column iACrtUsr   Char(10) Not Null
+                                            With Default 'USER JOB',
+ Created_TimeStamp    For Column iACrtDtTm  TimeStamp  Not Null Default
+                                            Current TimeStamp ,
+ Updated_User         For Column iAUpdUsr   Char(10) Not Null
+                                            With Default 'USER JOB',
+ Update_TimeStamp     For Column iAUpdDtTm  TimeStamp  Not Null For Each ROW
+                                            On Update As Row Change TimeStamp)
+
+RcdFmt iAAppAHdrR ;
+
+Rename Table Application_Area_Header to System Name iAAppAHdrP ;
+
+Label On Table iAAppAHdrP Is 'Application Area Header';
+
+Label On Column iAAppAHdrP (
+ iARepoNam   Is 'Repo                Name',
+ iAAppANam   Is 'Application         Area                Name',
+ iAAppADesc  Is 'Application         Area                Description',
+ iACrtUsr    Is 'Created             User',
+ iACrtDtTm   Is 'Created             TimeStamp',
+ iAUpdUsr    Is 'Updated             User',
+ iAUpdDtTm   Is 'Updated             TimeStamp');
+
+Label On Column iAAppAHdrP (
+ iARepoNam  Text Is 'Repo Name',
+ iAAppANam  Text Is 'Application Area Name',
+ iAAppADesc Text Is 'Application Area Description',
+ iACrtUsr   Text Is 'Created User',
+ iACrtDtTm  Text Is 'Created TimeStamp',
+ iAUpdUsr   Text Is 'Updated User',
+ iAUpdDtTm  Text Is 'Updated TimeStamp');

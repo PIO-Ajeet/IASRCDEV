@@ -1,0 +1,43 @@
+      *%METADATA                                                       *
+      * %TEXT PIO Handle Source Scan DSPF                              *
+      *%EMETADATA                                                      *
+     A*----------------------------------------------------------------------*
+     A*   CREATED BY.......: PROGRAMMERS.IO @ 2020                           *
+     A*   CREATE DATE......: 2020/01/01                                      *
+     A*   DEVELOPER........: KAUSHAL KUMAR                                   *
+     A*   DESCRIPTION......:                                                 *
+     A*   -------------------------------------------------------------------*
+     A*   MODIFICATION LOG                                                   *
+     A*   -------------------------------------------------------------------*
+     A*   DATE     MOD_ID      DEVELOPER   CASE AND DESCRIPTION              *
+     A*   YY/MM/DD ----------  ----------  ----------------------------------*
+     A*                                                                      *
+     A*----------------------------------------------------------------------*
+     A                                      DSPSIZ(24 80 *DS3)
+     A          R DSP01
+     A*
+     A                                      CF03(03 'EXIT')
+     A                                      CF05(05 'REFRESH')
+     A                                      CF12(12 'PREVIOUS')
+     A                                  1  2USER
+     A                                  1 30'Programmers.io Utility'
+     A                                      COLOR(WHT)
+     A                                  1 72DATE
+     A                                      EDTCDE(Y)
+     A                                  2 72TIME
+     A                                  7 13'SEARCH STRING..:'
+     A                                  9 13'MEMBER.........: '
+     A                                 11 13'LIBRARY........:'
+     A            ZSTR          10A  B  7 32
+     A  61                                  DSPATR(RI)
+     A            ZMBR          10A  B  9 32
+     A  62                                  DSPATR(RI)
+     A            ZLIB          10A  B 11 32
+     A  63                                  DSPATR(RI)
+     A                                 23  2'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 12'F5=Refresh'
+     A                                      COLOR(BLU)
+     A            ZERR          60A  O 24  2COLOR(WHT)
+     A                                 23 25'F12=Previous'
+     A                                      COLOR(BLU)

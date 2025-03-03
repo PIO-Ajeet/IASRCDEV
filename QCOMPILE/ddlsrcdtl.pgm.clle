@@ -1,0 +1,5 @@
+
+             DSPFD      FILE(iasrcv3/qddlsrc) TYPE(*MBR) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/DSPFDOUT)
+             DSPDBR     FILE(IADTAV3/IAPGMREF) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/DSPDBROUT)

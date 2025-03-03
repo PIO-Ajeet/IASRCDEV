@@ -1,0 +1,185 @@
+**free
+//------------------------------------------------------------------------------------ //
+//Created By    : Programmers.io @ 2023                                                //
+//Creation Date : 2023/01/09                                                           //
+//Developer     :                                                                      //
+//Description   : Data Structures for RPGIII F,E,L,I,C,O Specifications.               //
+//                                                                                     //
+//PROCEDURE LOG:                                                                       //
+//------------------------------------------------------------------------------------ //
+//Procedure Name           | Procedure Description                                     //
+//-------------------------|---------------------------------------------------------- //
+//No Procedure             |                                                           //
+//------------------------------------------------------------------------------------ //
+//                                                                                     //
+//MODIFICATION LOG:                                                                    //
+//------------------------------------------------------------------------------------ //
+//Date    | Developer  | Case and Description                                          //
+//--------|------------|-------------------------------------------------------------- //
+//31/05/24| Santosh    | F and H spec changes                                          //
+//28/10/24| Shefali    | Task#1051 - Update DS to handle numeric fields by having a    //
+//         |            | char field in corresponding to avoid junk data(Tag 0002)      //
+//------------------------------------------------------------------------------------ //
+ //H specification Data Structure.
+ dcl-ds hSpecDs;                                                                         //0001
+    hspec             char(1)  pos(6);                                                   //0001
+    debug             char(1)  pos(15);                                                  //0001
+    currency          char(1)  pos(18);                                                  //0001
+    dateformat        char(1)  pos(19);                                                  //0001
+    dateedit          char(1)  pos(20);                                                  //0001
+    invertprint       char(1)  pos(21);                                                  //0001
+    alternatesequence char(1)  pos(26);                                                  //0001
+    onepformsPosition char(1)  pos(41);                                                  //0001
+    filetranslation   char(1)  pos(43);                                                  //0001
+    programname       char(6)  pos(75);                                                  //0001
+ End-ds;                                                                                 //0001
+ //F specification Data Structure.
+ dcl-ds fSpecDsV3 qualified;
+    spec              char(1)  pos(6);
+    fileName          char(8)  pos(7);
+    fileType          char(1)  pos(15);
+    fileDesignation   char(1)  pos(16);
+    endOfFile         char(1)  pos(17);
+    sequence          char(1)  pos(18);
+    fileFormat        char(1)  pos(19);
+    extRecordName     char(10) pos(19);                                                //FC/FK Spec
+    recordLength      char(4)  pos(24);
+    modeOfProcessing  char(1)  pos(28);
+    lengthOfKeyField  zoned(2) pos(29);
+    lengthOfKeyFieldc char(2)  pos(29);                                                  //0001
+    recordAddressType char(1)  pos(31);
+    fileOrganization  char(1)  pos(32);
+    overFlowIndicator zoned(2) pos(33);
+    overFlowIndicatorc char(2) pos(33);                                                  //0001
+    keyFieldStartLoc  zoned(4) pos(35);
+    keyFieldStartLocc char(4)  pos(35);                                                  //0001
+    extnCode          char(1)  pos(39);
+    device            char(7)  pos(40);
+    recordNumField    char(6)  pos(47);                                                //FC/FK Spec
+    continuation      char(1)  pos(53);
+    option            char(6)  pos(54);                                                //FC/FK Spec
+    exit              char(6)  pos(54);
+    entry             char(8)  pos(60);                                                //F/FC/FK Spc
+    fileAddition      char(1)  pos(66);
+    fileCondition     char(2)  pos(71);
+ End-ds;
+
+ //E specification Data Structure.
+ Dcl-ds eSpecDsV3 qualified;
+    spec               char(1)  pos(6);
+    FromFilename       char(8)  pos(11);
+    ToFilename         char(8)  pos(19);
+    TableName          char(6)  pos(27);
+    EntryPerRecord     zoned(3) pos(33);
+    EntryPerRecordc    char(3)  pos(33);                                                 //0001
+    EntryPerTable      zoned(4) pos(36);
+    EntryPerTablec     char(4)  pos(36);                                                 //0001
+    LengthOfEntry1     zoned(3) pos(40);
+    LengthOfEntry1c    char(3)  pos(40);                                                 //0001
+    PBLR1              char(1)  pos(43);
+    DecimalPosition    zoned(1) pos(44);
+    DecimalPositionc   char(1)  pos(44);                                                 //0001
+    Sequence           char(1)  pos(45);
+    AlternateName      char(6)  pos(46);
+    LengthOfEntry      zoned(3) pos(52);
+    LengthOfEntryc     char(3)  pos(52);                                                 //0001
+    PBLR2              char(1)  pos(55);
+    AltDecimalPosition zoned(1) pos(56);
+    AltDecimalPositionc char(1) pos(56);                                                 //0001
+    AltSequence        char(1)  pos(57);
+    Comment            char(17) pos(58);
+ End-ds;
+
+ //L specification Data Structure.
+ Dcl-ds lSpecDsV3 qualified;
+    spec               char(1)  pos(6);
+    Filename           char(8)  pos(7);
+    LineNumber         zoned(3) pos(15);
+    LineNumberc        char(3)  pos(15);                                                 //0001
+    FormLength         char(2)  pos(18);
+    OverflowLineNumber zoned(3) pos(20);
+    OverflowLineNumberc char(3) pos(20);                                                 //0001
+    OverflowLine       char(2)  pos(23);
+ End-ds;
+
+ //I specification Data Structure.
+ dcl-ds iSpecDsV3 qualified;
+   spec                     char(1)   pos(6);
+   file_RecFmt_Ds_Name      char(8)   pos(7);
+   RelationAndOr            char(3)   pos(14);
+   sequence                 char(2)   pos(15);
+   recType_or_Ext_DS        char(1)   pos(17);
+   option_or_DS_Type        char(1)   pos(18);
+   recordId_or_DS           char(2)   pos(19);
+   externalFileName         char(10)  pos(21);
+   constantValue            char(22)  pos(21);
+   Position_1               char (4)  pos(21);
+   recIdCodrequired_1       char(1)   pos(25);
+   codePart_1               char(1)   pos(26);
+   character_1              char(1)   pos(27);
+   Position_2               char (4)  pos(28);
+   recIdCodrequired_2       char(1)   pos(32);
+   codePart_2               char(1)   pos(33);
+   character_2              char(1)   pos(34);
+   Position_3               zoned(4)  pos(35);
+   Position_3c              char(4)   pos(35);                                           //0002
+   recIdCodrequired_3       char(1)   pos(39);
+   codePart_3               char(1)   pos(40);
+   character_3              char(1)   pos(41);
+   inputFieldType           char(1)   pos(43);
+   fromPosition_Or_occursDS char(4)   pos(44);
+   toPosition_Or_DsLength   char(4)   pos(48);
+   decimalPosition          zoned(1)  pos(52);
+   decimalPositionc         char(1)   pos(52);                                           //0002
+   fieldName                char(6)   pos(53);
+   controlLevel             char(2)   pos(59);
+   matchingFields           char(2)   pos(61);
+   fieldRecordRelation      char(2)   pos(63);
+   positiveField            char(2)   pos(65);
+   negativeField            char(2)   pos(67);
+   zeroOrBlank              char(2)   pos(69);
+   comments                 char(6)   pos(75);
+ end-ds;
+
+ //C specification Data Structure.
+ dcl-ds cSpecDsV3 qualified;
+   spec      char(1)  pos(6);
+   level     char(2)  pos(7);
+   N01N02N03 char(9)  pos(9);
+   factor1   char(10) pos(18);
+   opcode    char(5)  pos(28);
+   factor2   char(10) pos(33);
+   result    char(6)  pos(43);
+   length    zoned(3) pos(49);
+   lengthc   char(3)  pos(49);                                                           //0002
+   decPos    zoned(1) pos(52);
+   decPosc   char(1)  pos(52);                                                           //0002
+   halfAdj   char(1)  pos(53);
+   HIind     char(2)  pos(54);
+   LOind     char(2)  pos(56);
+   EQind     char(2)  pos(58);
+   comment   char(15) pos(60);
+ end-ds;
+
+
+ //O specification Data Structure.
+ dcl-ds OspecDs qualified;
+   spec               char(1)  pos(6);
+   Filename           char(8)  pos(7);
+   Type               char(1)  pos(15);
+   Add_Delete_Rec     char(3)  pos(16);
+   Fetch              char(1)  pos(16);
+   Space_Before       char(1)  pos(17);
+   Space_After        char(1)  pos(18);
+   Skip_Before       zoned(2)  pos(19);
+   Skip_Beforec       char(2)  pos(19);                                                  //0002
+   Skip_After        zoned(2)  pos(21);
+   Skip_Afterc        char(2)  pos(21);                                                  //0002
+   N01N02N03_Indic    char(9)  pos(23);
+   Rcdfmt_or_Fldname  char(6)  pos(32);
+   Edit_code          char(1)  pos(38);
+   Blanks             char(1)  pos(39);
+   End_positions      char(4)  pos(40);
+   Data_Type          char(1)  pos(44);
+   Constant_name      char(26) pos(45);
+ end-ds;

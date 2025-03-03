@@ -1,0 +1,12 @@
+      /*%METADATA                                                     */
+      /* %TEXT IAGETKWDSV Service Binder                              */
+      /*%EMETADATA                                                    */
+             STRPGMEXP  SIGNATURE('IATOOL_IAGETKWDSV')
+
+                EXPORT     SYMBOL('GETKEYWORDS')
+                EXPORT     SYMBOL('GETVALIDCHARS')
+                EXPORT     SYMBOL('VALIDATEOPCODENAME')
+                EXPORT     SYMBOL('GETSTROCRCOUNT')
+                EXPORT     SYMBOL('GETEXCEPTIONFIELD')
+
+             ENDPGMEXP

@@ -1,0 +1,54 @@
+      /*%METADATA                                                     */
+      /* %TEXT Program to schedule metadata build                     */
+      /*%EMETADATA                                                    */
+/*------------------------------------------------------------------------------------ */
+/*CREATED BY.......: Programmers.io @ 2020                                             */
+/*CREATE DATE......: 2023/10/17                                                        */
+/*DEVELOPER........: Abhijith Ravindran                                                */
+/*DESCRIPTION......: Set Library List for Metadata build scheduler                     */
+/*                                                                                     */
+/*PROCEDURE LOG:                                                                       */
+/*------------------------------------------------------------------------------------ */
+/*Procedure Name           | Procedure Description                                     */
+/*-------------------------|---------------------------------------------------------- */
+/*                         |                                                           */
+/*                         |                                                           */
+/*------------------------------------------------------------------------------------ */
+/*                                                                                     */
+/*MODIFICATION LOG:                                                                    */
+/*------------------------------------------------------------------------------------ */
+/*Date    | Mod_ID | Developer  | Case and Description                                 */
+/*--------|--------|------------|----------------------------------------------------- */
+/*06/11/23| 0001   | Manasa S   | IAMETAINFO data area update for refresh TASK #338    */
+/*29/07/24| 0002   |Kaushal kum.| Remove the hardcoded library [Task#824]              */
+/*------------------------------------------------------------------------------------ */
+
+/*           PGM        PARM(&REPOSITORY) 0001*/
+             PGM        PARM(&REPOSITORY &BLDMODE &CALLER) /*0001*/
+
+/*Declare variables                                                                    */
+             DCL        VAR(&REPOSITORY) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BLDMODE) TYPE(*CHAR) LEN(7) /*0001*/
+             DCL        VAR(&CALLER) TYPE(*CHAR) LEN(10) /*0001*/
+
+/*Set the library list                                                                 */
+       /*    CHGLIBL    LIBL(QTEMP QGPL)                  0002*/
+       /*    MONMSG     MSGID(CPF0000)                    0002*/
+
+       /*    ADDLIBLE   LIB(#IADTA) POSITION(*FIRST)      0002*/
+       /*    MONMSG     MSGID(CPF0000)                    0002*/
+
+       /*    ADDLIBLE   LIB(#IAOBJ) POSITION(*FIRST)      0002*/
+       /*    MONMSG     MSGID(CPF0000)                    0002*/
+
+             ADDLIBLE   LIB(&REPOSITORY) POSITION(*FIRST)
+             MONMSG     MSGID(CPF0000)
+
+
+/*Call metadata build process                                                          */
+/*           CALL       PGM(BLDMTADTA) PARM((&REPOSITORY)) 0001*/
+             CALL       PGM(BLDMTADTA) PARM((&REPOSITORY) (&BLDMODE) +
+                          (&CALLER)) /*0001*/
+
+
+             ENDPGM

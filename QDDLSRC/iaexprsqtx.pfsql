@@ -1,0 +1,52 @@
+-- --------------------------------------------------------------------------//
+-- CREATED BY.......: Programmers.io @ 2020                                  //
+-- CREATE DATE......: 2022/13/06                                             //
+-- DEVELOPER........: BHOOMISH ATHA                                          //
+-- DESCRIPTION......: HSC excel creation request table                       //
+-------------------------------------------------------------------------------
+--MODIFICATION LOG:
+-------------------------------------------------------------------------------
+--Date    | Mod_ID | Developer  | Case and Description
+----------|--------|------------|----------------------------------------------
+--23/10/04| 0001   | SARTHAK    | RENAME THE FILE AIEXPRSQTX FROM AI TO IA
+--        |        |  GUPTA     | TASK #254
+-------------------------------------------------------------------------------
+-- Compilation Instruction
+-- -----------------------------------------------------------------------------
+-- RUNSQLSTM SRCFILE(#IASRC/QDDLSRC) SRCMBR(IAEXPRSQTX)                                  --0001
+-- COMMIT(*NONE) DFTRDBCOL(#IADTA)
+-- -----------------------------------------------------------------------------
+
+Create Or Replace Table IA_EXPORT_REQUEST_TRANSACTION(                                   --0001
+ Request_ID         For Column AIHSCRID    INTEGER NOT NULL,
+ Error              For Column AIHSCTXERR  Char(1000) Not Null ,
+ Message            For Column AIHSCTXMSG  Char(1000) Not Null ,
+ Created_By         For Column AICRTUSR    Char(10) Not Null With Default ' ',
+ Created_TimeStamp  For Column AICRTTIM    Timestamp Not Null Default
+                                           Current Timestamp,
+ Updated_By         For Column AIUPDUSR    CHAR(10) NOT NULL WITH DEFAULT ' ',
+ Updated_TimeSatmp  For Column AIUPDTIM    Timestamp Not Null For Each Row
+                                           On Update As Row Change Timestamp)
+Rcdfmt IAEXPRSQTX;                                                                       --0001
+
+Rename table IA_EXPORT_REQUEST_TRANSACTION to System Name IAEXPRSQTX;                    --0001
+
+Label On Table IA_EXPORT_REQUEST_TRANSACTION IS 'IA HSC REQUEST TRANSCATION';            --0001
+
+Label On Column IA_EXPORT_REQUEST_TRANSACTION(                                           --0001
+ AIHSCRID    Is 'Request             Id',
+ AIHSCTXERR  Is 'Error',
+ AIHSCTXMSG  Is 'Message',
+ AICRTUSR    Is 'Created             By',
+ AICRTTIM    Is 'Created             Timestamp',
+ AIUPDUSR    Is 'Updated             By',
+ AIUPDTIM    Is 'Updated             Timestamp');
+
+Label On Column IA_EXPORT_REQUEST_TRANSACTION(                                           --0001
+ AIHSCRID    Text Is 'Request Id',
+ AIHSCTXERR  Text Is 'Error',
+ AIHSCTXMSG  Text Is 'Message',
+ AICRTUSR    Text Is 'Created By',
+ AICRTTIM    Text Is 'Created Timestamp',
+ AIUPDUSR    Text Is 'Updated By',
+ AIUPDTIM    Text Is 'Updated Timestamp');

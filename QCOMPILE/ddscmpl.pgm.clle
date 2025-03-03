@@ -1,0 +1,130 @@
+      /*%METADATA                                                     */
+      /* %TEXT For DDL compilation, PARMS: OBJLIB, SRCLIB, SRCPF      */
+      /*%EMETADATA                                                    */
+             PGM        PARM(&PARM1 &PARM2 &PARM3)
+             DCLF       FILE(QTEMP/DSPFDOUT) OPNID(F1)
+             DCLF       FILE(QTEMP/DSPDBROUT) OPNID(F2)
+             DCL        ( &PARM1 )  ( *CHAR )  ( 10 )
+             DCL        ( &PARM2 )  ( *CHAR )  ( 10 )
+             DCL        ( &PARM3 )  ( *CHAR )  ( 10 )
+             DCL        ( &OBJ_LIB )  ( *CHAR )  ( 10 )
+             DCL        ( &SRC_LIB )  ( *CHAR )  ( 10 )
+             DCL        ( &SRC_FIL )  ( *CHAR )  ( 10 )
+             DCL        ( &SRC_MBR )  ( *CHAR )  ( 10 )
+             DCL        ( &ERR_FLG )  ( *CHAR )  ( 1 )
+
+/***************************************/
+             CHGVAR       ( &OBJ_LIB )  ( &PARM1 )
+             MONMSG     MSGID(MCH3601) EXEC(GOTO CMDLBL(ENDPGM))
+             CHGVAR       ( &SRC_LIB )  ( &PARM2 )
+             MONMSG  ( MCH3601 )       EXEC(GOTO CMDLBL(ENDPGM))
+             CHGVAR       ( &SRC_FIL )  ( &PARM3 )
+             MONMSG  ( MCH3601 )       EXEC(GOTO CMDLBL(ENDPGM))
+
+             CALLSUBR ( VALIDATION )
+             IF COND( &ERR_FLG *EQ '1' ) THEN( GOTO ENDPGM )
+/******** MAIN LOGIC *******************/
+             CHKOBJ OBJ(QTEMP/DSPFDOUT) OBJTYPE(*FILE)
+               MONMSG MSGID(CPF9801) EXEC(GOTO DSPFD)
+               DLTF (QTEMP/DSPFDOUT)
+               MONMSG  ( CPF0000 )
+
+ DSPFD:      DSPFD      FILE(&SRC_LIB/&SRC_FIL) TYPE(*MBR) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/DSPFDOUT)
+             CHGCURLIB  ( &OBJ_LIB )
+
+ LOOP1:      RCVF       RCDFMT(QWHFDMBR) OPNID(F1)
+                MONMSG  MSGID(CPF0864) EXEC(GOTO CMDLBL(ENDPGM))
+                IF  COND(&F1_MBNAME *NE ' ') THEN(DO)
+                   IF  COND(%TRIM(&F1_MBSEU2) *EQ 'PFSQL') THEN(DO)
+             CHGVAR     VAR(&SRC_MBR) VALUE(%TRIM(&F1_MBNAME))
+                      CALLSUBR ( RUNSQLDDS )
+                   ENDDO
+                      GOTO     ( LOOP1 )
+                ENDDO
+
+ ENDPGM:     RETURN
+
+/******** VALIDATION *******************/
+             SUBR  ( VALIDATION )
+
+                  CHGVAR       ( &ERR_FLG )  ( ' ' )
+
+              IF  COND(&SRC_LIB *EQ ' ') THEN( DO )
+                  CHGVAR       ( &ERR_FLG )  ( '1' )
+                  GOTO  CMDLBL(VAL_END)
+              ENDDO
+
+              IF  COND(&SRC_FIL *EQ ' ') THEN( DO )
+                  CHGVAR       ( &ERR_FLG )  ( '1' )
+                  GOTO CMDLBL( VAL_END )
+                  ENDDO
+                   ELSE  DO
+                    CHKOBJ OBJ(&SRC_LIB) OBJTYPE(*LIB)
+                    MONMSG MSGID(CPF9801) EXEC(DO)
+                    CHGVAR       ( &ERR_FLG )  ( '1' )
+                    GOTO  CMDLBL(VAL_END)
+                    ENDDO
+
+                    CHKOBJ OBJ(&SRC_LIB/&SRC_FIL) OBJTYPE(*FILE)
+                    MONMSG MSGID(CPF9801) EXEC(DO)
+                    CHGVAR       ( &ERR_FLG )  ( '1' )
+                    GOTO  CMDLBL(VAL_END)
+                    ENDDO
+
+              ENDDO
+
+              IF  COND(&OBJ_LIB *EQ ' ') THEN( DO)
+                   CHGVAR       ( &ERR_FLG )  ( '1' )
+                   GOTO  CMDLBL(VAL_END)
+              ENDDO
+                ELSE  DO
+                  CHKOBJ OBJ(&OBJ_LIB) OBJTYPE(*LIB)
+                   MONMSG MSGID(CPF9801) EXEC(DO)
+                   CRTLIB LIB(&OBJ_LIB) TYPE(*PROD)
+                   ENDDO
+                ENDDO
+
+              IF  COND(%TRIM(&OBJ_LIB) *EQ %TRIM(&SRC_LIB)) THEN(DO)
+                   CHGVAR       ( &ERR_FLG )  ( '1' )
+                   GOTO  CMDLBL(VAL_END)
+                   ENDDO
+ VAL_END:
+             ENDSUBR
+/***************** COMPILATION *********/
+             SUBR  ( RUNSQLDDS )
+
+/**DELETE DEPENDEND LFS **/
+             CHKOBJ OBJ(&OBJ_LIB/&SRC_MBR) OBJTYPE(*FILE)
+             MONMSG     MSGID(CPF9801) EXEC(GOTO CMDLBL(COMPILE))
+
+             CHKOBJ OBJ(QTEMP/DSPDBROUT) OBJTYPE(*FILE)
+               MONMSG MSGID(CPF9801) EXEC(GOTO DSPDBR)
+               DLTF (QTEMP/DSPDBROUT)
+               MONMSG  ( CPF0000 )
+
+ DSPDBR:     DSPDBR     FILE(&OBJ_LIB/&SRC_MBR) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/DSPDBROUT) OUTMBR(*FIRST +
+                          *ADD)
+ LOOP2:      RCVF       RCDFMT(QWHDRDBR) OPNID(F2)
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(COMPILE))
+                IF  COND(&F2_WHRELI *NE ' ') THEN(DO)
+                   IF  COND(&F2_WHREFI *NE ' ') THEN(DO)
+                       DLTF ( &F2_WHRELI/&F2_WHREFI )
+                       MONMSG  ( CPF0000 )
+                   ENDDO
+                ENDDO
+                      GOTO     ( LOOP2 )
+
+ COMPILE:
+                CLOSE  OPNID(F2)
+
+                DLTF ( &OBJ_LIB/&SRC_MBR )
+                MONMSG  ( CPF0000 )
+
+
+                RUNSQLSTM  SRCFILE(&SRC_LIB/&SRC_FIL) +
+                           SRCMBR(&SRC_MBR) +
+                           COMMIT(*NONE)
+             ENDSUBR
+ENDPGM
